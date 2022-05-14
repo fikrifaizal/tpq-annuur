@@ -1,5 +1,5 @@
 html, body {
-  background-color: #F8F9FC;
+  background-color: #F3F3F4;
   scroll-behavior: smooth;
 }
 
@@ -63,6 +63,11 @@ main {
 
 .content h3 {
   margin-bottom: 1rem;
+  color: #6C757D;
+}
+
+.content .btn-back {
+  margin-bottom: 0.5rem;
 }
 
 .navbar {
@@ -128,6 +133,10 @@ main {
 
   .content h3 {
     margin-bottom: 1.5rem;
+  }
+
+  .content .btn-back {
+    margin-bottom: 0.75rem;
   }
 
   /* navbar hover animation */

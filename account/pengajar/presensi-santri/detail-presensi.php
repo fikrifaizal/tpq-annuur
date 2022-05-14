@@ -18,19 +18,26 @@
     <!-- konten -->
     <main>
       <div class="container-fluid content transition">
-        <h3 class="text-black">Presensi Santri</h3>
+        <h3>Detail Presensi Santri</h3>
+        <a href="presensi.php" class="btn btn-success btn-sm btn-back">
+          <span><i class="bi bi-chevron-left"></i></span>
+          <span>Kembali</span>
+        </a>
         
         <!-- card content -->
         <div class="card border shadow">
           <div class="card-body m-3">
 
-            <h5>Senin, 30 Februari 2022</h5>
+            <div>
+              <h5>Senin, 30 Februari 2022</h5>
+            </div><hr class="my-3">
+
             <!-- table -->
             <div class="table-responsive">
-              <table class="table table-bordered table-hover">
+              <table class="table table-bordered table-hover" id="dataTables-table">
                 <thead class="table-secondary">
                   <tr class="text-center align-middle">
-                    <th scope="col" width="5%">#</th>
+                    <th scope="col" width="10%">NIS</th>
                     <th scope="col">Nama Lengkap</th>
                     <th scope="col">Keterangan</th>
                     <th scope="col" width="10%">Aksi</th>
@@ -38,7 +45,7 @@
                 </thead>
                 <tbody>
                   <tr class="text-center align-middle">
-                    <th scope="row">1</th>
+                    <td>19191919</td>
                     <td>Healme</td>
                     <td>
                       <button type="button" class="btn btn-outline-success btn-sm">Hadir</button>
@@ -48,7 +55,7 @@
                     <td><button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#detailModal" disabled>Ralat</button></td>
                   </tr>
                   <tr class="text-center align-middle">
-                    <th scope="row">2</th>
+                    <td>19191919</td>
                     <td>Azzaaaaaa</td>
                     <td>
                       <span class="badge bg-success">Hadir</span>
@@ -69,7 +76,17 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                   </div>
                   <div class="modal-body">
-                    ...
+                    <div class="row">
+                      <label class="col-sm-5">Nama Lengkap</label>
+                      <p class="col-sm-7">???</p>
+                    </div>
+                    <div class="row">
+                      <label class="col-sm-5">Keterangan</label>
+                      <div class="col-sm-7">
+                        <button type="button" class="btn btn-outline-success btn-sm">Hadir</button>
+                        <button type="button" class="btn btn-outline-danger btn-sm">Tidak Hadir</button>
+                      </div>
+                    </div>
                   </div>
                   <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -77,13 +94,6 @@
                   </div>
                 </div>
               </div>
-            </div>
-            
-            <!-- button -->
-            <div>
-              <a class="btn btn-success btn-sm" href="#" role="button">
-                <span class="me-1"><i class="bi bi-house"></i></span>
-                <span>Cetak Nilai</span></a>
             </div>
           </div>
         </div>

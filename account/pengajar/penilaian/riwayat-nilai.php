@@ -6,6 +6,9 @@
       .btn-success {
         background-color: #088A44 !important;
       }
+      .select-jilid {
+        width: 10% !important;
+      }
     </style>
   </head>
 
@@ -18,28 +21,28 @@
     <!-- konten -->
     <main>
       <div class="container-fluid content transition">
-        <h3 class="text-black">Penilaian Santri</h3>
+        <h3>Riwayat Penilaian Santri</h3>
         
         <!-- card content -->
         <div class="card border shadow">
           <div class="card-body m-3">
-            <div class="dropdown">
-              <button class="btn btn-secondary btn-sm mb-3 dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-                Pilih Jilid
-              </button>
-              <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                <li><a class="dropdown-item" href="#">Jilid 1</a></li>
-                <li><a class="dropdown-item" href="#">Jilid 2</a></li>
-                <li><a class="dropdown-item" href="#">Jilid 3</a></li>
-                <li><a class="dropdown-item" href="#">Jilid 4</a></li>
-                <li><a class="dropdown-item" href="#">Jilid 5</a></li>
-                <li><a class="dropdown-item" href="#">Jilid 6</a></li>
-              </ul>
-            </div>
+            
+            <div class="">
+              <!-- filter jilid -->
+              <select class="form-select select-jilid" onchange="location = this.value;">
+                <option selected disabled>Pilih Jilid</option>
+                <option value="#">Jilid 1</option>
+                <option value="#">Jilid 2</option>
+                <option value="#">Jilid 3</option>
+                <option value="#">Jilid 4</option>
+                <option value="#">Jilid 5</option>
+                <option value="#">Jilid 6</option>
+              </select>
+            </div><hr class="my-3">
 
             <!-- table -->
             <div class="table-responsive">
-              <table class="table table-bordered table-hover">
+              <table class="table table-bordered table-hover" id="dataTables-table">
                 <thead class="table-secondary">
                   <tr class="text-center align-middle">
                     <th scope="col">#</th>
@@ -106,13 +109,6 @@
                   </div>
                 </div>
               </div>
-            </div>
-            
-            <!-- button -->
-            <div>
-              <a class="btn btn-success btn-sm" href="#" role="button">
-                <span class="me-1"><i class="bi bi-house"></i></span>
-                <span>Cetak Nilai</span></a>
             </div>
           </div>
         </div>

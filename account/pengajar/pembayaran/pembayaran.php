@@ -154,13 +154,6 @@
                 </tbody>
               </table>
             </div>
-            
-            <!-- button -->
-            <div>
-              <a class="btn btn-success btn-sm" href="#" role="button">
-                <span class="me-1"><i class="bi bi-house"></i></span>
-                <span>Cetak Nilai</span></a>
-            </div>
           </div>
         </div>
       </div>

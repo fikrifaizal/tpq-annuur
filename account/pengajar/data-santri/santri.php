@@ -1,10 +1,14 @@
 <?php
+include('../../../config.php');
+$query = "SELECT * FROM `pengumuman`";
+
+$result = mysqli_query($conn, $query);
 ?>
 
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Home</title>
+    <title>Santri</title>
     <style>
       .btn-success {
         background-color: #088A44 !important;
@@ -21,7 +25,7 @@
     <!-- konten -->
     <main>
       <div class="container-fluid content transition">
-        <h3 class="">Data Santri</h3>
+        <h3>Data Santri</h3>
         
         <!-- card content -->
         <div class="card border shadow">
@@ -32,16 +36,16 @@
               <table class="table table-bordered table-hover" id="dataTables-table">
                 <thead class="table-secondary">
                   <tr class="text-center align-middle">
-                    <th scope="col" width="5%">#</th>
+                    <th scope="col">NIS</th>
                     <th scope="col">Nama Lengkap</th>
                     <th scope="col">Nama Wali</th>
                     <th scope="col">Nomor Telepon</th>
-                    <th scope="col" width="16%">Aksi</th>
+                    <th scope="col" width="10%">Aksi</th>
                   </tr>
                 </thead>
                 <tbody>
                   <tr class="text-center align-middle">
-                    <th scope="row">1</th>
+                    <td>1123123</td>
                     <td>Healme</td>
                     <td>Udin</td>
                     <td>08121212</td>
@@ -61,6 +65,10 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                   </div>
                   <div class="modal-body">
+                    <div class="row">
+                      <label class="col-sm-5">Nomor Induk Santri</label>
+                      <p class="col-sm-7">???</p>
+                    </div>
                     <div class="row">
                       <label class="col-sm-5">Nama Lengkap</label>
                       <p class="col-sm-7">???</p>
@@ -92,7 +100,7 @@
                   </div>
                   <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Edit</button>
+                    <a role="button" class="btn btn-primary" href="updateSantri.php">Edit</a>
                   </div>
                 </div>
               </div>
