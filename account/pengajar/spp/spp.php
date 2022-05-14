@@ -21,9 +21,9 @@
     <!-- konten -->
     <main>
       <div class="container-fluid content transition">
-        <h3>Riwayat Penilaian Santri</h3>
-        
-        <!-- card content -->
+        <h3>Pembayaran Santri</h3>
+
+        <!-- card tabel -->
         <div class="card border shadow">
           <div class="card-body m-3">
             
@@ -46,19 +46,19 @@
                 <thead class="table-secondary">
                   <tr class="text-center align-middle">
                     <th scope="col" width="5%">#</th>
-                    <th scope="col">Nama</th>
-                    <th scope="col">Jilid</th>
-                    <th scope="col">Tanggal Penilaian</th>
-                    <th scope="col">Keterangan</th>
+                    <th scope="col">NIS</th>
+                    <th scope="col">Nama Lengkap</th>
+                    <th scope="col">Nama Wali</th>
+                    <th scope="col" width="10%">Aksi</th>
                   </tr>
                 </thead>
                 <tbody>
                   <tr class="text-center align-middle">
                     <th scope="row">1</th>
                     <td>Healme</td>
-                    <td>Jilid 1</td>
-                    <td>Selasa, 26 April 2022</td>
-                    <td>Lulus</td>
+                    <td>Udin</td>
+                    <td>08121212</td>
+                    <td><button type="button" class="btn btn-primary btn-sm">Pilih</button></td>
                   </tr>
                 </tbody>
               </table>
