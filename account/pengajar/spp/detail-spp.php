@@ -25,8 +25,8 @@ $result = mysqli_query($conn, $query);
     <!-- konten -->
     <main>
       <div class="container-fluid content transition">
-        <h3>Update Data Santri</h3>
-        <a href="santri.php" class="btn btn-success btn-sm btn-back">
+        <h3>Detail Pembayaran SPP</h3>
+        <a href="spp.php" class="btn btn-success btn-sm btn-back">
           <span><i class="bi bi-chevron-left"></i></span>
           <span>Kembali</span>
         </a>
@@ -36,7 +36,7 @@ $result = mysqli_query($conn, $query);
           <div class="card-body m-3">
 
             <!-- form input -->
-            <form method="post" class="was-validated">
+            <form method="post">
 
               <!-- NIS -->
               <div class="form-group row">
@@ -50,7 +50,7 @@ $result = mysqli_query($conn, $query);
               <div class="form-group row">
                 <label for="namaLengkap" class="col-sm-2 col-form-label">Nama Lengkap</label>
                 <div class="col-sm-10">
-                  <input type="text" name="namaLengkap" class="form-control" id="namaLengkap" required>
+                  <input type="text" name="namaLengkap" class="form-control" id="namaLengkap" disabled>
                 </div>
               </div><br>
 
@@ -59,22 +59,10 @@ $result = mysqli_query($conn, $query);
                 <label for="lahir" class="col-sm-2 col-form-label">Tempat, Tanggal Lahir</label>
                 <div class="col-sm-10">
                   <div class="input-group has-validation">
-                    <input type="text" name="tempat" class="form-control" id="tempat" required>
+                    <input type="text" name="tempat" class="form-control" id="tempat" disabled>
                     <span class="input-group-text" id="inputGroupPrepend3">,</span>
-                    <input type="date" name="tanggal" class="form-control" id="tanggal" required>
+                    <input type="date" name="tanggal" class="form-control" id="tanggal" disabled>
                   </div>
-                </div>
-              </div><br>
-
-              <!-- Jenis Kelamin -->
-              <div class="form-group row">
-                <label for="gender" class="col-sm-2 col-form-label">Jenis Kelamin</label>
-                <div class="col-sm-10">
-                  <select class="form-select" name="gender" id="gender" required>
-                    <option value="" disabled>Pilih Jenis Kelamin</option>
-                    <option value="">Laki-laki</option>
-                    <option value="">Perempuan</option>
-                  </select>
                 </div>
               </div><br>
 
@@ -82,7 +70,7 @@ $result = mysqli_query($conn, $query);
               <div class="form-group row">
                 <label for="namaWali" class="col-sm-2 col-form-label">Nama Wali</label>
                 <div class="col-sm-10">
-                  <input type="text" name="namaWali" class="form-control" id="namaWali" required>
+                  <input type="text" name="namaWali" class="form-control" id="namaWali" disabled>
                 </div>
               </div><br>
 
@@ -90,23 +78,26 @@ $result = mysqli_query($conn, $query);
               <div class="form-group row">
                 <label for="alamat" class="col-sm-2 col-form-label">Alamat</label>
                 <div class="col-sm-10">
-                  <textarea name="alamat" class="form-control is-invalid" id="alamat" required></textarea>
+                  <textarea name="alamat" class="form-control" id="alamat" disabled></textarea>
+                </div>
+              </div>
+
+              <!-- divider -->
+              <hr class="my-4">
+
+              <!-- Jumlah Bayar -->
+              <div class="form-group row">
+                <label for="jumlahBayar" class="col-sm-2 col-form-label">Jumlah Bayar</label>
+                <div class="col-sm-10">
+                  <input type="text" name="jumlahBayar" class="form-control" id="jumlahBayar" disabled>
                 </div>
               </div><br>
 
-              <!-- Email -->
+              <!-- Penerima -->
               <div class="form-group row">
-                <label for="email" class="col-sm-2 col-form-label">Email</label>
+                <label for="penerima" class="col-sm-2 col-form-label">Penerima</label>
                 <div class="col-sm-10">
-                  <input type="text" name="email" class="form-control" id="email" required>
-                </div>
-              </div><br>
-
-              <!-- Nomor Telepon -->
-              <div class="form-group row">
-                <label for="nomortelepon" class="col-sm-2 col-form-label">Nomor Telepon</label>
-                <div class="col-sm-10">
-                  <input type="number" name="nomortelepon" class="form-control" id="nomortelepon" required>
+                  <input type="text" name="penerima" class="form-control" id="penerima" disabled>
                 </div>
               </div><br>
 
@@ -116,39 +107,17 @@ $result = mysqli_query($conn, $query);
                 <div class="col-sm-10">
                   <div class="row">
                     <div class="col col-md-6 d-grid gap-2">
-                      <button type="submit" name="hapus" class="btn btn-danger btn-block">
-                        <span><i class="bi "></i></span>
-                        <span>Hapus Data</span>
-                      </button>
                     </div>
                     <div class="col col-md-6 d-grid gap-2">
-                      <button type="submit" name="ubah" class="btn btn-success btn-block">
+                      <button type="submit" name="konfirmasi" class="btn btn-success btn-block">
                         <span><i class="bi "></i></span>
-                        <span>Ubah Data</span>
+                        <span>Konfirmasi</span>
                       </button>
                     </div>
                   </div>
                 </div>
               </div>
             </form>
-
-            <!-- Modal Danger -->
-            <div class="modal fade" tabindex="-1" id="modalDanger" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false" >
-              <div class="modal-dialog modal-dialog-centered">
-                <div class="modal-content">
-                  <div class="modal-header">
-                    <h5 class="modal-title"></h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                  </div>
-                  <div class="modal-body">
-                    <p><?=$setDangerText?></p>
-                  </div>
-                  <div class="modal-footer">
-                    <a href="buku.php" class="btn btn-secondary" >OK</a>
-                  </div>
-                </div>
-              </div>
-            </div>
           </div>
         </div>
       </div>

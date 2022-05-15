@@ -6,9 +6,6 @@
       .btn-success {
         background-color: #088A44 !important;
       }
-      .select-jilid {
-        width: 10% !important;
-      }
     </style>
   </head>
 
@@ -21,24 +18,16 @@
     <!-- konten -->
     <main>
       <div class="container-fluid content transition">
-        <h3>Pembayaran Santri</h3>
+        <h3>SPP Santri</h3>
 
         <!-- card tabel -->
         <div class="card border shadow">
           <div class="card-body m-3">
-            
-            <div class="">
-              <!-- filter jilid -->
-              <select class="form-select select-jilid" onchange="location = this.value;">
-                <option selected disabled>Pilih Jilid</option>
-                <option value="#">Jilid 1</option>
-                <option value="#">Jilid 2</option>
-                <option value="#">Jilid 3</option>
-                <option value="#">Jilid 4</option>
-                <option value="#">Jilid 5</option>
-                <option value="#">Jilid 6</option>
-              </select>
-            </div><hr class="my-3">
+
+          <div>
+            <label class="text-secondary">Periode</label>
+            <h5>Februari 2022</h5>
+          </div><hr class="my-3">
 
             <!-- table -->
             <div class="table-responsive">
@@ -58,7 +47,7 @@
                     <td>Healme</td>
                     <td>Udin</td>
                     <td>08121212</td>
-                    <td><button type="button" class="btn btn-primary btn-sm">Pilih</button></td>
+                    <td><a type="button" class="btn btn-success btn-sm" href="detail-spp.php">Pilih</a></td>
                   </tr>
                 </tbody>
               </table>

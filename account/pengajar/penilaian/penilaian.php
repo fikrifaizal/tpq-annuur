@@ -1,13 +1,17 @@
+<?php
+include('../../../config.php');
+$query = "SELECT * FROM `biodata`";
+
+$result = mysqli_query($conn, $query);
+?>
+
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Home</title>
+    <title>Santri</title>
     <style>
       .btn-success {
         background-color: #088A44 !important;
-      }
-      .select-jilid {
-        width: 10% !important;
       }
     </style>
   </head>
@@ -21,23 +25,23 @@
     <!-- konten -->
     <main>
       <div class="container-fluid content transition">
-        <h3>Riwayat Penilaian Santri</h3>
+        <h3>Penilaian Santri</h3>
         
         <!-- card content -->
         <div class="card border shadow">
           <div class="card-body m-3">
-            
-            <div class="">
-              <!-- filter jilid -->
-              <select class="form-select select-jilid" onchange="location = this.value;">
-                <option selected disabled>Pilih Jilid</option>
-                <option value="#">Jilid 1</option>
-                <option value="#">Jilid 2</option>
-                <option value="#">Jilid 3</option>
-                <option value="#">Jilid 4</option>
-                <option value="#">Jilid 5</option>
-                <option value="#">Jilid 6</option>
-              </select>
+
+            <!-- filter jilid -->
+            <div class="btn-group">
+              <button class="btn btn-outline-secondary dropdown-toggle" type="button" id="dropdownFilterJilid" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">
+                Filter Jilid
+              </button>
+              <ul class="dropdown-menu" aria-labelledby="dropdownFilterJilid">
+                <li><h6 class="dropdown-header">Pilih Jilid</h6></li>
+                <li><a class="dropdown-item" href="#">Jilid 1</a></li>
+                <li><a class="dropdown-item" href="#">Jilid 2</a></li>
+                <li><a class="dropdown-item" href="#">Jilid 3</a></li>
+              </ul>
             </div><hr class="my-3">
 
             <!-- table -->
@@ -48,9 +52,7 @@
                     <th scope="col" width="5%">#</th>
                     <th scope="col">Nama</th>
                     <th scope="col">Jilid Awal</th>
-                    <th scope="col">Jilid Akhir</th>
-                    <th scope="col">Tanggal Penilaian</th>
-                    <th scope="col">Keterangan</th>
+                    <th scope="col" width="10%">Aksi</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -58,9 +60,9 @@
                     <th scope="row">1</th>
                     <td>Healme</td>
                     <td>Jilid 1</td>
-                    <td>Jilid 2</td>
-                    <td>Selasa, 26 April 2022</td>
-                    <td>Lulus</td>
+                    <td>
+                      <a type="button" class="btn btn-success btn-sm" href="detail-penilaian.php">Nilai</a>
+                    </td>
                   </tr>
                 </tbody>
               </table>
@@ -69,5 +71,9 @@
         </div>
       </div>
     </main>
+
+    <!-- Javascript -->
+    <script>
+    </script>
   </body>
 </html>
