@@ -18,7 +18,7 @@
     <!-- konten -->
     <main>
       <div class="container-fluid content transition">
-        <h3>Detail Presensi Santri</h3>
+        <h3>Detail Presensi Pengajar</h3>
         <a href="presensi.php" class="btn btn-success btn-sm btn-back">
           <span><i class="bi bi-chevron-left"></i></span>
           <span>Kembali</span>
@@ -73,7 +73,7 @@
               <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
                 <div class="modal-content">
                   <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Ralat Presensi Santri</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">Ralat Presensi Pengajar</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                   </div>
                   <div class="modal-body">

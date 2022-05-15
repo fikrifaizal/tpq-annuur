@@ -22,7 +22,7 @@
     <!-- konten -->
     <main>
       <div class="container-fluid content transition">
-        <h3>Presensi Santri</h3>
+        <h3>Presensi Pengajar</h3>
         
         <!-- card content -->
         <div class="card border shadow">
