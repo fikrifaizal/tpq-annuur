@@ -1,8 +1,4 @@
 <?php
-include('../../../config.php');
-$query = "SELECT * FROM `pengumuman`";
-
-$result = mysqli_query($conn, $query);
 ?>
 
 <!DOCTYPE html>
@@ -40,7 +36,7 @@ $result = mysqli_query($conn, $query);
                     <th scope="col">Nama Lengkap</th>
                     <th scope="col">Nama Wali</th>
                     <th scope="col">Nomor Telepon</th>
-                    <th scope="col" width="10%">Aksi</th>
+                    <th scope="col" width="15%">Aksi</th>
                   </tr>
                 </thead>
                 <tbody>

@@ -1,8 +1,4 @@
 <?php
-include('../../../config.php');
-$query = "SELECT * FROM `biodata`";
-
-$result = mysqli_query($conn, $query);
 ?>
 
 <!DOCTYPE html>

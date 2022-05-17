@@ -1,8 +1,4 @@
 <?php
-include('../../../config.php');
-$query = "SELECT * FROM `biodata`";
-
-$result = mysqli_query($conn, $query);
 ?>
 
 <!DOCTYPE html>
@@ -25,8 +21,8 @@ $result = mysqli_query($conn, $query);
     <!-- konten -->
     <main>
       <div class="container-fluid content transition">
-        <h3>Detail Pembayaran SPP</h3>
-        <a href="spp.php" class="btn btn-success btn-sm btn-back">
+        <h3>Detail Penilaian Santri</h3>
+        <a href="penilaian.php" class="btn btn-success btn-sm btn-back">
           <span><i class="bi bi-chevron-left"></i></span>
           <span>Kembali</span>
         </a>
@@ -54,50 +50,30 @@ $result = mysqli_query($conn, $query);
                 </div>
               </div><br>
 
-              <!-- Tempat, Tanggal Lahir -->
+              <!-- Jilid -->
               <div class="form-group row">
-                <label for="lahir" class="col-sm-2 col-form-label">Tempat, Tanggal Lahir</label>
+                <label for="jilid" class="col-sm-2 col-form-label">Jilid Awal</label>
                 <div class="col-sm-10">
-                  <div class="input-group has-validation">
-                    <input type="text" name="tempat" class="form-control" id="tempat" disabled>
-                    <span class="input-group-text" id="inputGroupPrepend3">,</span>
-                    <input type="date" name="tanggal" class="form-control" id="tanggal" disabled>
-                  </div>
-                </div>
-              </div><br>
-
-              <!-- Nama Wali -->
-              <div class="form-group row">
-                <label for="namaWali" class="col-sm-2 col-form-label">Nama Wali</label>
-                <div class="col-sm-10">
-                  <input type="text" name="namaWali" class="form-control" id="namaWali" disabled>
-                </div>
-              </div><br>
-
-              <!-- Alamat -->
-              <div class="form-group row">
-                <label for="alamat" class="col-sm-2 col-form-label">Alamat</label>
-                <div class="col-sm-10">
-                  <textarea name="alamat" class="form-control" id="alamat" disabled></textarea>
+                  <input type="text" name="jilid" class="form-control" id="jilid" disabled>
                 </div>
               </div>
 
               <!-- divider -->
               <hr class="my-4">
 
-              <!-- Jumlah Bayar -->
+              <!-- Tanggal -->
               <div class="form-group row">
-                <label for="jumlahBayar" class="col-sm-2 col-form-label">Jumlah Bayar</label>
+                <label for="tanggal" class="col-sm-2 col-form-label">Tanggal Sekarang</label>
                 <div class="col-sm-10">
-                  <input type="text" name="jumlahBayar" class="form-control" id="jumlahBayar" disabled>
+                  <input type="date" name="tanggal" class="form-control" id="tanggal" disabled>
                 </div>
               </div><br>
 
-              <!-- Penerima -->
+              <!-- Penguji -->
               <div class="form-group row">
-                <label for="penerima" class="col-sm-2 col-form-label">Penerima</label>
+                <label for="penguji" class="col-sm-2 col-form-label">Penguji</label>
                 <div class="col-sm-10">
-                  <input type="text" name="penerima" class="form-control" id="penerima" disabled>
+                  <input type="text" name="penguji" class="form-control" id="penguji" disabled>
                 </div>
               </div><br>
 
@@ -107,11 +83,15 @@ $result = mysqli_query($conn, $query);
                 <div class="col-sm-10">
                   <div class="row">
                     <div class="col col-md-6 d-grid gap-2">
+                      <button type="submit" name="konfirmasi" class="btn btn-danger btn-block">
+                        <span><i class="bi "></i></span>
+                        <span>Belum Lulus</span>
+                      </button>
                     </div>
                     <div class="col col-md-6 d-grid gap-2">
                       <button type="submit" name="konfirmasi" class="btn btn-success btn-block">
                         <span><i class="bi "></i></span>
-                        <span>Konfirmasi</span>
+                        <span>Lulus</span>
                       </button>
                     </div>
                   </div>
