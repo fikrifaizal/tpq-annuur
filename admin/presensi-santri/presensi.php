@@ -1,8 +1,9 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Home</title>
-    <link rel="stylesheet" href="\tpq-annuur\account\admin\layout\style.css" />
+    <title>TPQ</title>
+    <!-- style css -->
+    <link rel="stylesheet" href="\tpq-annuur\admin\layout\style.css" />
   </head>
 
   <body>

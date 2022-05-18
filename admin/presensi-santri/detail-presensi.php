@@ -1,12 +1,9 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Home</title>
-    <style>
-      .btn-success {
-        background-color: #088A44 !important;
-      }
-    </style>
+    <title>TPQ</title>
+    <!-- style css -->
+    <link rel="stylesheet" href="\tpq-annuur\admin\layout\style.css" />
   </head>
 
   <body>

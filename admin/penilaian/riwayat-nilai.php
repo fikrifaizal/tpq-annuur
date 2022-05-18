@@ -2,14 +2,8 @@
 <html>
   <head>
     <title>Home</title>
-    <style>
-      .btn-success {
-        background-color: #088A44 !important;
-      }
-      .select-jilid {
-        width: 10% !important;
-      }
-    </style>
+    <!-- style css -->
+    <link rel="stylesheet" href="\tpq-annuur\admin\layout\style.css" />
   </head>
 
   <body>
@@ -29,7 +23,7 @@
             
             <div class="">
               <!-- filter jilid -->
-              <select class="form-select select-jilid" onchange="location = this.value;">
+              <select class="form-select select-filter" onchange="location = this.value;">
                 <option selected disabled>Pilih Jilid</option>
                 <option value="#">Jilid 1</option>
                 <option value="#">Jilid 2</option>

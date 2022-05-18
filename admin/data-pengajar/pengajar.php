@@ -6,7 +6,7 @@
   <head>
     <title>Pengajar</title>
     <!-- style css -->
-    <link rel="stylesheet" href="\tpq-annuur\account\admin\layout\style.css" />
+    <link rel="stylesheet" href="\tpq-annuur\admin\layout\style.css" />
   </head>
 
   <body>
