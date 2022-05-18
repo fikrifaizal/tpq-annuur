@@ -1,0 +1,50 @@
+/* button color */
+.btn-primary {
+  --background-color: 270px;
+  background-color: #08538A !important;
+  border: var(--background-color) !important;
+  color: white !important;
+}
+.btn-success {
+  --background-color: #088A44 !important;
+  border: var(--background-color) !important;
+  color: white !important;
+}
+.btn-danger {
+  --background-color: #B90707 !important;
+  border: var(--background-color) !important;
+  color: white !important;
+}
+.btn-warning {
+  --background-color: #DE9609 !important;
+  border: var(--background-color) !important;
+  color: black !important;
+}
+.btn-info {
+  --background-color: #3C8DBC !important;
+  border: var(--background-color) !important;
+  color: black !important;
+}
+
+/* background color */
+.bg-primary {
+  background-color: #4E73DF !important;
+}
+.bg-success {
+  background-color: #1CC88A !important;
+}
+.bg-danger {
+  background-color: #C8831C !important;
+}
+.bg-warning {
+  background-color: #C5C81C !important;
+}
+.bg-info {
+  background-color: #1CA9C8 !important;
+}
+
+/* custom style */
+.select-filter {
+  width: 20%!important;
+  float: right
+}

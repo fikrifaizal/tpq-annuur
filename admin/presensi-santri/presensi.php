@@ -2,15 +2,7 @@
 <html>
   <head>
     <title>Home</title>
-    <style>
-      .btn-success {
-        background-color: #088A44 !important;
-      }
-      .select-year {
-        width:20%!important;
-        float:right
-      }
-    </style>
+    <link rel="stylesheet" href="\tpq-annuur\account\admin\layout\style.css" />
   </head>
 
   <body>
@@ -36,7 +28,7 @@
                 </a>
               </div>
               <div class="col-sm">
-                <select class="form-select select-year" onchange="location = this.value;">
+                <select class="form-select select-filter" onchange="location = this.value;">
                   <option selected disabled>Pilih Tahun</option>
                   <option value="#">2019</option>
                   <option value="#" selected>2020</option>
