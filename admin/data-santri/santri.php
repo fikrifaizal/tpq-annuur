@@ -26,7 +26,7 @@
 
             <!-- table -->
             <div class="table-responsive">
-              <table class="table table-bordered table-hover" id="dataTables-table">
+              <table class="table table-bordered table-hover dt-responsive nowrap" id="dataTables-table">
                 <thead class="table-secondary">
                   <tr class="text-center align-middle">
                     <th scope="col">NIS</th>

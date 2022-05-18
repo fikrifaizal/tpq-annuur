@@ -56,10 +56,19 @@
   border-left: 0.25rem solid #e74a3b !important;
 }
 
-/* custom style */
+/* filter button */
 .select-filter {
   width: 20%!important;
   float: right
+}
+
+.btn-filter {
+  border: 0.5px solid #C8CED4 !important;
+}
+
+.btn-filter:hover {  
+  border-color: #08538A !important;
+  color: #08538A !important;
 }
 
 /* pagination button */

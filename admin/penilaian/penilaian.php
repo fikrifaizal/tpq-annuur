@@ -26,7 +26,7 @@
 
             <!-- filter jilid -->
             <div class="btn-group">
-              <button class="btn btn-outline-secondary dropdown-toggle" type="button" id="dropdownFilterJilid" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">
+              <button class="btn btn-filter dropdown-toggle" type="button" id="dropdownFilterJilid" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">
                 Filter Jilid
               </button>
               <ul class="dropdown-menu" aria-labelledby="dropdownFilterJilid">

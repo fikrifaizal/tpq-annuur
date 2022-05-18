@@ -23,7 +23,7 @@
             
             <div class="">
               <!-- filter jilid -->
-              <select class="form-select select-filter" onchange="location = this.value;">
+              <select class="form-select" onchange="location = this.value;">
                 <option selected disabled>Pilih Jilid</option>
                 <option value="#">Jilid 1</option>
                 <option value="#">Jilid 2</option>
