@@ -249,21 +249,21 @@ elseif(isset($_POST['hapus'])) {
                   </div>
                 </div>
               </div>
+            </form>
 
-              <!-- Modal Danger -->
-              <div class="modal fade" tabindex="-1" id="modalDanger" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false" >
-                <div class="modal-dialog modal-dialog-centered">
-                  <div class="modal-content">
-                    <div class="modal-header">
-                      <h5 class="modal-title"><?=$setSecondDangerText?></h5>
-                    </div>
-                    <div class="modal-footer">
-                      <a href="santri.php" class="btn btn-secondary">OK</a>
-                    </div>
+            <!-- Modal Danger -->
+            <div class="modal fade" tabindex="-1" id="modalDanger" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false" >
+              <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title"><?=$setSecondDangerText?></h5>
+                  </div>
+                  <div class="modal-footer">
+                    <a href="santri.php" class="btn btn-secondary">OK</a>
                   </div>
                 </div>
               </div>
-            </form>
+            </div>
           </div>
         </div>
       </div>
