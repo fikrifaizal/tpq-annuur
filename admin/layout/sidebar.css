@@ -9,8 +9,8 @@ button {
 }
 
 :root {
-  --offcanvas-width: 270px;
-  --topNavbarHeight: 52px;
+  --offcanvas-width: 280px;
+  --topNavbarHeight: 42px;
 }
 
 main {

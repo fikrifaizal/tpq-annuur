@@ -29,12 +29,15 @@
                 </a>
               </div>
               <div class="col-sm">
-                <select class="form-select select-filter" onchange="location = this.value;">
-                  <option selected disabled>Pilih Tahun</option>
-                  <option value="#">2019</option>
-                  <option value="#" selected>2020</option>
-                  <option value="#">2021</option>
-                </select>
+                <button class="btn btn-filter dropdown-toggle" type="button" id="dropdownFilterJilid" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false" style="float: right;">
+                  Filter Jilid
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="dropdownFilterJilid">
+                  <li><h6 class="dropdown-header">Pilih Jilid</h6></li>
+                  <li><a class="dropdown-item" href="#">Jilid 1</a></li>
+                  <li><a class="dropdown-item" href="#">Jilid 2</a></li>
+                  <li><a class="dropdown-item" href="#">Jilid 3</a></li>
+                </ul>
               </div>
             </div><hr class="my-3">
 

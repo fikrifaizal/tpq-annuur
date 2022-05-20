@@ -17,7 +17,7 @@
 .btn-warning {
   background-color: #DE9609 !important;
   border: var(--background-color) !important;
-  color: black !important;
+  color: white !important;
 }
 .btn-info {
   background-color: #3C8DBC !important;
@@ -64,6 +64,7 @@
 
 .btn-filter {
   border: 0.5px solid #C8CED4 !important;
+  width: 20%!important;
 }
 
 .btn-filter:hover {  
