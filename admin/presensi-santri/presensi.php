@@ -1,3 +1,10 @@
+<?php
+include_once('../../config.php');
+$query = "SELECT * FROM `filter_presensi`";
+
+$result = mysqli_query($conn, $query);
+?>
+
 <!DOCTYPE html>
 <html>
   <head>
@@ -30,7 +37,7 @@
               </div>
               <div class="col-sm">
                 <button class="btn btn-filter dropdown-toggle" type="button" id="dropdownFilterJilid" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false" style="float: right;">
-                  Filter Jilid
+                  Filter Tahun
                 </button>
                 <ul class="dropdown-menu" aria-labelledby="dropdownFilterJilid">
                   <li><h6 class="dropdown-header">Pilih Jilid</h6></li>
@@ -54,19 +61,22 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <tr class="text-center align-middle">
-                    <th scope="row">1</th>
-                    <td>Januari</td>
-                    <td>2022</td>
-                    <td>
-                      <a role="button" href="detail-presensi.php" class="btn btn-primary btn-sm">Input</a>
-                      <button type="button" class="btn btn-success btn-sm">Rekap</button>
-                    </td>
-                    <td>
-                      <button type="button" class="btn btn-warning btn-sm">Ubah</button>
-                      <button type="button" class="btn btn-danger btn-sm">Hapus</button>
-                    </td>
-                  </tr>
+                  <?php 
+                    // fetch data menjadi array asosisasi
+                    while($data = mysqli_fetch_array($result, MYSQLI_ASSOC)){
+                      echo "<tr class='text-center align-middle'><td>".$data['id']."</td>";
+                      echo "<td>".ucfirst(strtolower($data['bulan']))."</td>";
+                      echo "<td>".$data['tahun']."</td>";?>
+                      <td>
+                        <a role="button" href="detail-presensi.php?id=<?= $data['id'];?>" class="btn btn-primary btn-sm">Input</a>
+                        <button type="button" class="btn btn-success btn-sm">Rekap</button>
+                      </td>
+                      <td>
+                        <button type="button" class="btn btn-warning btn-sm">Ubah</button>
+                        <button type="button" class="btn btn-danger btn-sm">Hapus</button>
+                      </td></tr><?php
+                    }
+                  ?>
                 </tbody>
               </table>
             </div>

@@ -256,7 +256,11 @@ elseif(isset($_POST['hapus'])) {
               <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
                   <div class="modal-header">
-                    <h5 class="modal-title"><?=$setSecondDangerText?></h5>
+                    <h5 class="modal-title">Informasi!</h5>
+                    <a href="santri.php" class="btn-close"></a>
+                  </div>
+                  <div class="modal-body">
+                    <span><?=$setSecondDangerText?></span>
                   </div>
                   <div class="modal-footer">
                     <a href="santri.php" class="btn btn-secondary">OK</a>

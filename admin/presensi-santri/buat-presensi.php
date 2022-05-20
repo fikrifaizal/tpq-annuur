@@ -1,3 +1,39 @@
+<?php 
+include_once('../../config.php');
+
+// danger modal
+$setSecondDangerCondition = false;
+$setSecondDangerText = "";
+
+// tahun sekarang
+$tahun = date('Y');
+
+// form tambah data
+if(isset($_POST['tambah'])) {
+  $bulan = strtoupper($_POST['bulan']);
+
+  // mencari data yang sama dengan yang diinput
+  $queryCount = "SELECT COUNT(`id`) as total FROM `filter_presensi` WHERE `bulan` LIKE '$bulan' AND `tahun` LIKE '$tahun'";
+  $resultCount = mysqli_query($conn, $queryCount);
+  $dataCount = mysqli_fetch_array($resultCount, MYSQLI_ASSOC);
+
+  // membandingkan kesamaan data
+  if($dataCount['total'] >= 1) {
+    $setSecondDangerCondition = true;
+    $setSecondDangerText = "Presensi bulan ini sudah dibuat";
+  } else {    
+    $query = "INSERT INTO `filter_presensi`(`bulan`, `tahun`) VALUES ('$bulan', '$tahun')";
+    $result = mysqli_query($conn, $query);
+    
+    $setSecondDangerCondition = true;
+    $setSecondDangerText = "Presensi bulan ini berhasil dibuat";
+    
+    header("Location: presensi.php");
+  }
+}
+
+
+?>
 <!DOCTYPE html>
 <html>
   <head>
@@ -34,8 +70,18 @@
                 <div class="col-sm-10">
                   <select class="form-select" name="bulan" id="bulan" required>
                     <option value="" selected disabled>Pilih Bulan</option>
-                    <option value="">Januari</option>
-                    <option value="">Februari</option>
+                    <option value="Januari">Januari</option>
+                    <option value="Februari">Februari</option>
+                    <option value="Maret">Maret</option>
+                    <option value="April">April</option>
+                    <option value="Mei">Mei</option>
+                    <option value="Juni">Juni</option>
+                    <option value="Juli">Juli</option>
+                    <option value="Agustus">Agustus</option>
+                    <option value="September">September</option>
+                    <option value="Oktober">Oktober</option>
+                    <option value="November">November</option>
+                    <option value="Desember">Desember</option>
                   </select>
                 </div>
               </div><br>
@@ -44,7 +90,7 @@
               <div class="form-group row">
                 <label for="tahun" class="col-sm-2 col-form-label">Tahun</label>
                 <div class="col-sm-10">
-                  <input type="text" name="tahun" class="form-control" id="tahun" disabled>
+                  <input type="text" name="tahun" class="form-control" id="tahun" value="<?= $tahun;?>" disabled>
                 </div>
               </div><br>
 
@@ -65,9 +111,39 @@
                 </div>
               </div>
             </form>
+
+            <!-- Modal Danger -->
+            <div class="modal fade" tabindex="-1" id="modalDanger" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false" >
+              <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title">Peringatan!</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                  </div>
+                  <div class="modal-body">
+                    <span><?=$setSecondDangerText?></span>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
     </main>
+
+    <!-- Javascript -->
+    <!-- Show Modal Danger -->
+    <?php
+      if($setSecondDangerCondition) {
+        echo '<script type="text/javascript">
+                $(document).ready(function(){
+                  $("#modalDanger").modal("show");
+                });
+              </script>';
+      }
+    ?>
   </body>
 </html>
