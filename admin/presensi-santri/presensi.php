@@ -30,7 +30,7 @@ $result = mysqli_query($conn, $query);
             
             <div class="row">
               <div class="col-sm">
-                <a href="buat-presensi.php" class="btn btn-success">
+                <a href="form-presensi.php" class="btn btn-success">
                   <span><i class="bi bi-plus"></i></span>
                   <span>Tambah Absensi Bulanan</span>
                 </a>
@@ -68,11 +68,17 @@ $result = mysqli_query($conn, $query);
                       echo "<td>".ucfirst(strtolower($data['bulan']))."</td>";
                       echo "<td>".$data['tahun']."</td>";?>
                       <td>
-                        <a role="button" href="detail-presensi.php?id=<?= $data['id'];?>" class="btn btn-primary btn-sm">Input</a>
+                        <a role="button" href="detail-presensi.php?id=<?= $data['id'];?>" class="btn btn-primary btn-sm">
+                          <span><i class="bi bi-pencil"></i><span>
+                          <span>Input</span>
+                        </a>
                         <button type="button" class="btn btn-success btn-sm">Rekap</button>
                       </td>
                       <td>
-                        <button type="button" class="btn btn-warning btn-sm">Ubah</button>
+                        <a role="button" href="form-presensi.php?action=ubah&&id=<?= $data['id'];?>" class="btn btn-warning btn-sm">
+                          <span><i class="bi bi-pencil"></i><span>
+                          <span>Ubah</span>
+                        </a>
                         <button type="button" class="btn btn-danger btn-sm">Hapus</button>
                       </td></tr><?php
                     }

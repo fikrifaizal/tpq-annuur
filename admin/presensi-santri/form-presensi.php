@@ -2,8 +2,8 @@
 include_once('../../config.php');
 
 // danger modal
-$setSecondDangerCondition = false;
-$setSecondDangerText = "";
+$setAlertCondition = false;
+$setAlertText = "";
 
 // tahun sekarang
 $tahun = date('Y');
@@ -19,20 +19,20 @@ if(isset($_POST['tambah'])) {
 
   // membandingkan kesamaan data
   if($dataCount['total'] >= 1) {
-    $setSecondDangerCondition = true;
-    $setSecondDangerText = "Presensi bulan ini sudah dibuat";
-  } else {    
+    $setAlertCondition = true;
+    $setAlertText = "Presensi bulan dan tahun ini sudah dibuat";
+  } else {
     $query = "INSERT INTO `filter_presensi`(`bulan`, `tahun`) VALUES ('$bulan', '$tahun')";
     $result = mysqli_query($conn, $query);
-    
-    $setSecondDangerCondition = true;
-    $setSecondDangerText = "Presensi bulan ini berhasil dibuat";
-    
     header("Location: presensi.php");
   }
 }
 
-
+// form ubah data
+$action = $_GET['action'];
+if($action == "ubah") {
+  
+}
 ?>
 <!DOCTYPE html>
 <html>
@@ -55,7 +55,12 @@ if(isset($_POST['tambah'])) {
         <a href="presensi.php" class="btn btn-success btn-sm btn-back">
           <span><i class="bi bi-chevron-left"></i></span>
           <span>Kembali</span>
-        </a>        
+        </a>
+
+        <div class="alert alert-danger alert-dismissible fade show" id="alert">
+          <strong><?= $setAlertText;?></strong>
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
         
         <!-- card content -->
         <div class="card border shadow">
@@ -111,37 +116,21 @@ if(isset($_POST['tambah'])) {
                 </div>
               </div>
             </form>
-
-            <!-- Modal Danger -->
-            <div class="modal fade" tabindex="-1" id="modalDanger" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false" >
-              <div class="modal-dialog modal-dialog-centered">
-                <div class="modal-content">
-                  <div class="modal-header">
-                    <h5 class="modal-title">Peringatan!</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                  </div>
-                  <div class="modal-body">
-                    <span><?=$setSecondDangerText?></span>
-                  </div>
-                  <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
-                  </div>
-                </div>
-              </div>
-            </div>
           </div>
         </div>
       </div>
     </main>
 
     <!-- Javascript -->
-    <!-- Show Modal Danger -->
+    <!-- Show Alert -->
     <?php
-      if($setSecondDangerCondition) {
+      if($setAlertCondition) {
         echo '<script type="text/javascript">
-                $(document).ready(function(){
-                  $("#modalDanger").modal("show");
-                });
+                $("#alert").show();
+              </script>';
+      } else {
+        echo '<script type="text/javascript">
+                $("#alert").hide();
               </script>';
       }
     ?>

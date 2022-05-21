@@ -86,3 +86,8 @@
 .page-item .page-link {
   color: #08538A !important;
 }
+
+.modal-open {
+  overflow: auto !important;
+  padding-right: 0px !important;
+}

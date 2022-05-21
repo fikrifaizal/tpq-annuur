@@ -1,7 +1,8 @@
 <?php
 include_once('../../config.php');
-$query = "SELECT * FROM `santri`";
 
+// connect & query database
+$query = "SELECT * FROM `santri`";
 $result = mysqli_query($conn, $query);
 
 // function for date formatting
@@ -14,6 +15,7 @@ function formatTanggal($date){
 <html>
   <head>
     <title>TPQ</title>
+    <link rel="shortcut icon" href="\tpq-annuur\image\logo-annur-bulat.png">
     <!-- style css -->
     <link rel="stylesheet" href="\tpq-annuur\admin\layout\style.css" />
   </head>
@@ -52,14 +54,14 @@ function formatTanggal($date){
                       echo "<tr class='text-center align-middle'><td>".$data['induk']."</td>";
                       echo "<td>".$data['nama_lengkap']."</td>";
                       echo "<td>".$data['nama_ortu']."</td>";
-                      echo "<td>".$data['no_telp_ortu']."</td>";
-                      // button trigger modal detail
-                      echo "<td>
-                              <button type='button' class='btn btn-primary btn-sm' data-bs-toggle='modal' data-bs-target='#detailModal".$data['induk']."'>
-                                <span><i class='bi bi-pencil'></i><span>
-                                <span>Detail Lengkap</span>
-                              </button>
-                            </td></tr>";?>
+                      echo "<td>".$data['no_telp_ortu']."</td>";?>
+                      <!-- button trigger modal detail -->
+                      <td>
+                        <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#detailModal<?=$data['induk']?>">
+                          <span><i class="bi bi-pencil"></i><span>
+                          <span>Detail Lengkap</span>
+                        </button>
+                      </td>
                       
                       <!-- Modal Detail -->
                       <div class="modal fade" id="detailModal<?=$data['induk']?>" tabindex="-1" aria-labelledby="detailModalLabel" aria-hidden="true">

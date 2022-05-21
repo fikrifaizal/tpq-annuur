@@ -1,10 +1,28 @@
 <?php
+include_once('../../config.php');
+$query = "SELECT penilaian.santri_induk as nis, santri.nama_lengkap as nama, jenjang.jenjang as jenjang FROM `penilaian`
+          LEFT JOIN `santri` ON penilaian.santri_induk = santri.induk
+          LEFT JOIN `jenjang` ON penilaian.jenjang_id = jenjang.id
+          WHERE penilaian.keterangan LIKE '%Belum Lulus%'";
+
+$result = mysqli_query($conn, $query);
+
+if(!empty($_GET['filter'])) {
+  $filter = $_GET['filter'];
+  $query = "SELECT santri.induk as nis, santri.nama_lengkap as nama, jenjang.jenjang as jenjang FROM `penilaian`
+  LEFT JOIN `santri` ON penilaian.santri_induk = santri.induk
+  LEFT JOIN `jenjang` ON penilaian.jenjang_id = jenjang.id
+  WHERE penilaian.keterangan LIKE '%Belum Lulus%' && penilaian.jenjang_id LIKE '$filter'";
+
+  $result = mysqli_query($conn, $query);
+}
 ?>
 
 <!DOCTYPE html>
 <html>
   <head>
     <title>TPQ</title>
+    <link rel="shortcut icon" href="\tpq-annuur\image\logo-annur-bulat.png">
     <!-- style css -->
     <link rel="stylesheet" href="\tpq-annuur\admin\layout\style.css" />
   </head>
@@ -31,9 +49,13 @@
               </button>
               <ul class="dropdown-menu" aria-labelledby="dropdownFilterJilid">
                 <li><h6 class="dropdown-header">Pilih Jilid</h6></li>
-                <li><a class="dropdown-item" href="#">Jilid 1</a></li>
-                <li><a class="dropdown-item" href="#">Jilid 2</a></li>
-                <li><a class="dropdown-item" href="#">Jilid 3</a></li>
+                <li><a class="dropdown-item" href="penilaian.php?filter=1">Jilid 1</a></li>
+                <li><a class="dropdown-item" href="penilaian.php?filter=2">Jilid 2</a></li>
+                <li><a class="dropdown-item" href="penilaian.php?filter=3">Jilid 3</a></li>
+                <li><a class="dropdown-item" href="penilaian.php?filter=4">Jilid 4</a></li>
+                <li><a class="dropdown-item" href="penilaian.php?filter=5">Jilid 5</a></li>
+                <li><a class="dropdown-item" href="penilaian.php?filter=6">Jilid 6</a></li>
+                <li><a class="dropdown-item" href="penilaian.php?filter=7">Al Qur'an</a></li>
               </ul>
             </div><hr class="my-3">
 
@@ -49,14 +71,18 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <tr class="text-center align-middle">
-                    <th scope="row">1</th>
-                    <td>Healme</td>
-                    <td>Jilid 1</td>
-                    <td>
-                      <a type="button" class="btn btn-success btn-sm" href="detail-penilaian.php">Nilai</a>
-                    </td>
-                  </tr>
+                  <?php
+                    $count = 0;
+                    // fetch data menjadi array asosisasi
+                    while($data = mysqli_fetch_array($result, MYSQLI_ASSOC)){
+                      echo "<tr class='text-center align-middle'><th>".($count+1)."</th>";
+                      echo "<td>".$data['nama']."</td>";
+                      echo "<td>".ucfirst(strtolower($data['jenjang']))."</td>";?>
+                      <td>
+                        <a type="button" class="btn btn-success btn-sm" href="detail-penilaian.php?nis=<?= $data['nis'];?>">Nilai</a>
+                      </td><?php
+                    }
+                  ?>
                 </tbody>
               </table>
             </div>

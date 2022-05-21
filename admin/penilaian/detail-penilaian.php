@@ -1,10 +1,38 @@
 <?php
+include_once('../../config.php');
+
+// connect & query database
+$nis = $_GET['nis'];
+$query = "SELECT santri.nama_lengkap as nama, jenjang.jenjang as jenjang FROM `penilaian`
+          LEFT JOIN `santri` ON penilaian.santri_induk = santri.induk
+          LEFT JOIN `jenjang` ON penilaian.jenjang_id = jenjang.id
+          WHERE `santri_induk` LIKE '$nis'";
+$result = mysqli_query($conn, $query);
+$data = mysqli_fetch_array($result, MYSQLI_ASSOC);
+
+// get data from database
+$namaLengkap = $data['nama'];
+$jenjang = ucfirst(strtolower($data['jenjang']));
+
+if(isset($_POST['belumlulus'])) {
+  $tanggal = $_POST['tanggal'];
+  $keterangan = "Belum Lulus";
+  
+  
+}
+elseif(isset($_POST['lulus'])) {
+  $tanggal = $_POST['tanggal'];
+  $keterangan = "Lulus";
+  
+  
+}
 ?>
 
 <!DOCTYPE html>
 <html>
   <head>
     <title>TPQ</title>
+    <link rel="shortcut icon" href="\tpq-annuur\image\logo-annur-bulat.png">
     <!-- style css -->
     <link rel="stylesheet" href="\tpq-annuur\admin\layout\style.css" />
   </head>
@@ -35,7 +63,7 @@
               <div class="form-group row">
                 <label for="nis" class="col-sm-2 col-form-label">Nomor Induk Santri</label>
                 <div class="col-sm-10">
-                  <input type="text" name="nis" class="form-control" id="nis" disabled>
+                  <input type="text" name="nis" class="form-control" id="nis" value="<?= $nis;?>" disabled>
                 </div>
               </div><br>
 
@@ -43,7 +71,7 @@
               <div class="form-group row">
                 <label for="namaLengkap" class="col-sm-2 col-form-label">Nama Lengkap</label>
                 <div class="col-sm-10">
-                  <input type="text" name="namaLengkap" class="form-control" id="namaLengkap" disabled>
+                  <input type="text" name="namaLengkap" class="form-control" id="namaLengkap" value="<?= $namaLengkap;?>" disabled>
                 </div>
               </div><br>
 
@@ -51,7 +79,7 @@
               <div class="form-group row">
                 <label for="jilid" class="col-sm-2 col-form-label">Jilid Awal</label>
                 <div class="col-sm-10">
-                  <input type="text" name="jilid" class="form-control" id="jilid" disabled>
+                  <input type="text" name="jilid" class="form-control" id="jilid" value="<?= $jenjang;?>" disabled>
                 </div>
               </div>
 
@@ -62,7 +90,7 @@
               <div class="form-group row">
                 <label for="tanggal" class="col-sm-2 col-form-label">Tanggal Sekarang</label>
                 <div class="col-sm-10">
-                  <input type="date" name="tanggal" class="form-control" id="tanggal" disabled>
+                  <input type="date" name="tanggal" class="form-control" id="tanggal" required>
                 </div>
               </div><br>
 
@@ -80,14 +108,14 @@
                 <div class="col-sm-10">
                   <div class="row">
                     <div class="col col-md-6 d-grid gap-2">
-                      <button type="submit" name="konfirmasi" class="btn btn-danger btn-block">
+                      <button type="submit" name="belumlulus" class="btn btn-danger btn-block">
                         <span><i class="bi "></i></span>
                         <span>Belum Lulus</span>
                       </button>
                     </div>
                     <div class="col col-md-6 d-grid gap-2">
-                      <button type="submit" name="konfirmasi" class="btn btn-success btn-block">
-                        <span><i class="bi "></i></span>
+                      <button type="submit" name="lulus" class="btn btn-success btn-block">
+                        <span><i class="bi bi-check"></i></span>
                         <span>Lulus</span>
                       </button>
                     </div>

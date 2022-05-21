@@ -5,6 +5,7 @@
 <html>
   <head>
     <title>Pengajar</title>
+    <link rel="shortcut icon" href="\tpq-annuur\image\logo-annur-bulat.png">
     <!-- style css -->
     <link rel="stylesheet" href="\tpq-annuur\admin\layout\style.css" />
   </head>

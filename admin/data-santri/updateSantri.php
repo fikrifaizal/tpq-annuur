@@ -40,7 +40,7 @@ if(isset($_POST['ubah'])) {
   $telpWali = $_POST['telpWali'];
   $alamat = $_POST['alamat'];
   
-  $query = "UPDATE `santri` set 
+  $query = "UPDATE `santri` SET 
             `nama_lengkap`='$namaLengkap', `panggilan`='$panggilan', `tempat_lahir`='$tempatLahir',
             `tgl_lahir`='$tglLahir', `jenjang_sekolah`='$jenjangSekolah', `kelas`='$kelas',
             `no_telp_santri`='$telpSantri', `nama_ortu`='$namaWali', `pekerjaan_ortu`='$pekerjaanWali',
@@ -65,6 +65,7 @@ elseif(isset($_POST['hapus'])) {
 <html>
   <head>
     <title>Santri</title>
+    <link rel="shortcut icon" href="\tpq-annuur\image\logo-annur-bulat.png">
     <!-- style css -->
     <link rel="stylesheet" href="\tpq-annuur\admin\layout\style.css" />
   </head>
