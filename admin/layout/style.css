@@ -57,14 +57,9 @@
 }
 
 /* filter button */
-.select-filter {
-  width: 20%!important;
-  float: right
-}
-
 .btn-filter {
   border: 0.5px solid #C8CED4 !important;
-  width: 20%!important;
+  width: 28.5% !important;
 }
 
 .btn-filter:hover {  
@@ -87,7 +82,13 @@
   color: #08538A !important;
 }
 
+/* custom modal positioning */
 .modal-open {
   overflow: auto !important;
   padding-right: 0px !important;
+}
+
+/* custom datepicker */
+.datepicker {
+  margin-top: 42px !important;
 }

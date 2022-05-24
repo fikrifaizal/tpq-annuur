@@ -61,7 +61,7 @@ function formatTanggal($date){
                           <span><i class="bi bi-pencil"></i><span>
                           <span>Detail Lengkap</span>
                         </button>
-                      </td>
+                      </td></tr>
                       
                       <!-- Modal Detail -->
                       <div class="modal fade" id="detailModal<?=$data['induk']?>" tabindex="-1" aria-labelledby="detailModalLabel" aria-hidden="true">

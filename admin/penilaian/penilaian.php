@@ -7,6 +7,7 @@ $query = "SELECT penilaian.santri_induk as nis, santri.nama_lengkap as nama, jen
 
 $result = mysqli_query($conn, $query);
 
+// filter
 if(!empty($_GET['filter'])) {
   $filter = $_GET['filter'];
   $query = "SELECT santri.induk as nis, santri.nama_lengkap as nama, jenjang.jenjang as jenjang FROM `penilaian`
@@ -80,7 +81,7 @@ if(!empty($_GET['filter'])) {
                       echo "<td>".ucfirst(strtolower($data['jenjang']))."</td>";?>
                       <td>
                         <a type="button" class="btn btn-success btn-sm" href="detail-penilaian.php?nis=<?= $data['nis'];?>">Nilai</a>
-                      </td><?php
+                      </td></tr><?php
                     }
                   ?>
                 </tbody>

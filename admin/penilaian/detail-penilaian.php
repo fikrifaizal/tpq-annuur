@@ -3,7 +3,7 @@ include_once('../../config.php');
 
 // connect & query database
 $nis = $_GET['nis'];
-$query = "SELECT santri.nama_lengkap as nama, jenjang.jenjang as jenjang FROM `penilaian`
+$query = "SELECT santri.nama_lengkap as nama, jenjang.jenjang as jenjang, penilaian.jenjang_id as jenjang_id FROM `penilaian`
           LEFT JOIN `santri` ON penilaian.santri_induk = santri.induk
           LEFT JOIN `jenjang` ON penilaian.jenjang_id = jenjang.id
           WHERE `santri_induk` LIKE '$nis'";
@@ -18,13 +18,25 @@ if(isset($_POST['belumlulus'])) {
   $tanggal = $_POST['tanggal'];
   $keterangan = "Belum Lulus";
   
-  
+  $query = "UPDATE penilaian SET `tanggal`='$tanggal', `keterangan`='$keterangan' WHERE `santri_induk` LIKE '$nis'";
+  $result = mysqli_query($conn, $query);
+
+  header("Location: penilaian.php");
 }
 elseif(isset($_POST['lulus'])) {
   $tanggal = $_POST['tanggal'];
   $keterangan = "Lulus";
   
+  $query = "UPDATE penilaian SET `tanggal`='$tanggal', `keterangan`='$keterangan' WHERE `santri_induk` LIKE '$nis'";
+  $result = mysqli_query($conn, $query);
   
+
+  $newJenjang = $data['jenjang_id'] + 1;
+  $newKeterangan = "Belum Lulus";
+  $newQuery = "INSERT INTO penilaian(`santri_induk`, `jenjang_id`, `tanggal`, `keterangan`) VALUES ('$nis', '$newJenjang', '$tanggal', '$newKeterangan')";
+  $newResult = mysqli_query($conn, $newQuery);
+
+  header("Location: penilaian.php");
 }
 ?>
 

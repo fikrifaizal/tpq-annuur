@@ -28,10 +28,23 @@ if(isset($_POST['tambah'])) {
   }
 }
 
-// form ubah data
-$action = $_GET['action'];
-if($action == "ubah") {
-  
+// form ubah & hapus data
+if(!empty($_GET['action'])) {
+  $action = $_GET['action'];
+  $id = $_GET['id'];
+
+  // ubah data
+  if($action == "ubah") {
+    $query = "SELECT * FROM `filter_presensi` WHERE `id` LIKE '$id'";
+    $result = mysqli_query($conn, $query);
+    $data = mysqli_fetch_array($result, MYSQLI_ASSOC);
+    
+    
+  }
+  // hapus data
+  elseif($action == "ubah") {
+    
+  }  
 }
 ?>
 <!DOCTYPE html>
