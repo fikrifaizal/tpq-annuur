@@ -31,31 +31,19 @@
             <!-- form input -->
             <form method="post" class="was-validated">
 
-              <!-- NIS -->
+              <!-- Nomor Induk -->
               <div class="form-group row">
-                <label for="nis" class="col-sm-2 col-form-label">Nomor Induk Santri</label>
+                <label for="induk" class="col-sm-2 col-form-label">Nomor Induk</label>
                 <div class="col-sm-10">
-                  <input type="text" name="nis" class="form-control" id="nis" disabled>
+                  <input type="text" name="induk" class="form-control" id="induk" disabled>
                 </div>
               </div><br>
 
               <!-- Nama -->
               <div class="form-group row">
-                <label for="namaLengkap" class="col-sm-2 col-form-label">Nama Lengkap</label>
+                <label for="nama" class="col-sm-2 col-form-label">Nama Lengkap</label>
                 <div class="col-sm-10">
-                  <input type="text" name="namaLengkap" class="form-control" id="namaLengkap" required>
-                </div>
-              </div><br>
-
-              <!-- Tempat, Tanggal Lahir -->
-              <div class="form-group row">
-                <label for="lahir" class="col-sm-2 col-form-label">Tempat, Tanggal Lahir</label>
-                <div class="col-sm-10">
-                  <div class="input-group has-validation">
-                    <input type="text" name="tempat" class="form-control" id="tempat" required>
-                    <span class="input-group-text" id="inputGroupPrepend3">,</span>
-                    <input type="date" name="tanggal" class="form-control" id="tanggal" required>
-                  </div>
+                  <input type="text" name="nama" class="form-control" id="nama" required>
                 </div>
               </div><br>
 
@@ -65,17 +53,9 @@
                 <div class="col-sm-10">
                   <select class="form-select" name="gender" id="gender" required>
                     <option value="" disabled>Pilih Jenis Kelamin</option>
-                    <option value="">Laki-laki</option>
-                    <option value="">Perempuan</option>
+                    <option value="LAKI-LAKI">Laki-laki</option>
+                    <option value="PEREMPUAN">Perempuan</option>
                   </select>
-                </div>
-              </div><br>
-
-              <!-- Nama Wali -->
-              <div class="form-group row">
-                <label for="namaWali" class="col-sm-2 col-form-label">Nama Wali</label>
-                <div class="col-sm-10">
-                  <input type="text" name="namaWali" class="form-control" id="namaWali" required>
                 </div>
               </div><br>
 
@@ -84,14 +64,6 @@
                 <label for="alamat" class="col-sm-2 col-form-label">Alamat</label>
                 <div class="col-sm-10">
                   <textarea name="alamat" class="form-control is-invalid" id="alamat" required></textarea>
-                </div>
-              </div><br>
-
-              <!-- Email -->
-              <div class="form-group row">
-                <label for="email" class="col-sm-2 col-form-label">Email</label>
-                <div class="col-sm-10">
-                  <input type="text" name="email" class="form-control" id="email" required>
                 </div>
               </div><br>
 
@@ -126,22 +98,6 @@
             </form>
 
             <!-- Modal Danger -->
-            <div class="modal fade" tabindex="-1" id="modalDanger" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false" >
-              <div class="modal-dialog modal-dialog-centered">
-                <div class="modal-content">
-                  <div class="modal-header">
-                    <h5 class="modal-title"></h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                  </div>
-                  <div class="modal-body">
-                    <p><?=$setDangerText?></p>
-                  </div>
-                  <div class="modal-footer">
-                    <a href="buku.php" class="btn btn-secondary" >OK</a>
-                  </div>
-                </div>
-              </div>
-            </div>
           </div>
         </div>
       </div>

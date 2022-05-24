@@ -123,7 +123,7 @@ function formatTanggal($date){
                             </div>
                             <div class="modal-footer">
                               <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                              <a role="button" class="btn btn-primary" href="updateSantri.php?nis=<?=$data['induk']?>">Edit</a>
+                              <a role="button" class="btn btn-primary" href="form-santri.php?nis=<?=$data['induk']?>">Edit</a>
                             </div>
                           </div>
                         </div>

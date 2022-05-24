@@ -1,11 +1,11 @@
 <?php
-include_once('../../config.php');
+require_once('../../config.php');
 
 // connect & query database
 $query = "SELECT * FROM `santri`";
 $result = mysqli_query($conn, $query);
 
-$filterId = $_GET['id'];
+$tanggal = $_GET['id'];
 $nis = 0;
 
 // set "hadir"
@@ -41,7 +41,7 @@ elseif(isset($_POST['ralat'])) {
     <!-- konten -->
     <main>
       <div class="container-fluid content transition">
-        <h3>Detail Presensi Santri</h3>
+        <h3>Input Presensi Santri</h3>
         <a href="presensi.php" class="btn btn-success btn-sm btn-back">
           <span><i class="bi bi-chevron-left"></i></span>
           <span>Kembali</span>
@@ -52,11 +52,9 @@ elseif(isset($_POST['ralat'])) {
           <div class="card-body m-3">
           
             <form method="post">
+              <label class="text-secondary">Hari Presensi</label>
               <div>
-                <label class="text-secondary">Hari Ini</label>
                 <input type="text" class="btn btn-light" name="tanggal" id="btn-datepicker" value="" readonly>
-                <button type="button" class="btn btn-light" id="btn-datepicker"></button>
-                <h5>Senin, 30 Februari 2022</h5>
               </div><hr class="my-3">
 
               <!-- table -->
@@ -84,7 +82,7 @@ elseif(isset($_POST['ralat'])) {
                           <label class="btn btn-outline-danger btn-sm" for="danger-outlined1">Tidak Hadir</label>
                         </td>
                         <!-- button trigger modal detail -->
-                        <td><button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#detailModal">Ralat</button></td></tr>
+                        <td><button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#detailModal" disabled>Ralat</button></td></tr>
                         
                         <!-- Modal Detail -->
                         <div class="modal fade" id="detailModal" tabindex="-1" aria-labelledby="detailModalLabel" aria-hidden="true">
@@ -121,7 +119,11 @@ elseif(isset($_POST['ralat'])) {
                     ?>
                   </tbody>
                 </table>
-              </div>
+              </div><hr class="my-3">
+              <button type="submit" name="simpan" class="btn btn-success btn-block" style="float: right;">
+                <span><i class="bi "></i></span>
+                <span>Simpan Data</span>
+              </button>
             </form>
           </div>
         </div>
@@ -130,13 +132,16 @@ elseif(isset($_POST['ralat'])) {
 
     <!-- Javascript -->
     <script type="text/javascript">
+      var datesForDisable = ["30-04-2022", "01-06-2022"]
       $(document).ready(function(){
         $("#btn-datepicker").datepicker({
           format    : 'dd-mm-yyyy',
-          todayBtn: "linked",
+          todayBtn  : "linked",
           language  : "id",
           orientation: "bottom auto",
-          maxViewMode: 0
+          todayHighlight: true,
+          maxViewMode: 0,
+          datesDisabled: datesForDisable
         });
       });
     </script>
