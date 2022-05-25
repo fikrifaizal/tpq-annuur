@@ -1,5 +1,5 @@
 <?php
-include_once('../../config.php');
+require_once('../../config.php');
 
 // connect & query database
 $nis = $_GET['nis'];
@@ -28,14 +28,14 @@ $infakBulanan = $data['infak_bulanan'];
 // form ubah data
 if(isset($_POST['ubah'])) {
   // get data from form
-  $namaLengkap = ucwords($_POST['namaLengkap']);
+  $namaLengkap = $_POST['namaLengkap'];
   $panggilan = ucwords($_POST['panggilan']);
   $tempatLahir = ucwords($_POST['tempat']);
   $tglLahir = $_POST['tanggal'];
   $jenjangSekolah = $_POST['jenjangSekolah'];
   $kelas = $_POST['kelas'];
   $telpSantri = $_POST['telpSantri'];
-  $namaWali = ucwords($_POST['namaWali']);
+  $namaWali = $_POST['namaWali'];
   $pekerjaanWali = $_POST['pekerjaanWali'];
   $telpWali = $_POST['telpWali'];
   $alamat = $_POST['alamat'];

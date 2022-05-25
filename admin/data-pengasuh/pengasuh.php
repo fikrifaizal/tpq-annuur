@@ -29,6 +29,13 @@ $result = mysqli_query($conn, $query);
         <!-- card content -->
         <div class="card border shadow">
           <div class="card-body m-3">
+            <!-- button tambah data -->
+            <div>
+              <a href="action/tambah-pengasuh.php" class="btn btn-success btn-sm">
+                <span><i class="bi bi-plus"></i></span>
+                <span>Tambah Data Pengasuh</span>
+              </a>
+            </div><hr class="my-3">
 
             <!-- table -->
             <div class="table-responsive">
@@ -52,7 +59,7 @@ $result = mysqli_query($conn, $query);
                       echo "<td>".$data['no_telp']."</td>";?>
                       <!-- button trigger modal detail -->
                       <td>
-                        <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#detailModal<?=$data['id']?>">
+                        <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#detailModal<?= $data['id']?>">
                           <span><i class="bi bi-pencil"></i><span>
                           <span>Detail Lengkap</span>
                         </button>
@@ -69,32 +76,32 @@ $result = mysqli_query($conn, $query);
                             <div class="modal-body">
                               <div class="row">
                                 <label class="col-sm-5">Nomor Induk</label>
-                                <p class="col-sm-7"><?=$data['id']?></p>
+                                <p class="col-sm-7"><?= $data['id']?></p>
                               </div>
                               <div class="row">
                                 <label class="col-sm-5">Nama Lengkap</label>
-                                <p class="col-sm-7"><?=$data['nama']?></p>
+                                <p class="col-sm-7"><?= $data['nama']?></p>
                               </div>
                               <div class="row">
                                 <label class="col-sm-5">Jenis Kelamin</label>
-                                <p class="col-sm-7"><?=$data['jenis_kelamin']?></p>
+                                <p class="col-sm-7"><?= ucfirst(strtolower($data['jenis_kelamin']))?></p>
                               </div>
                               <div class="row">
                                 <label class="col-sm-5">Alamat</label>
-                                <p class="col-sm-7"><?=$data['alamat']?></p>
+                                <p class="col-sm-7"><?= $data['alamat']?></p>
                               </div>
                               <div class="row">
                                 <label class="col-sm-5">Nomor Telepon</label>
-                                <p class="col-sm-7"><?=$data['no_telp']?></p>
+                                <p class="col-sm-7"><?= $data['no_telp']?></p>
                               </div>
                               <div class="row">
                                 <label class="col-sm-5">Sertifikat</label>
-                                <p class="col-sm-7"><?=$data['sertifikat']?></p>
+                                <p class="col-sm-7"><?= $data['sertifikat']?></p>
                               </div>
                             </div>
                             <div class="modal-footer">
                               <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                              <a role="button" class="btn btn-primary" href="form-pengasuh.php?nis=<?=$data['id']?>">Edit</a>
+                              <a role="button" class="btn btn-primary" href="action/ubah-pengasuh.php?id=<?= $data['id']?>">Edit</a>
                             </div>
                           </div>
                         </div>

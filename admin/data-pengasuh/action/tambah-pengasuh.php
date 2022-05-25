@@ -1,10 +1,33 @@
 <?php
+require_once('../../../config.php');
+
+// danger modal
+$setSecondDangerCondition = false;
+$setSecondDangerText = "";
+
+if(isset($_POST['tambah'])) {
+  // get data from form
+  $nama = $_POST['nama'];
+  $gender = $_POST['gender'];
+  $alamat = $_POST['alamat'];
+  $telp = $_POST['nomortelepon'];
+
+  // file sertifikat
+  $sertifikat = $_FILES['sertifikat']['name'];
+
+  $query = "INSERT INTO `pengajar`(`nama`, `jenis_kelamin`, `alamat`, `no_telp`, `sertifikat`) VALUES ('$nama', '$gender', '$alamat', '$telp', '$sertifikat')";
+  $result = mysqli_query($conn, $query);
+
+  $setSecondDangerCondition = true;
+  $setSecondDangerText = "Data berhasil ditambahkan";
+}
 ?>
 
 <!DOCTYPE html>
 <html>
   <head>
     <title>TPQ</title>
+    <link rel="shortcut icon" href="\tpq-annuur\image\logo-annur-bulat.png">
     <!-- style css -->
     <link rel="stylesheet" href="\tpq-annuur\admin\layout\style.css" />
   </head>
@@ -12,14 +35,14 @@
   <body>
     <!-- sidebar & navbar -->
     <?php
-      include('../layout/sidebar.html');
+      include('../../layout/sidebar.html');
     ?>
 
     <!-- konten -->
     <main>
       <div class="container-fluid content transition">
         <h3>Update Data Santri</h3>
-        <a href="santri.php" class="btn btn-success btn-sm btn-back">
+        <a href="/tpq-annuur/admin/data-pengasuh/pengasuh.php" class="btn btn-success btn-sm btn-back">
           <span><i class="bi bi-chevron-left"></i></span>
           <span>Kembali</span>
         </a>
@@ -29,7 +52,7 @@
           <div class="card-body m-3">
 
             <!-- form input -->
-            <form method="post" class="was-validated">
+            <form method="post" enctype="multipart/form-data">
 
               <!-- Nomor Induk -->
               <div class="form-group row">
@@ -52,7 +75,7 @@
                 <label for="gender" class="col-sm-2 col-form-label">Jenis Kelamin</label>
                 <div class="col-sm-10">
                   <select class="form-select" name="gender" id="gender" required>
-                    <option value="" disabled>Pilih Jenis Kelamin</option>
+                    <option value="" selected disabled>Pilih Jenis Kelamin</option>
                     <option value="LAKI-LAKI">Laki-laki</option>
                     <option value="PEREMPUAN">Perempuan</option>
                   </select>
@@ -63,7 +86,7 @@
               <div class="form-group row">
                 <label for="alamat" class="col-sm-2 col-form-label">Alamat</label>
                 <div class="col-sm-10">
-                  <textarea name="alamat" class="form-control is-invalid" id="alamat" required></textarea>
+                  <textarea name="alamat" class="form-control" id="alamat" required></textarea>
                 </div>
               </div><br>
 
@@ -75,21 +98,29 @@
                 </div>
               </div><br>
 
+              <!-- Sertifikat -->
+              <div class="form-group row">
+                <label for="sertifikat" class="col-sm-2 col-form-label">Sertifikat</label>
+                <div class="col-sm-10">
+                  <input class="form-control form-control" name="sertifikat" id="formSertifikat" type="file">
+                </div>
+              </div><br>
+
               <!-- Button -->
               <div class="form-group row">
                 <label for="button" class="col-sm-2 col-form-label"></label>
                 <div class="col-sm-10">
                   <div class="row">
                     <div class="col col-md-6 d-grid gap-2">
-                      <button type="submit" name="hapus" class="btn btn-danger btn-block">
+                      <button type="reset" class="btn btn-danger btn-block">
                         <span><i class="bi "></i></span>
-                        <span>Hapus Data</span>
+                        <span>Reset Data</span>
                       </button>
                     </div>
                     <div class="col col-md-6 d-grid gap-2">
-                      <button type="submit" name="ubah" class="btn btn-success btn-block">
+                      <button type="submit" name="tambah" class="btn btn-success btn-block">
                         <span><i class="bi "></i></span>
-                        <span>Ubah Data</span>
+                        <span>Tambah Data</span>
                       </button>
                     </div>
                   </div>
@@ -105,6 +136,7 @@
 
     <!-- Javascript -->
     <script>
+
     </script>
   </body>
 </html>
