@@ -1,15 +1,16 @@
 <?php
-require_once('../../config.php');
+require_once('../../../config.php');
+
+// function for date formatting
+function formatTanggal($date){
+  return date('Y-m-d', strtotime($date));
+}
 
 // connect & query database
 $nis = $_GET['nis'];
 $query = "SELECT * FROM `santri` WHERE `induk` LIKE '$nis'";
 $result = mysqli_query($conn, $query);
 $data = mysqli_fetch_array($result, MYSQLI_ASSOC);
-
-// danger modal
-$setSecondDangerCondition = false;
-$setSecondDangerText = "";
 
 // get data from database
 $namaLengkap = $data['nama_lengkap'];
@@ -32,6 +33,7 @@ if(isset($_POST['ubah'])) {
   $panggilan = ucwords($_POST['panggilan']);
   $tempatLahir = ucwords($_POST['tempat']);
   $tglLahir = $_POST['tanggal'];
+  $tglLahir = formatTanggal($tglLahir);
   $jenjangSekolah = $_POST['jenjangSekolah'];
   $kelas = $_POST['kelas'];
   $telpSantri = $_POST['telpSantri'];
@@ -39,25 +41,24 @@ if(isset($_POST['ubah'])) {
   $pekerjaanWali = $_POST['pekerjaanWali'];
   $telpWali = $_POST['telpWali'];
   $alamat = $_POST['alamat'];
+  $infakBulanan = $_POST['infak'];
   
   $query = "UPDATE `santri` SET 
             `nama_lengkap`='$namaLengkap', `panggilan`='$panggilan', `tempat_lahir`='$tempatLahir',
             `tgl_lahir`='$tglLahir', `jenjang_sekolah`='$jenjangSekolah', `kelas`='$kelas',
             `no_telp_santri`='$telpSantri', `nama_ortu`='$namaWali', `pekerjaan_ortu`='$pekerjaanWali',
-            `no_telp_ortu`='$telpWali', `alamat_ortu`='$alamat'
+            `no_telp_ortu`='$telpWali', `alamat_ortu`='$alamat', `infak_bulanan`='$infakBulanan'
             WHERE `induk` LIKE '$nis'";
   $result = mysqli_query($conn, $query);
-
-  $setSecondDangerCondition = true;
-  $setSecondDangerText = "Data berhasil diubah";
+  
+  header("Location: ../santri.php?success=edit");
 }
 // form hapus data
 elseif(isset($_POST['hapus'])) {
   $query = "DELETE FROM `santri` WHERE `induk` LIKE '$nis'";
   $result = mysqli_query($conn, $query);
-  
-  $setSecondDangerCondition = true;
-  $setSecondDangerText = "Data berhasil dihapus";
+
+  header("Location: ../santri.php?success=delete");
 }
 ?>
 
@@ -73,14 +74,14 @@ elseif(isset($_POST['hapus'])) {
   <body>
     <!-- sidebar & navbar -->
     <?php
-      include('../layout/sidebar.html');
+      include('../../layout/sidebar.html');
     ?>
 
     <!-- konten -->
     <main>
       <div class="container-fluid content transition">
         <h3>Update Data Santri</h3>
-        <a href="santri.php" class="btn btn-success btn-sm btn-back">
+        <a href="/tpq-annuur/admin/data-santri/santri.php" class="btn btn-success btn-sm btn-back">
           <span><i class="bi bi-chevron-left"></i></span>
           <span>Kembali</span>
         </a>
@@ -90,7 +91,7 @@ elseif(isset($_POST['hapus'])) {
           <div class="card-body m-3">
 
             <!-- form input -->
-            <form method="post" class="was-validated">
+            <form method="post">
 
               <!-- NIS -->
               <div class="form-group row">
@@ -128,23 +129,18 @@ elseif(isset($_POST['hapus'])) {
                 </div>
               </div><br>
 
-              <!-- Jenis Kelamin -->
-              <!-- <div class="form-group row">
-                <label for="gender" class="col-sm-2 col-form-label">Jenis Kelamin</label>
-                <div class="col-sm-10">
-                  <select class="form-select" name="gender" id="gender" required>
-                    <option value="" disabled>Pilih Jenis Kelamin</option>
-                    <option value="">Laki-laki</option>
-                    <option value="">Perempuan</option>
-                  </select>
-                </div>
-              </div><br> -->
-
               <!-- Jenjang Sekolah -->
               <div class="form-group row">
                 <label for="jenjangSekolah" class="col-sm-2 col-form-label">Jenjang Sekolah</label>
                 <div class="col-sm-10">
-                  <input type="text" name="jenjangSekolah" class="form-control" id="jenjangSekolah" value="<?= $jenjangSekolah?>" required>
+                  <select class="form-select" name="jenjangSekolah" id="jenjangSekolah" required>
+                    <option disabled>Pilih Jenjang Sekolah</option>
+                    <option value="PAUD/PRA TK">PAUD/PRA TK</option>
+                    <option value="TK/RA">TK/RA</option>
+                    <option value="SD/MI">SD/MI</option>
+                    <option value="SMP/MTS">SMP/MTS</option>
+                    <option value="SMA/MA">SMA/MA</option>
+                  </select>
                 </div>
               </div><br>
 
@@ -192,7 +188,7 @@ elseif(isset($_POST['hapus'])) {
               <div class="form-group row">
                 <label for="alamat" class="col-sm-2 col-form-label">Alamat</label>
                 <div class="col-sm-10">
-                  <textarea name="alamat" class="form-control is-invalid" id="alamat" maxlength="255" rows="2" required><?= $alamat?></textarea>
+                  <textarea name="alamat" class="form-control" id="alamat" maxlength="255" rows="2" required><?= $alamat?></textarea>
                 </div>
               </div><br>
 
@@ -251,37 +247,33 @@ elseif(isset($_POST['hapus'])) {
                 </div>
               </div>
             </form>
-
-            <!-- Modal Danger -->
-            <div class="modal fade" tabindex="-1" id="modalDanger" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false" >
-              <div class="modal-dialog modal-dialog-centered">
-                <div class="modal-content">
-                  <div class="modal-header">
-                    <h5 class="modal-title">Informasi!</h5>
-                    <a href="santri.php" class="btn-close"></a>
-                  </div>
-                  <div class="modal-body">
-                    <span><?=$setSecondDangerText?></span>
-                  </div>
-                  <div class="modal-footer">
-                    <a href="santri.php" class="btn btn-secondary">OK</a>
-                  </div>
-                </div>
-              </div>
-            </div>
           </div>
         </div>
       </div>
     </main>
 
     <!-- Javascript -->
-    <!-- Show Modal Danger -->
     <?php
-      if($setSecondDangerCondition) {
+      // selected data in select form
+      // jenjang sekolah
+      $jenjang = ["PAUD/PRA TK","TK/RA","SD/MI","SMP/MTS","SMA/MA"];
+      for($i=0; $i < count($jenjang); $i++) {
+        if(array_search($jenjangSekolah, $jenjang) == $i) {
+          $i = $i+1;
+          echo '<script type="text/javascript">
+                document.getElementById("jenjangSekolah").getElementsByTagName("option")['.$i.'].selected = "selected"
+              </script>';
+        }
+      }
+
+      // infak
+      if($infakBulanan == "Rp 50.000") {
         echo '<script type="text/javascript">
-                $(document).ready(function(){
-                  $("#modalDanger").modal("show");
-                });
+                document.getElementById("infak").getElementsByTagName("option")[1].selected = "selected"
+              </script>';
+      } else {
+        echo '<script type="text/javascript">
+                document.getElementById("infak").getElementsByTagName("option")[2].selected = "selected"
               </script>';
       }
     ?>

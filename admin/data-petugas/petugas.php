@@ -2,13 +2,8 @@
 require_once('../../config.php');
 
 // connect & query database
-$query = "SELECT * FROM `santri`";
+$query = "SELECT * FROM `piket`";
 $result = mysqli_query($conn, $query);
-
-// function for date formatting
-function formatTanggal($date){
-  return date('d-m-Y', strtotime($date));
-}
 
 // danger alert
 $setAlertCondition = false;
@@ -55,16 +50,16 @@ if(!empty($_GET['success'])) {
     <!-- konten -->
     <main>
       <div class="container-fluid content transition">
-        <h3>Data Santri</h3>
+        <h3>Data Petugas</h3>
         
         <!-- card content -->
         <div class="card border shadow">
           <div class="card-body m-3">
             <!-- button tambah data -->
             <div>
-              <a href="action/tambah-santri.php" class="btn btn-success">
+              <a href="action/tambah-petugas.php" class="btn btn-success">
                 <span><i class="bi bi-plus"></i></span>
-                <span>Tambah Data Santri</span>
+                <span>Tambah Data Petugas</span>
               </a>
             </div>
             
@@ -76,13 +71,13 @@ if(!empty($_GET['success'])) {
 
             <!-- table -->
             <div class="table-responsive">
-              <table class="table table-bordered table-hover dt-responsive nowrap" id="dataTables-table">
+              <table class="table table-bordered table-hover" id="dataTables-table">
                 <thead class="table-secondary">
                   <tr class="text-center align-middle">
-                    <th scope="col">NIS</th>
+                    <th scope="col">Nomor Induk</th>
                     <th scope="col">Nama Lengkap</th>
-                    <th scope="col">Nama Wali</th>
-                    <th scope="col">Nomor Telepon Wali</th>
+                    <th scope="col">Jenis Kelamin</th>
+                    <th scope="col">Nomor Telepon</th>
                     <th scope="col" width="15%">Aksi</th>
                   </tr>
                 </thead>
@@ -90,79 +85,51 @@ if(!empty($_GET['success'])) {
                   <?php
                     // fetch data menjadi array asosisasi
                     while($data = mysqli_fetch_array($result, MYSQLI_ASSOC)){
-                      echo "<tr class='text-center align-middle'><td>".$data['induk']."</td>";
-                      echo "<td>".$data['nama_lengkap']."</td>";
-                      echo "<td>".$data['nama_ortu']."</td>";
-                      echo "<td>".$data['no_telp_ortu']."</td>";?>
+                      echo "<tr class='text-center align-middle'><td>".$data['id']."</td>";
+                      echo "<td>".$data['nama']."</td>";
+                      echo "<td>".ucfirst(strtolower($data['jenis_kelamin']))."</td>";
+                      echo "<td>".$data['no_telp']."</td>";?>
                       <!-- button trigger modal detail -->
                       <td>
-                        <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#detailModal<?=$data['induk']?>">
+                        <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#detailModal<?= $data['id']?>">
                           <span><i class="bi bi-pencil"></i><span>
                           <span>Detail Lengkap</span>
                         </button>
                       </td></tr>
                       
                       <!-- Modal Detail -->
-                      <div class="modal fade" id="detailModal<?=$data['induk']?>" tabindex="-1" aria-labelledby="detailModalLabel" aria-hidden="true">
+                      <div class="modal fade" id="detailModal<?=$data['id']?>" tabindex="-1" aria-labelledby="detailModalLabel" aria-hidden="true">
                         <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
                           <div class="modal-content">
                             <div class="modal-header">
-                              <h5 class="modal-title" id="exampleModalLabel">Data Lengkap Santri</h5>
+                              <h5 class="modal-title" id="exampleModalLabel">Data Lengkap Pengajar</h5>
                               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
                             <div class="modal-body">
                               <div class="row">
-                                <label class="col-sm-5">Nomor Induk Santri</label>
-                                <p class="col-sm-7"><?=$data['induk']?></p>
+                                <label class="col-sm-5">Nomor Induk</label>
+                                <p class="col-sm-7"><?= $data['id']?></p>
                               </div>
                               <div class="row">
                                 <label class="col-sm-5">Nama Lengkap</label>
-                                <p class="col-sm-7"><?=$data['nama_lengkap']?></p>
+                                <p class="col-sm-7"><?= $data['nama']?></p>
                               </div>
                               <div class="row">
-                                <label class="col-sm-5">Nama Panggilan</label>
-                                <p class="col-sm-7"><?=$data['panggilan']?></p>
-                              </div>
-                              <div class="row">
-                                <label class="col-sm-5">Tempat, Tanggal Lahir</label>
-                                <p class="col-sm-7"><?=$data['tempat_lahir']?>, <?=formatTanggal($data['tgl_lahir'])?></p>
-                              </div>
-                              <div class="row">
-                                <label class="col-sm-5">Jenjang Sekolah</label>
-                                <p class="col-sm-7"><?=$data['jenjang_sekolah']?></p>
-                              </div>
-                              <div class="row">
-                                <label class="col-sm-5">Kelas</label>
-                                <p class="col-sm-7"><?=$data['kelas']?></p>
-                              </div>
-                              <div class="row">
-                                <label class="col-sm-5">Nomor Telepon Santri</label>
-                                <p class="col-sm-7"><?=$data['no_telp_santri']?></p>
-                              </div>
-                              <div class="row">
-                                <label class="col-sm-5">Nama Wali</label>
-                                <p class="col-sm-7"><?=$data['nama_ortu']?></p>
-                              </div>
-                              <div class="row">
-                                <label class="col-sm-5">Pekerjaan Wali</label>
-                                <p class="col-sm-7"><?=$data['pekerjaan_ortu']?></p>
-                              </div>
-                              <div class="row">
-                                <label class="col-sm-5">Nomor Telepon Wali</label>
-                                <p class="col-sm-7"><?=$data['no_telp_ortu']?></p>
+                                <label class="col-sm-5">Jenis Kelamin</label>
+                                <p class="col-sm-7"><?= ucfirst(strtolower($data['jenis_kelamin']))?></p>
                               </div>
                               <div class="row">
                                 <label class="col-sm-5">Alamat</label>
-                                <p class="col-sm-7"><?=$data['alamat_ortu']?></p>
+                                <p class="col-sm-7"><?= $data['alamat']?></p>
                               </div>
                               <div class="row">
-                                <label class="col-sm-5">Infak Bulanan</label>
-                                <p class="col-sm-7"><?=$data['infak_bulanan']?></p>
+                                <label class="col-sm-5">Nomor Telepon</label>
+                                <p class="col-sm-7"><?= $data['no_telp']?></p>
                               </div>
                             </div>
                             <div class="modal-footer">
                               <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                              <a role="button" class="btn btn-primary" href="action/ubah-santri.php?nis=<?=$data['induk']?>">Edit</a>
+                              <a role="button" class="btn btn-primary" href="action/ubah-petugas.php?id=<?= $data['id']?>">Edit</a>
                             </div>
                           </div>
                         </div>

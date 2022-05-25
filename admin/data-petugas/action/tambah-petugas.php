@@ -1,11 +1,6 @@
 <?php
 require_once('../../../config.php');
 
-// danger alert
-$setAlertCondition = false;
-$setAlertText = "";
-$setAlertText2 = "";
-
 // form tambah data
 if(isset($_POST['tambah'])) {
   $nama = $_POST['nama'];
@@ -13,40 +8,10 @@ if(isset($_POST['tambah'])) {
   $alamat = $_POST['alamat'];
   $telp = $_POST['nomortelepon'];
 
-  // file sertifikat
-  $sertifikat = $_FILES['sertifikat']['name'];
-  $type = "application/pdf";
-  $maximumSize	= 2097152; // 2 MB
-  $directory = "C:/xampp/htdocs/tpq-annuur/assets/berkas/sertifikat/";
-
-  // checking size of file
-  if($_FILES['sertifikat']['size'] <= $maximumSize) {
-    // checking type of file
-    if($_FILES['sertifikat']['type'] == $type) {
-      $upload = move_uploaded_file($_FILES['sertifikat']['tmp_name'], $directory.$sertifikat);
-      
-      // checking if upload is success
-      if($upload) {
-        // send data to db
-        $query = "INSERT INTO `pengajar`(`nama`, `jenis_kelamin`, `alamat`, `no_telp`, `sertifikat`) VALUES ('$nama', '$gender', '$alamat', '$telp', '$sertifikat')";
-        $result = mysqli_query($conn, $query);
-        
-        header("Location: ../pengasuh.php?success=create");
-      } else {      
-        $setAlertCondition = true;
-        $setAlertText = "File gagal di upload!";
-        $setAlertText2 = "Silahkan coba kembali";
-      }
-    } else {
-      $setAlertCondition = true;
-      $setAlertText = "Tipe file salah!";
-      $setAlertText2 = "Tipe file yang diperbolehkan adalah pdf";
-    }
-  } else {
-    $setAlertCondition = true;
-    $setAlertText = "Ukuran file terlalu besar!";
-    $setAlertText2 = "Ukuran maksimal adalah 2 MB";
-  }
+  $query = "INSERT INTO `piket`(`nama`, `jenis_kelamin`, `alamat`, `no_telp`) VALUES ('$nama', '$gender', '$alamat', '$telp')";
+  $result = mysqli_query($conn, $query);
+  
+  header("Location: ../petugas.php?success=create");
 }
 ?>
 
@@ -68,17 +33,11 @@ if(isset($_POST['tambah'])) {
     <!-- konten -->
     <main>
       <div class="container-fluid content transition">
-        <h3>Tambah Data Pengasuh</h3>
-        <a href="/tpq-annuur/admin/data-pengasuh/pengasuh.php" class="btn btn-success btn-sm btn-back">
+        <h3>Tambah Data petugas</h3>
+        <a href="/tpq-annuur/admin/data-petugas/petugas.php" class="btn btn-success btn-sm btn-back">
           <span><i class="bi bi-chevron-left"></i></span>
           <span>Kembali</span>
         </a>
-
-        <!-- danger alert -->
-        <div class="alert alert-danger alert-dismissible fade show" id="alert">
-          <strong><?= $setAlertText?></strong> <?= $setAlertText2?>
-          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
         
         <!-- card content -->
         <div class="card border shadow">
@@ -129,17 +88,6 @@ if(isset($_POST['tambah'])) {
                 </div>
               </div><br>
 
-              <!-- Sertifikat -->
-              <div class="form-group row">
-                <label for="sertifikat" class="col-sm-2 col-form-label">Sertifikat</label>
-                <div class="col-sm-10">
-                  <input class="form-control" name="sertifikat" id="formSertifikat" type="file" accept="application/pdf">
-                  <small class="form-text text-muted">
-                    * Tipe File: pdf Ukuran Maksimal: 2MB
-                  </small>
-                </div>
-              </div><br>
-
               <!-- Button -->
               <div class="form-group row">
                 <label for="button" class="col-sm-2 col-form-label"></label>
@@ -165,19 +113,5 @@ if(isset($_POST['tambah'])) {
         </div>
       </div>
     </main>
-
-    <!-- Javascript -->
-    <!-- Show Alert -->
-    <?php
-      if($setAlertCondition) {
-        echo '<script type="text/javascript">
-                $("#alert").show();
-              </script>';
-      } else {
-        echo '<script type="text/javascript">
-                $("#alert").hide();
-              </script>';
-      }
-    ?>
   </body>
 </html>
