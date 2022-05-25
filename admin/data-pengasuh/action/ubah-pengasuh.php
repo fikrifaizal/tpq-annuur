@@ -7,9 +7,10 @@ $query = "SELECT * FROM `pengajar` WHERE `id` LIKE '$id'";
 $result = mysqli_query($conn, $query);
 $data = mysqli_fetch_array($result, MYSQLI_ASSOC);
 
-// danger modal
-$setSecondDangerCondition = false;
-$setSecondDangerText = "";
+// danger alert
+$setAlertCondition = false;
+$setAlertText = "";
+$setAlertText2 = "";
 
 // get data from database
 $nama = $data['nama'];
@@ -25,16 +26,15 @@ if(isset($_POST['ubah'])) {
   $gender = $_POST['gender'];
   $alamat = $_POST['alamat'];
   $telp = $_POST['nomortelepon'];
-  $sertifikat = $_POST['sertifikat'];
-  
+
+  // send data to db
   $query = "UPDATE `pengajar` SET 
-            `nama`='$nama', `jenis_kelamin`='$gender', `alamat`='$alamat',
-            `no_telp`='$telp', `sertifikat`='$sertifikat'
+            `nama`='$nama', `jenis_kelamin`='$gender',
+            `alamat`='$alamat', `no_telp`='$telp'
             WHERE `id` LIKE '$id'";
   $result = mysqli_query($conn, $query);
-
-  $setSecondDangerCondition = true;
-  $setSecondDangerText = "Data berhasil diubah";
+  
+  header("Location: ../pengasuh.php?success=edit");
 }
 // form hapus data
 elseif(isset($_POST['hapus'])) {
@@ -42,9 +42,45 @@ elseif(isset($_POST['hapus'])) {
   $result = mysqli_query($conn, $query);
   
   $setSecondDangerCondition = true;
-  $setSecondDangerText = "Data berhasil dihapus";
+  $setSecondDangerText = "Data berhasil dihapus";  
+  header("Location: ../pengasuh.php?success=delete");
 }
+// perbarui sertifikat
+elseif(isset($_POST['perbarui'])) {
+  $sertifikat = $_FILES['sertifikat']['name'];
+  $type = "application/pdf";
+  $maximumSize	= 2000000; // 2 MB
+  $directory = "C:/xampp/htdocs/tpq-annuur/assets/berkas/sertifikat/";
 
+  // checking size of file
+  if($_FILES['sertifikat']['size'] <= $maximumSize) {
+    // checking type of file
+    if($_FILES['sertifikat']['type'] == $type) {
+      $upload = move_uploaded_file($_FILES['sertifikat']['tmp_name'], $directory.$sertifikat);
+      
+      // checking if upload is success
+      if($upload) {
+        // send data to db
+        $query = "UPDATE `pengajar` SET `sertifikat`='$sertifikat' WHERE `id` LIKE '$id'";
+        $result = mysqli_query($conn, $query);
+        
+        header("Location: ../pengasuh.php?success=edit");
+      } else {      
+        $setAlertCondition = true;
+        $setAlertText = "File gagal di upload!";
+        $setAlertText2 = "Silahkan coba kembali";
+      }
+    } else {
+      $setAlertCondition = true;
+      $setAlertText = "Tipe file salah!";
+      $setAlertText2 = "Tipe file yang diperbolehkan adalah pdf";
+    }
+  } else {
+    $setAlertCondition = true;
+    $setAlertText = "Ukuran file terlalu besar!";
+    $setAlertText2 = "Ukuran maksimal adalah 2 MB";
+  }
+}
 ?>
 
 <!DOCTYPE html>
@@ -65,18 +101,24 @@ elseif(isset($_POST['hapus'])) {
     <!-- konten -->
     <main>
       <div class="container-fluid content transition">
-        <h3>Update Data Santri</h3>
+        <h3>Update Data Pengasuh</h3>
         <a href="/tpq-annuur/admin/data-pengasuh/pengasuh.php" class="btn btn-success btn-sm btn-back">
           <span><i class="bi bi-chevron-left"></i></span>
           <span>Kembali</span>
         </a>
+
+        <!-- danger alert -->
+        <div class="alert alert-danger alert-dismissible fade show" id="alert">
+          <strong><?= $setAlertText?></strong> <?= $setAlertText2?>
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
         
         <!-- card content -->
         <div class="card border shadow">
           <div class="card-body m-3">
 
             <!-- form input -->
-            <form method="post">
+            <form method="post" enctype="multipart/form-data">
 
               <!-- Nomor Induk -->
               <div class="form-group row">
@@ -126,9 +168,41 @@ elseif(isset($_POST['hapus'])) {
               <div class="form-group row">
                 <label for="sertifikat" class="col-sm-2 col-form-label">Sertifikat</label>
                 <div class="col-sm-10">
-                  <div class="input-group">
-                    <input type="file" class="form-control" id="sertifikat" aria-describedby="fileSertifikat" aria-label="Upload">
-                    <button class="btn btn-outline-secondary" type="button" id="fileSertifikat" disabled>Lihat File</button>
+                  <div class="btn-group" role="group">
+                    <a href="/tpq-annuur/assets/berkas/sertifikat/<?= $sertifikat?>" class="btn btn-outline-secondary" target="_blank">Lihat Sertifikat</a>
+                    <button type="button" class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#unggahModal">
+                      Unggah Sertifikat Baru
+                    </button>
+
+                    <!-- Modal Unggah -->
+                    <div class="modal fade" id="unggahModal" tabindex="-1" aria-labelledby="detailModalLabel" aria-hidden="true">
+                      <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Unggah Sertifikat Baru</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                          </div>
+                          <div class="modal-body">
+                            <div class="form-group row">
+                              <label for="sertifikat" class="col-sm-3 col-form-label">Sertifikat</label>
+                              <div class="col-sm-9">
+                                <input class="form-control form-control" name="sertifikat" id="formSertifikat" type="file" accept="application/pdf">
+                                <small class="form-text text-muted">
+                                  * Tipe File: pdf Ukuran Maksimal: 2MB
+                                </small>
+                              </div>
+                            </div><br>
+                          </div>
+                          <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="submit" name="perbarui" class="btn btn-success">
+                              <span><i class="bi "></i></span>
+                              <span>Unggah</span>
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div><br>
@@ -139,7 +213,7 @@ elseif(isset($_POST['hapus'])) {
                 <div class="col-sm-10">
                   <div class="row">
                     <div class="col col-md-6 d-grid gap-2">
-                      <button type="submit" name="hapus" class="btn btn-danger btn-block">
+                      <button type="button" class="btn btn-danger btn-block" data-bs-toggle="modal" data-bs-target="#deleteModalDanger">
                         <span><i class="bi "></i></span>
                         <span>Hapus Data</span>
                       </button>
@@ -153,9 +227,29 @@ elseif(isset($_POST['hapus'])) {
                   </div>
                 </div>
               </div>
-            </form>
 
-            <!-- Modal Danger -->
+              <!-- Delete Modal Danger -->
+              <div class="modal fade" tabindex="-1" id="deleteModalDanger" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title">Peringatan!</h5>
+                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                      <span>Apakah anda yakin untuk menghapus data ini?</span>
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tidak</button>
+                      <button type="submit" name="hapus" class="btn btn-danger">
+                        <span><i class="bi "></i></span>
+                        <span>Hapus</span>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </form>
           </div>
         </div>
       </div>
@@ -164,6 +258,7 @@ elseif(isset($_POST['hapus'])) {
     <!-- Javascript -->
     <!-- selected data in select form -->
     <?php
+      // selected data in select form
       if($gender == "LAKI-LAKI") {
         echo '<script type="text/javascript">
                 document.getElementById("gender").getElementsByTagName("option")[1].selected = "selected"
@@ -171,6 +266,17 @@ elseif(isset($_POST['hapus'])) {
       } else {
         echo '<script type="text/javascript">
                 document.getElementById("gender").getElementsByTagName("option")[2].selected = "selected"
+              </script>';
+      }
+
+      // Show Alert
+      if($setAlertCondition) {
+        echo '<script type="text/javascript">
+                $("#alert").show();
+              </script>';
+      } else {
+        echo '<script type="text/javascript">
+                $("#alert").hide();
               </script>';
       }
     ?>

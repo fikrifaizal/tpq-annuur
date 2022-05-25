@@ -70,6 +70,7 @@ if(!empty($_GET['action'])) {
           <span>Kembali</span>
         </a>
 
+        <!-- danger alert -->
         <div class="alert alert-danger alert-dismissible fade show" id="alert">
           <strong><?= $setAlertText;?></strong>
           <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>

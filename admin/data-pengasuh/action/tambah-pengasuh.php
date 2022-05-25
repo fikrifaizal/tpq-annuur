@@ -1,9 +1,10 @@
 <?php
 require_once('../../../config.php');
 
-// danger modal
-$setSecondDangerCondition = false;
-$setSecondDangerText = "";
+// danger alert
+$setAlertCondition = false;
+$setAlertText = "";
+$setAlertText2 = "";
 
 if(isset($_POST['tambah'])) {
   // get data from form
@@ -14,12 +15,38 @@ if(isset($_POST['tambah'])) {
 
   // file sertifikat
   $sertifikat = $_FILES['sertifikat']['name'];
+  $type = "application/pdf";
+  $maximumSize	= 2000000; // 2 MB
+  $directory = "C:/xampp/htdocs/tpq-annuur/assets/berkas/sertifikat/";
 
-  $query = "INSERT INTO `pengajar`(`nama`, `jenis_kelamin`, `alamat`, `no_telp`, `sertifikat`) VALUES ('$nama', '$gender', '$alamat', '$telp', '$sertifikat')";
-  $result = mysqli_query($conn, $query);
-
-  $setSecondDangerCondition = true;
-  $setSecondDangerText = "Data berhasil ditambahkan";
+  // checking size of file
+  if($_FILES['sertifikat']['size'] <= $maximumSize) {
+    // checking type of file
+    if($_FILES['sertifikat']['type'] == $type) {
+      $upload = move_uploaded_file($_FILES['sertifikat']['tmp_name'], $directory.$sertifikat);
+      
+      // checking if upload is success
+      if($upload) {
+        // send data to db
+        $query = "INSERT INTO `pengajar`(`nama`, `jenis_kelamin`, `alamat`, `no_telp`, `sertifikat`) VALUES ('$nama', '$gender', '$alamat', '$telp', '$sertifikat')";
+        $result = mysqli_query($conn, $query);
+        
+        header("Location: ../pengasuh.php?success=create");
+      } else {      
+        $setAlertCondition = true;
+        $setAlertText = "File gagal di upload!";
+        $setAlertText2 = "Silahkan coba kembali";
+      }
+    } else {
+      $setAlertCondition = true;
+      $setAlertText = "Tipe file salah!";
+      $setAlertText2 = "Tipe file yang diperbolehkan adalah pdf";
+    }
+  } else {
+    $setAlertCondition = true;
+    $setAlertText = "Ukuran file terlalu besar!";
+    $setAlertText2 = "Ukuran maksimal adalah 2 MB";
+  }
 }
 ?>
 
@@ -41,17 +68,21 @@ if(isset($_POST['tambah'])) {
     <!-- konten -->
     <main>
       <div class="container-fluid content transition">
-        <h3>Update Data Santri</h3>
+        <h3>Tambah Data Pengasuh</h3>
         <a href="/tpq-annuur/admin/data-pengasuh/pengasuh.php" class="btn btn-success btn-sm btn-back">
           <span><i class="bi bi-chevron-left"></i></span>
           <span>Kembali</span>
         </a>
+
+        <!-- danger alert -->
+        <div class="alert alert-danger alert-dismissible fade show" id="alert">
+          <strong><?= $setAlertText?></strong> <?= $setAlertText2?>
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
         
         <!-- card content -->
         <div class="card border shadow">
           <div class="card-body m-3">
-
-            <!-- form input -->
             <form method="post" enctype="multipart/form-data">
 
               <!-- Nomor Induk -->
@@ -102,7 +133,10 @@ if(isset($_POST['tambah'])) {
               <div class="form-group row">
                 <label for="sertifikat" class="col-sm-2 col-form-label">Sertifikat</label>
                 <div class="col-sm-10">
-                  <input class="form-control form-control" name="sertifikat" id="formSertifikat" type="file">
+                  <input class="form-control form-control" name="sertifikat" id="formSertifikat" type="file" accept="application/pdf">
+                  <small class="form-text text-muted">
+                    * Tipe File: pdf Ukuran Maksimal: 2MB
+                  </small>
                 </div>
               </div><br>
 
@@ -127,16 +161,23 @@ if(isset($_POST['tambah'])) {
                 </div>
               </div>
             </form>
-
-            <!-- Modal Danger -->
           </div>
         </div>
       </div>
     </main>
 
     <!-- Javascript -->
-    <script>
-
-    </script>
+    <!-- Show Alert -->
+    <?php
+      if($setAlertCondition) {
+        echo '<script type="text/javascript">
+                $("#alert").show();
+              </script>';
+      } else {
+        echo '<script type="text/javascript">
+                $("#alert").hide();
+              </script>';
+      }
+    ?>
   </body>
 </html>
