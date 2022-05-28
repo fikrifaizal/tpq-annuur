@@ -148,7 +148,7 @@ elseif(isset($_POST['hapus'])) {
               <div class="form-group row">
                 <label for="kelas" class="col-sm-2 col-form-label">Kelas</label>
                 <div class="col-sm-10">
-                  <input type="text" name="kelas" class="form-control" id="kelas" value="<?= $kelas?>" required>
+                  <input type="number" name="kelas" class="form-control" id="kelas" value="<?= $kelas?>" required>
                 </div>
               </div><br>
 
@@ -156,7 +156,7 @@ elseif(isset($_POST['hapus'])) {
               <div class="form-group row">
                 <label for="telpSantri" class="col-sm-2 col-form-label">Telepon Santri</label>
                 <div class="col-sm-10">
-                  <input type="text" name="telpSantri" class="form-control" id="telpSantri" value="<?= $telpSantri?>" required>
+                  <input type="number" name="telpSantri" class="form-control" id="telpSantri" value="<?= $telpSantri?>" required>
                 </div>
               </div><br>
 
@@ -180,7 +180,7 @@ elseif(isset($_POST['hapus'])) {
               <div class="form-group row">
                 <label for="telpWali" class="col-sm-2 col-form-label">Telepon Wali</label>
                 <div class="col-sm-10">
-                  <input type="text" name="telpWali" class="form-control" id="telpWali" value="<?= $telpWali?>" required>
+                  <input type="number" name="telpWali" class="form-control" id="telpWali" value="<?= $telpWali?>" required>
                 </div>
               </div><br>
 
@@ -263,6 +263,7 @@ elseif(isset($_POST['hapus'])) {
           echo '<script type="text/javascript">
                 document.getElementById("jenjangSekolah").getElementsByTagName("option")['.$i.'].selected = "selected"
               </script>';
+          break;
         }
       }
 
