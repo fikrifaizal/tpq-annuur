@@ -69,7 +69,7 @@ $result = mysqli_query($conn, $query);
                       echo "<td>".ucfirst(strtolower($data['bulan']))."</td>";
                       echo "<td>".$data['tahun']."</td>";?>
                       <td>
-                        <a role="button" href="detail-presensi.php?id=<?= $data['id'];?>" class="btn btn-primary btn-sm">
+                        <a role="button" href="detail/detail-presensi.php?id=<?= $data['id'];?>" class="btn btn-primary btn-sm">
                           <span><i class="bi bi-pencil"></i><span>
                           <span>Input</span>
                         </a>
