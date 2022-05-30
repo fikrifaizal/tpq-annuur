@@ -1,29 +1,16 @@
 <?php
 include_once('../../config.php');
-$query = "SELECT penilaian.santri_induk as nis, santri.nama_lengkap as nama, jenjang.jenjang as jenjang FROM `penilaian`
-          LEFT JOIN `santri` ON penilaian.santri_induk = santri.induk
-          LEFT JOIN `jenjang` ON penilaian.jenjang_id = jenjang.id
-          WHERE penilaian.keterangan LIKE '%Belum Lulus%'";
 
+$query = "SELECT induk, nama_lengkap FROM santri";
 $result = mysqli_query($conn, $query);
 
-// filter
-if(!empty($_GET['filter'])) {
-  $filter = $_GET['filter'];
-  $query = "SELECT santri.induk as nis, santri.nama_lengkap as nama, jenjang.jenjang as jenjang FROM `penilaian`
-  LEFT JOIN `santri` ON penilaian.santri_induk = santri.induk
-  LEFT JOIN `jenjang` ON penilaian.jenjang_id = jenjang.id
-  WHERE penilaian.keterangan LIKE '%Belum Lulus%' && penilaian.jenjang_id LIKE '$filter'";
-
-  $result = mysqli_query($conn, $query);
-}
 ?>
 
 <!DOCTYPE html>
 <html>
   <head>
     <title>TPQ</title>
-    <link rel="shortcut icon" href="\tpq-annuur\image\logo-annur-bulat.png">
+    <link rel="shortcut icon" href="\tpq-annuur\assets\image\logo-annur-bulat.png">
     <!-- style css -->
     <link rel="stylesheet" href="\tpq-annuur\admin\layout\style.css" />
   </head>

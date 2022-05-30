@@ -29,7 +29,7 @@ $filterResult = mysqli_query($conn, $filterQuery);
     <!-- konten -->
     <main>
       <div class="container-fluid content transition">
-        <h3>Presensi Santri</h3>
+        <h3>Presensi Pengasuh</h3>
         
         <!-- card content -->
         <div class="card border shadow">

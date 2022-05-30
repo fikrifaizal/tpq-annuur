@@ -25,7 +25,7 @@ if(isset($_POST['cari'])) {
   $explodeDate = explode("-",$setDate);
   $filterDate = $explodeDate['2'];
 
-  // data santri
+  // data pengajar
   $result = query($conn, $id, $setDate);
 
   header("Location: detail-presensi.php?id=$id&tgl=$filterDate");
@@ -35,7 +35,7 @@ elseif(!empty($_GET['tgl'])){
   $setDate = $tahun."-".$bulanInt."-".$_GET['tgl'];
   $tanggal = customDateFormat($setDate);
 
-  // data santri
+  // data pengajar
   $result = query($conn, $id, $setDate);
 }
 // jika bulan adalah bulan sekarang (today)
@@ -43,34 +43,34 @@ elseif($today['isToday']) {
   $setDate = date("Y-m-d");
   $tanggal = $today['date'];
 
-  $countQuery = "SELECT COUNT(santri_induk) as total FROM `presensi_santri`
+  $countQuery = "SELECT COUNT(pengajar_id) as total FROM `presensi_pengajar`
                   WHERE filter_id LIKE '$id' && tanggal LIKE '$setDate'";
   $countResult = mysqli_query($conn, $countQuery);
   $countData = mysqli_fetch_array($countResult, MYSQLI_ASSOC);
 
   if($countData['total'] < 1) {
-    // insert from santri to presensi
-    $insertQuery = "INSERT INTO `presensi_santri`(`santri_induk`,`filter_id`,`keterangan`,`tanggal`)
-                    SELECT `induk`,'$id','','$setDate' FROM `santri` ORDER BY induk ASC";
+    // insert from pengajar to presensi
+    $insertQuery = "INSERT INTO `presensi_pengajar`(`pengajar_id`,`filter_id`,`keterangan`,`tanggal`)
+                    SELECT `id`,'$id','','$setDate' FROM `pengajar` ORDER BY id ASC";
     $insertResult = mysqli_query($conn, $insertQuery);
   }
 
-  // data santri
+  // data pengajar
   $result = query($conn, $id, $setDate);
 }
 else {
   $setDate = $startDate;
   $tanggal = customDateFormat($startDate);
 
-  // data santri
+  // data pengajar
   $result = query($conn, $id, $startDate);
 }
 
-// data santri
+// data pengajar
 function query($connection, $filter, $date) {
-  $query = "SELECT santri.induk as induk, santri.nama_lengkap as nama_lengkap, presensi_santri.keterangan as keterangan FROM `presensi_santri`
-            LEFT JOIN `santri` ON presensi_santri.santri_induk = santri.induk
-            WHERE presensi_santri.filter_id LIKE '$filter' && presensi_santri.tanggal LIKE '$date'";
+  $query = "SELECT pengajar.id as id, pengajar.nama as nama, presensi_pengajar.keterangan as keterangan FROM `presensi_pengajar`
+            LEFT JOIN `pengajar` ON presensi_pengajar.pengajar_id = pengajar.id
+            WHERE presensi_pengajar.filter_id LIKE '$filter' && presensi_pengajar.tanggal LIKE '$date'";
   return mysqli_query($connection, $query);
 }
 ?>
@@ -93,8 +93,8 @@ function query($connection, $filter, $date) {
     <!-- konten -->
     <main>
       <div class="container-fluid content transition">
-        <h3>Input Presensi Santri</h3>
-        <a href="/tpq-annuur/admin/presensi-santri/presensi.php" class="btn btn-success btn-sm btn-back">
+        <h3>Input Presensi Pengasuh</h3>
+        <a href="/tpq-annuur/admin/presensi-pengasuh/presensi.php" class="btn btn-success btn-sm btn-back">
           <span><i class="bi bi-chevron-left"></i></span>
           <span>Kembali</span>
         </a>
@@ -139,8 +139,8 @@ function query($connection, $filter, $date) {
                     $keterangan = "";
 
                     while($data = mysqli_fetch_array($result, MYSQLI_ASSOC)){
-                      echo "<tr class='text-center align-middle'><td>".$data['induk']."</td>";
-                      echo "<td>".$data['nama_lengkap']."</td>";
+                      echo "<tr class='text-center align-middle'><td>".$data['id']."</td>";
+                      echo "<td>".$data['nama']."</td>";
                       $btnHadir = "";
                       $btnTidakHadir = "";
 
@@ -161,10 +161,10 @@ function query($connection, $filter, $date) {
                         <span class="badge <?= $badgeColor?>"><?= $keterangan?></span>
                       </td>
                       <td>
-                        <a role="button" href="update-presensi.php?id=<?= $id?>&nis=<?= $data['induk']?>&ket=1&tgl=<?= $setDate?>"
+                        <a role="button" href="update-presensi.php?id=<?= $id?>&induk=<?= $data['id']?>&ket=1&tgl=<?= $setDate?>"
                            class="btn btn-outline-success btn-sm <?= $btnHadir?>" aria-disabled="true">Hadir
                         </a>
-                        <a role="button" href="update-presensi.php?id=<?= $id?>&nis=<?= $data['induk']?>&ket=0&tgl=<?= $setDate?>"
+                        <a role="button" href="update-presensi.php?id=<?= $id?>&induk=<?= $data['id']?>&ket=0&tgl=<?= $setDate?>"
                            class="btn btn-outline-danger btn-sm <?= $btnTidakHadir?>" aria-disabled="true">Tidak Hadir
                         </a>
                       </td></tr><?php

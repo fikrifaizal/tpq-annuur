@@ -1,5 +1,5 @@
 <?php 
-include_once('../../config.php');
+require_once('../../../config.php');
 
 // danger modal
 $setAlertCondition = false;
@@ -27,30 +27,12 @@ if(isset($_POST['tambah'])) {
     header("Location: presensi.php");
   }
 }
-
-// form ubah & hapus data
-if(!empty($_GET['action'])) {
-  $action = $_GET['action'];
-  $id = $_GET['id'];
-
-  // ubah data
-  if($action == "ubah") {
-    $query = "SELECT * FROM `filter_presensi` WHERE `id` LIKE '$id'";
-    $result = mysqli_query($conn, $query);
-    $data = mysqli_fetch_array($result, MYSQLI_ASSOC);
-    
-    
-  }
-  // hapus data
-  elseif($action == "ubah") {
-    
-  }  
-}
 ?>
 <!DOCTYPE html>
 <html>
   <head>
     <title>TPQ</title>
+    <link rel="shortcut icon" href="\tpq-annuur\assets\image\logo-annur-bulat.png">
     <!-- style css -->
     <link rel="stylesheet" href="\tpq-annuur\admin\layout\style.css" />
   </head>
@@ -58,14 +40,14 @@ if(!empty($_GET['action'])) {
   <body>
     <!-- sidebar & navbar -->
     <?php
-      include('../layout/sidebar.html');
+      include('../../layout/sidebar.html');
     ?>
 
     <!-- konten -->
     <main>
       <div class="container-fluid content transition">
         <h3>Buat Presensi Bulanan</h3>
-        <a href="presensi.php" class="btn btn-success btn-sm btn-back">
+        <a href="/tpq-annuur/admin/presensi-santri/presensi.php" class="btn btn-success btn-sm btn-back">
           <span><i class="bi bi-chevron-left"></i></span>
           <span>Kembali</span>
         </a>
