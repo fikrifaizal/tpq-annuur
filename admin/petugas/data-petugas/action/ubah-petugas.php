@@ -50,7 +50,7 @@ elseif(isset($_POST['hapus'])) {
   <body>
     <!-- sidebar & navbar -->
     <?php
-      include('../../../layout/sidebar.html');
+      include('../../../layout/sidebar.php');
     ?>
 
     <!-- konten -->

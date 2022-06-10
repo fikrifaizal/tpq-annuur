@@ -42,7 +42,7 @@ elseif(!empty($_GET['action']) && $_GET['action'] == "delete") {
   <body>
     <!-- sidebar & navbar -->
     <?php
-      include('../../../layout/sidebar.html');
+      include('../../../layout/sidebar.php');
     ?>
 
     <!-- konten -->

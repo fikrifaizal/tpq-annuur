@@ -1,39 +1,30 @@
 <?php
-include_once('../../config.php');
+include_once('../../../config.php');
 
 // connect & query database
 $nis = $_GET['nis'];
-$query = "SELECT santri.nama_lengkap as nama, jenjang.jenjang as jenjang, penilaian.jenjang_id as jenjang_id FROM `penilaian`
+$jilidAwal = $_GET['jilid'];
+
+$query = "SELECT santri.nama_lengkap as nama_lengkap, jenjang.jenjang as jenjang, penilaian.jenjang_id as jenjang_id FROM `penilaian`
           LEFT JOIN `santri` ON penilaian.santri_induk = santri.induk
           LEFT JOIN `jenjang` ON penilaian.jenjang_id = jenjang.id
-          WHERE `santri_induk` LIKE '$nis'";
+          WHERE penilaian.santri_induk LIKE '$nis' AND penilaian.jenjang_id LIKE '$jilidAwal'";
 $result = mysqli_query($conn, $query);
 $data = mysqli_fetch_array($result, MYSQLI_ASSOC);
 
 // get data from database
-$namaLengkap = $data['nama'];
-$jenjang = ucfirst(strtolower($data['jenjang']));
+$namaLengkap = $data['nama_lengkap'];
+$jenjangaAwal = ucwords(strtolower($data['jenjang']));
 
-if(isset($_POST['belumlulus'])) {
+if(isset($_POST['simpan'])) {
   $tanggal = $_POST['tanggal'];
-  $keterangan = "Belum Lulus";
+  $pengajar = $_POST['penguji'];
   
-  $query = "UPDATE penilaian SET `tanggal`='$tanggal', `keterangan`='$keterangan' WHERE `santri_induk` LIKE '$nis'";
+  $query = "UPDATE `penilaian` SET `tanggal`='$tanggal', `keterangan`='Lulus', `pengajar_id`='$pengajar' WHERE `santri_induk` LIKE '$nis' AND `jenjang_id` LIKE '$jilidAwal'";
   $result = mysqli_query($conn, $query);
 
-  header("Location: penilaian.php");
-}
-elseif(isset($_POST['lulus'])) {
-  $tanggal = $_POST['tanggal'];
-  $keterangan = "Lulus";
-  
-  $query = "UPDATE penilaian SET `tanggal`='$tanggal', `keterangan`='$keterangan' WHERE `santri_induk` LIKE '$nis'";
-  $result = mysqli_query($conn, $query);
-  
-
-  $newJenjang = $data['jenjang_id'] + 1;
-  $newKeterangan = "Belum Lulus";
-  $newQuery = "INSERT INTO penilaian(`santri_induk`, `jenjang_id`, `tanggal`, `keterangan`) VALUES ('$nis', '$newJenjang', '$tanggal', '$newKeterangan')";
+  $newJenjang = $_POST['jilid'];
+  $newQuery = "INSERT INTO `penilaian`(`santri_induk`, `jenjang_id`, `tanggal`, `keterangan`, `pengajar_id`) VALUES ('$nis', '$newJenjang', '$tanggal', 'Belum Ujian', '$pengajar')";
   $newResult = mysqli_query($conn, $newQuery);
 
   header("Location: penilaian.php");
@@ -44,7 +35,7 @@ elseif(isset($_POST['lulus'])) {
 <html>
   <head>
     <title>TPQ</title>
-    <link rel="shortcut icon" href="\tpq-annuur\image\logo-annur-bulat.png">
+    <link rel="shortcut icon" href="\tpq-annuur\assets\image\logo-annur-bulat.png">
     <!-- style css -->
     <link rel="stylesheet" href="\tpq-annuur\admin\layout\style.css" />
   </head>
@@ -52,7 +43,7 @@ elseif(isset($_POST['lulus'])) {
   <body>
     <!-- sidebar & navbar -->
     <?php
-      include('../layout/sidebar.html');
+      include('../../layout/sidebar.php');
     ?>
 
     <!-- konten -->
@@ -75,7 +66,7 @@ elseif(isset($_POST['lulus'])) {
               <div class="form-group row">
                 <label for="nis" class="col-sm-2 col-form-label">Nomor Induk Santri</label>
                 <div class="col-sm-10">
-                  <input type="text" name="nis" class="form-control" id="nis" value="<?= $nis;?>" disabled>
+                  <input type="text" name="nis" class="form-control" id="nis" value="<?= $nis?>" disabled>
                 </div>
               </div><br>
 
@@ -83,24 +74,42 @@ elseif(isset($_POST['lulus'])) {
               <div class="form-group row">
                 <label for="namaLengkap" class="col-sm-2 col-form-label">Nama Lengkap</label>
                 <div class="col-sm-10">
-                  <input type="text" name="namaLengkap" class="form-control" id="namaLengkap" value="<?= $namaLengkap;?>" disabled>
+                  <input type="text" name="namaLengkap" class="form-control" id="namaLengkap" value="<?= $namaLengkap?>" disabled>
                 </div>
               </div><br>
 
-              <!-- Jilid -->
+              <!-- Jilid Awal -->
               <div class="form-group row">
                 <label for="jilid" class="col-sm-2 col-form-label">Jilid Awal</label>
                 <div class="col-sm-10">
-                  <input type="text" name="jilid" class="form-control" id="jilid" value="<?= $jenjang;?>" disabled>
+                  <input type="text" name="jilid" class="form-control" id="jilid" value="<?= $jenjangaAwal?>" disabled>
                 </div>
               </div>
 
               <!-- divider -->
               <hr class="my-4">
 
+              <!-- Jilid Akhir -->
+              <div class="form-group row">
+                <label for="jilid" class="col-sm-2 col-form-label">Jilid Akhir</label>
+                <div class="col-sm-10">
+                  <select class="form-select" name="jilid" id="jilid" required>
+                    <option selected disabled>Pilih Jilid Akhir</option>
+                    <option value="0">Pra TK</option>
+                    <option value="1">Jilid 1</option>
+                    <option value="2">Jilid 2</option>
+                    <option value="3">Jilid 3</option>
+                    <option value="4">Jilid 4</option>
+                    <option value="5">Jilid 5</option>
+                    <option value="6">Jilid 6</option>
+                    <option value="7">Al Qur'an</option>
+                  </select>
+                </div>
+              </div><br>
+
               <!-- Tanggal -->
               <div class="form-group row">
-                <label for="tanggal" class="col-sm-2 col-form-label">Tanggal Sekarang</label>
+                <label for="tanggal" class="col-sm-2 col-form-label">Tanggal Penilaian</label>
                 <div class="col-sm-10">
                   <input type="date" name="tanggal" class="form-control" id="tanggal" required>
                 </div>
@@ -110,7 +119,17 @@ elseif(isset($_POST['lulus'])) {
               <div class="form-group row">
                 <label for="penguji" class="col-sm-2 col-form-label">Penguji</label>
                 <div class="col-sm-10">
-                  <input type="text" name="penguji" class="form-control" id="penguji" disabled>
+                  <select class="form-select" name="penguji" id="penguji" required>
+                    <option selected disabled>Pilih Nama Penguji</option>
+                    <?php
+                      $queryPenguji = "SELECT `id`,`nama` FROM `pengajar` ORDER BY `nama`";
+                      $resultPenguji = mysqli_query($conn, $queryPenguji);
+
+                      while($dataPenguji = mysqli_fetch_array($resultPenguji, MYSQLI_ASSOC)){
+                        echo "<option value='".$dataPenguji['id']."'>".$dataPenguji['nama']."</option>";
+                      }
+                    ?>
+                  </select>
                 </div>
               </div><br>
 
@@ -120,15 +139,11 @@ elseif(isset($_POST['lulus'])) {
                 <div class="col-sm-10">
                   <div class="row">
                     <div class="col col-md-6 d-grid gap-2">
-                      <button type="submit" name="belumlulus" class="btn btn-danger btn-block">
-                        <span><i class="bi "></i></span>
-                        <span>Belum Lulus</span>
-                      </button>
                     </div>
                     <div class="col col-md-6 d-grid gap-2">
-                      <button type="submit" name="lulus" class="btn btn-success btn-block">
+                      <button type="submit" name="simpan" class="btn btn-success btn-block">
                         <span><i class="bi bi-check"></i></span>
-                        <span>Lulus</span>
+                        <span>Simpan</span>
                       </button>
                     </div>
                   </div>

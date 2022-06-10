@@ -22,7 +22,7 @@
 .btn-info {
   background-color: #3C8DBC !important;
   border: var(--background-color) !important;
-  color: black !important;
+  color: white !important;
 }
 
 /* background color */
@@ -65,6 +65,12 @@
 .btn-filter:hover {  
   border-color: #08538A !important;
   color: #08538A !important;
+}
+
+/* datepicker button */
+.btn-input {
+  background-color: white !important;
+  border: 0.5px solid #C8CED4 !important;
 }
 
 /* pagination button */

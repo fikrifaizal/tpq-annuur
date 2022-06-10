@@ -23,7 +23,7 @@ $filterResult = mysqli_query($conn, $filterQuery);
   <body>
     <!-- sidebar & navbar -->
     <?php
-      include('../../layout/sidebar.html');
+      include('../../layout/sidebar.php');
     ?>
 
     <!-- konten -->

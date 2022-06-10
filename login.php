@@ -1,5 +1,6 @@
 <?php 
 require_once 'config.php';
+session_start();
 
 if(isset($_POST['login'])) {
   $username = $_POST['username'];
@@ -12,8 +13,8 @@ if(isset($_POST['login'])) {
   $data = mysqli_fetch_array($result, MYSQLI_ASSOC);
   
   if(!empty($data)){
-    $_SESSION['nama'] = $data['nama'];
-    $_SESSION['role'] = $data['roles'];
+    $_SESSION["nama"] = $data['nama'];
+    $_SESSION["role"] = $data['roles'];
 
     //set cookie
     setcookie('nama', $data['nama'], time()+3600, '/');

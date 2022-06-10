@@ -1,3 +1,10 @@
+<?php 
+session_start();
+$name = explode(" ", $_SESSION["nama"]);
+$role = explode(" ", $_SESSION["role"]);
+
+?>
+
 <!DOCTYPE html>
 <html>
   <head>
@@ -47,17 +54,13 @@
               <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle topbar-text" id="userDropdown" role="button"
                   data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                  <span class="mr-2 d-none d-lg-inline me-2">Douglas McGee</span>
+                  <span class="mr-2 d-none d-lg-inline me-2"><?= $name['0']?></span>
                   <img class="img-profile rounded-circle" src="\tpq-annuur\assets\image\user.png">
                 </a>
 
                 <!-- Dropdown User Information -->
                 <div class="dropdown-menu dropdown-menu-end dropdown-margin-top" aria-labelledby="userDropdown">
-                  <a class="dropdown-item" href="#">
-                    <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
-                    Profil
-                  </a>
-                  <a class="dropdown-item" href="#">
+                  <a class="dropdown-item" href="/tpq-annuur/admin/pengaturan/pengaturan.php">
                     <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
                     Pengaturan
                   </a>
@@ -84,7 +87,7 @@
               <img class="logo" src="\tpq-annuur\assets\image\logo.png" alt="" />
               <li class="mx-4">
                 <div class="navbar-divider"></div>
-                <span class="user-info text-light">Admin</span>
+                <span class="user-info text-light"><?= ucfirst(strtolower($role['0']))?></span>
               </li>
             </li>
 
@@ -172,7 +175,7 @@
             <li class="mx-4 mb-3">
               <div class="navbar-divider my-3"></div>
               <div class="text-light small fw-bold text-uppercase"><label>Keuangan TPQ</label></div>
-              <a href="/tpq-annuur/admin/presensi-pengajar/presensi.php" class="btn-sidebar nav-link text-light">
+              <a href="/tpq-annuur/admin/keuangan/keuangan.php" class="btn-sidebar nav-link text-light">
                 <span class="me-2"><i class="bi bi-house"></i></span>
                 <span>Laporan Keuangan</span>
               </a>

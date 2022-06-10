@@ -87,7 +87,7 @@ function query($connection, $filter, $date) {
   <body>
     <!-- sidebar & navbar -->
     <?php
-      include('../../../layout/sidebar.html');
+      include('../../../layout/sidebar.php');
     ?>
 
     <!-- konten -->
@@ -109,7 +109,7 @@ function query($connection, $filter, $date) {
                 <label for="btn-datepicker" class="col-sm-2 col-form-label">Tanggal Presensi</label>
                 <div class="col-sm-10">
                   <div class="input-group">
-                    <input type="text" name="tanggal" class="form-control btn text-start" id="btn-datepicker" value="<?= $tanggal?>" required readonly>
+                    <input type="text" name="tanggal" class="form-control btn btn-input text-start" id="btn-datepicker" value="<?= $tanggal?>" required readonly>
                     <button type="submit" name="cari" class="btn btn-success">
                       <span><i class="bi "></i></span>
                       <span>Tetapkan</span>

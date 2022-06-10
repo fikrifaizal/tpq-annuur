@@ -44,7 +44,7 @@ if(isset($_POST['tambah'])) {
   <body>
     <!-- sidebar & navbar -->
     <?php
-      include('../../../layout/sidebar.html');
+      include('../../../layout/sidebar.php');
     ?>
 
     <!-- konten -->
