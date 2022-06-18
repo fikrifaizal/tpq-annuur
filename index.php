@@ -8,7 +8,7 @@
   <body>
     <!-- sidebar & navbar -->
     <?php
-      include_once('dashboard.php');
+      include_once('login.php');
     ?>
   </body>
 </html>

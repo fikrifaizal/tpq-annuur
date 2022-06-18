@@ -2,50 +2,38 @@
 require_once('../../config.php');
 require_once('../helper.php');
 
-$query = "";
-
 // filter tanggal
 $startDate = "";
-$endDate = ""; 
+$endDate = "";
+$file = $kategori = "semua";
 
 if(isset($_POST['filter'])) {
-  $startDate = defaultDateFormat($_POST['start']);
-  $endDate = defaultDateFormat($_POST['end']);
-
-  // data santri
-  $result = query($conn, $id, $setDate);
-
-  header("Location: keuangan.php?start=$startDate&end=$endDate");
-}
-// ambil data setelah search
-elseif(!empty($_GET['start']) && !empty($_GET['end'])){
-  $setDate = $tahun."-".$bulanInt."-".$_GET['tgl'];
-  $tanggal = customDateFormat($setDate);
-
-  // data santri
-  $result = query($conn, $id, $setDate);
-}
-// get filter kas
-elseif(!empty($_GET['kas'])) {
-  if($_GET['kas'] == "masuk") {
-    $query = "SELECT * FROM `keuangan_tpq` WHERE `keluar` LIKE '0'";
-  } elseif($_GET['kas'] == "keluar") {
-    $query = "SELECT * FROM `keuangan_tpq` WHERE `masuk` LIKE '0'";
-  }
-}
-else {
-  $query = "SELECT * FROM `keuangan_tpq`";
-}
-
-// connect & query database
-$result = mysqli_query($conn, $query);
-
-function setIDRFormat(int $number) {
-  if($number > 0) {
-    return "Rp ".number_format($number,0,'.','.');
+  if(!empty($_POST['start']) && !empty($_POST['end'])) {
+    $startDate = defaultDateFormat($_POST['start']);
+    $endDate = defaultDateFormat($_POST['end']);
+    $kategori = $_POST['kategori'];
+  
+    header("Location: ?start=$startDate&end=$endDate&kategori=$kategori");
   } else {
-    return "";
+    $kategori = $_POST['kategori'];
+  
+    header("Location: ?kategori=$kategori");
   }
+}
+elseif(isset($_POST['hapus'])) {
+  header("Location: keuangan.php");
+}
+// set data on filter form
+elseif((!empty($_GET['start']) && !empty($_GET['end'])) || !empty($_GET['kategori'])){
+  if(!empty($_GET['start']) && !empty($_GET['end'])) {
+    $getStartDate = $_GET['start'];
+    $getEndDate = $_GET['end'];
+
+    $startDate = customDateFormat($getStartDate);
+    $endDate = customDateFormat($getEndDate);
+  }
+
+  $file = $kategori = $_GET['kategori'];
 }
 ?>
 
@@ -70,99 +58,139 @@ function setIDRFormat(int $number) {
     <main>
       <div class="container-fluid content transition">
         <h3>Keuangan TPQ</h3>
-        
-        <!-- card content -->
-        <div class="card border shadow">
-          <div class="card-body m-3">
 
+        <!-- start of first card -->
+        <div class="card border shadow mb-4">
+          <div class="card-header text-secondary">
+            <span><i class="bi bi-search me-2"></i></span>
+            <span>Filter Keuangan</span>
+          </div>
+
+          <div class="card-body m-3">
             <form method="post">
-              <!-- Tanggal -->
-              <div class="form-group row">
-                <div class="col-sm-12 input-daterange input-group" id="datepicker">
-                  <input type="text" class="form-control btn btn-input" name="start" placeholder="Pilih tanggal awal" value="<?= $startDate?>" readonly>
-                  <span class="input-group-text">to</span>
-                  <input type="text" class="form-control btn btn-input" name="end" placeholder="Pilih tanggal akhir" value="<?= $endDate?>" readonly>
+              <div class="row">
+
+                <!-- tanggal -->
+                <div class="col-sm-6">
+                  <p for="datepicker" class="form-label fw-bold">Tanggal</p>
+                  <div class="input-daterange input-group" id="datepicker">
+                    <input type="text" class="form-control btn btn-input" name="start" placeholder="Awal" value="<?= $startDate?>" readonly>
+                    <span class="input-group-text">ke</span>
+                    <input type="text" class="form-control btn btn-input" name="end" placeholder="Akhir" value="<?= $endDate?>" readonly>
+                  </div>
                 </div>
-              </div>
-              <div class="row my-3">
-                <div class="col-sm-12 d-grid">
-                  <button type="submit" name="filter" class="btn btn-info btn-block">
-                    <span><i class="bi bi-check"></i></span>
-                    <span>Filter Tanggal</span>
-                  </button>
+
+                <!-- kategori -->
+                <div class="col-sm-3">
+                  <p for="kategori" class="form-label fw-bold">Kategori</p>
+                  <select class="form-select" name="kategori" id="kategori">
+                    <option selected value="semua">Semua Kategori</option>
+                    <option value="masuk">Kas Masuk</option>
+                    <option value="keluar">Kas Keluar</option>
+                  </select>
+                </div>
+
+                <!-- button -->
+                <div class="col-sm-3 d-grid">
+                  <p for="btn-group" class="form-label fw-bold">&nbsp</p>
+                  <div class="btn-group" role="group" aria-label="Button group">
+                    <button type="submit" name="hapus" class="btn btn-danger btn-block">
+                      <span><i class="bi bi-check"></i></span>
+                      <span>Hapus</span>
+                    </button>
+                    <button type="submit" name="filter" class="btn btn-info btn-block">
+                      <span><i class="bi bi-check"></i></span>
+                      <span>Tampilkan</span>
+                    </button>
+                  </div>
                 </div>
               </div>
             </form>
-            
-            <!-- filter button -->
-            <div class="row">
-              <div class="col-sm-4 d-grid">
-                <a href="keuangan.php" class="btn btn-warning btn-block">
-                  <span><i class="bi "></i></span>
-                  <span>Semua</span>
-                </a>
-              </div>
-              <div class="col-sm-4 d-grid">
-                <a href="?kas=masuk" class="btn btn-success btn-block">
-                  <span><i class="bi "></i></span>
-                  <span>Kas Masuk</span>
-                </a>
-              </div>
-              <div class="col-sm-4 d-grid">
-                <a href="?kas=keluar" class="btn btn-danger btn-block">
-                  <span><i class="bi "></i></span>
-                  <span>Kas Keluar</span>
-                </a>
-              </div>
-            </div>
-            <hr class="my-3">
-
-            <!-- table -->
-            <div class="table-responsive">
-              <table class="table table-bordered table-hover dt-responsive nowrap" id="dataTables-table">
-                <thead class="table-secondary">
-                  <tr class="text-center align-middle">
-                    <th scope="col">#</th>
-                    <th scope="col">Tanggal</th>
-                    <th scope="col">Keterangan</th>
-                    <th scope="col">Kas Masuk</th>
-                    <th scope="col">Kas Keluar</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <?php
-                    $count = 1;
-                    $uangMasuk = 0;
-                    $uangKeluar = 0;
-
-                    // fetch data menjadi array asosisasi
-                    while($data = mysqli_fetch_array($result, MYSQLI_ASSOC)){
-                      echo "<tr class='text-center align-middle'><td>".$count++."</td>";
-                      echo "<td>".customDateFormat($data['tanggal'])."</td>";
-                      echo "<td>".$data['keterangan']."</td>";
-                      echo "<td>".setIDRFormat($data['masuk'])."</td>";
-                      echo "<td>".setIDRFormat($data['keluar'])."</td>";
-                      
-                      $uangMasuk = $uangMasuk+intval($data['masuk']);
-                      $uangKeluar = $uangKeluar+intval($data['keluar']);
-                    }
-                  ?>
-                </tbody>
-                <tfoot>
-                  <tr>
-                    <td colspan="3" class="fw-bold">Jumlah</td>
-                    <td class='text-center align-middle'><?= setIDRFormat($uangMasuk)?></td>
-                    <td class='text-center align-middle'><?= setIDRFormat($uangKeluar)?></td>
-                  </tr>
-                  <tr>
-                    <td colspan="3" class="fw-bold">Saldo Saat Ini</td>
-                    <td colspan="2" class='text-center align-middle'>Rp <?= number_format($uangMasuk-$uangKeluar,0,'.','.')?></td>
-                  </tr>
-                </tfoot>
-              </table>
-            </div>
           </div>
         </div>
+        <!-- end of first card -->
+
+        <!-- start of second card -->
+        <div class="card border shadow">
+          <div class="card-body m-3">
+            <div class="row">
+              <div class="col-sm">
+                <h5>Laporan Keuangan</h5>
+              </div>
+              <div class="col-sm">
+                <!-- button trigger modal -->
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#tambahKeuangan" style="float: right;">
+                  <span><i class="bi bi-plus"></i></span>
+                  <span>Tambah</span>
+                </button>
+
+                <!-- Modal -->
+                <form method="post" action="action/tambah.php">
+                  <div class="modal fade" id="tambahKeuangan" tabindex="-1" aria-labelledby="tambahKeuangan" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h5 class="modal-title" id="exampleModalLabel">Tambah Transaksi</h5>
+                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                          <!-- Keterangan -->
+                          <div class="form-group row">
+                            <label for="keterangan" class="col-sm-3 col-form-label">Keterangan</label>
+                            <div class="col-sm-9">
+                              <textarea name="keterangan" class="form-control" id="keterangan" maxlength="255" rows="2" required></textarea>
+                            </div>
+                          </div><br>
+
+                          <!-- Kategori -->
+                          <div class="form-group row">
+                            <label for="newkategori" class="col-sm-3 col-form-label">Kategori</label>
+                            <div class="col-sm-9">
+                              <select class="form-select" name="newkategori" id="newkategori">
+                                <option selected disabled></option>
+                                <option value="masuk">Kas Masuk</option>
+                                <option value="keluar">Kas Keluar</option>
+                              </select>
+                            </div>
+                          </div><br>
+
+                          <!-- Jumlah -->
+                          <div class="form-group row">
+                            <label for="jumlah" class="col-sm-3 col-form-label">Jumlah</label>
+                            <div class="col-sm-9">
+                              <input type="number" name="jumlah" class="form-control" id="jumlah" required>
+                            </div>
+                          </div><br>
+
+                          <!-- Tanggal -->
+                          <div class="form-group row">
+                            <label for="tanggal" class="col-sm-3 col-form-label">Keterangan</label>
+                            <div class="col-sm-9">
+                              <input type="date" name="tanggal" class="form-control" id="tanggal" required>
+                            </div>
+                          </div><br>
+
+                        </div>
+                        <div class="modal-footer">
+                          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                          <button type="submit" name="tambah" class="btn btn-success btn-block">
+                            <span><i class="bi "></i></span>
+                            <span>Simpan</span>
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div><hr class="my-3">
+
+            <!-- data on table -->
+            <?php include('kas/'.$file.'.php');?>
+          </div>
+        </div>
+        <!-- start of second card -->
+
       </div>
     </main>
     
@@ -179,5 +207,17 @@ function setIDRFormat(int $number) {
         });
       });
     </script>
+    <?php
+      // selected data in select form
+      $arrayform = ["semua","masuk","keluar"];
+      for($i=0; $i < count($arrayform); $i++) {
+        if(array_search($kategori, $arrayform) == $i) {
+          echo '<script type="text/javascript">
+                document.getElementById("kategori").getElementsByTagName("option")['.$i.'].selected = "selected"
+              </script>';
+          break;
+        }
+      }
+    ?>
   </body>
 </html>

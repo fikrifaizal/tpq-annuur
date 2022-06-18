@@ -74,4 +74,13 @@ function ifToday($month, $year) {
     return ["isToday"=>false, "date"=>""];
   }
 }
+
+// IDR format
+function setIDRFormat(int $number) {
+  if($number > 0) {
+    return "Rp ".number_format($number,0,'.','.');
+  } else {
+    return "";
+  }
+}
 ?>

@@ -5,6 +5,7 @@
 <html>
   <head>
     <title>TPQ</title>
+    <link rel="shortcut icon" href="\tpq-annuur\assets\image\logo-annur-bulat.png">
     <!-- style css -->
     <link rel="stylesheet" href="\tpq-annuur\admin\layout\style.css" />
   </head>
@@ -12,7 +13,7 @@
   <body>
     <!-- sidebar & navbar -->
     <?php
-      include('../layout/sidebar.php');
+      include('../../layout/sidebar.php');
     ?>
 
     <!-- konten -->

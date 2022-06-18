@@ -6,21 +6,23 @@ if(isset($_POST['login'])) {
   $username = $_POST['username'];
   $password = md5($_POST['password']);
 
-  $query = "SELECT `nama`, `roles` FROM user
+  $query = "SELECT `id`, `nama`, `roles` FROM user
             WHERE `username`='$username' AND `password`='$password'";
 
   $result = mysqli_query($conn, $query);
   $data = mysqli_fetch_array($result, MYSQLI_ASSOC);
   
   if(!empty($data)){
+    $_SESSION["id"] = $data['id'];
     $_SESSION["nama"] = $data['nama'];
     $_SESSION["role"] = $data['roles'];
 
     //set cookie
+    setcookie('id', $data['id'], time()+3600, '/');
     setcookie('nama', $data['nama'], time()+3600, '/');
     setcookie('role', $data['roles'], time()+3600, '/');
 
-    header("location: admin/index.php");
+    header("location: admin/dashboard.php");
   }
 }
 ?>

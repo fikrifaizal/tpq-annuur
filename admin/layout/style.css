@@ -67,6 +67,15 @@
   color: #08538A !important;
 }
 
+/* tabs */
+.nav-link {
+  color: #088A44 !important;
+}
+
+.nav-link.active {
+  color: black !important;
+}
+
 /* datepicker button */
 .btn-input {
   background-color: white !important;
