@@ -28,7 +28,7 @@ if(isset($_POST['tambah'])) {
             '$telpSantri', '$namaWali', '$pekerjaanWali', '$telpWali', '$alamat', '$infakBulanan')";
   $result = mysqli_query($conn, $query);
   
-  header("Location: ../santri.php?success=create");
+  header("Location: ../santri.php");
 }
 ?>
 
@@ -168,8 +168,8 @@ if(isset($_POST['tambah'])) {
                 <div class="col-sm-10">
                   <select class="form-select" name="infak" id="infak" required>
                     <option selected disabled>Pilih Infak Bulanan</option>
-                    <option value="Rp 50.000">Rp50.000</option>
-                    <option value="Rp 70.000">Rp70.000</option>
+                    <option value="50000">Rp 50.000</option>
+                    <option value="70000">Rp 70.000</option>
                   </select>
                 </div>
               </div><br>

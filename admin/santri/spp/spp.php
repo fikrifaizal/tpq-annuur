@@ -2,21 +2,13 @@
 require_once('../../../config.php');
 require_once('../../helper.php');
 
-$setMonth = monthConverter2(date("m"));
+$setMonth = date("m");
 $setYear = date("Y");
-$setDate = $setMonth." ".$setYear;
+$setDate = monthConverter2($setMonth)." ".$setYear;
 
 // connect & query database
 $query = "SELECT * FROM `santri`";
 $result = mysqli_query($conn, $query);
-
-
-// convert bulan (int) ke text
-function monthConverter2($month) {
-  $bulan = ["Januari","Februari","Maret","April","Mei","Juni","Juli","Agustus","September","Oktober","November","Desember"];
-  $convert = intval($month)-1;
-  return $bulan[$convert];
-}
 ?>
 
 <!DOCTYPE html>
@@ -67,7 +59,9 @@ function monthConverter2($month) {
                     // fetch data menjadi array asosisasi
                     while($data = mysqli_fetch_array($result, MYSQLI_ASSOC)){
                       // cek pembayaran
-                      $cekQuery = "SELECT COUNT(id) as id FROM `keuangan_tpq` WHERE `keterangan` LIKE '%".$data['nama_lengkap']."%'";
+                      $cekQuery = "SELECT COUNT(id) as id FROM `keuangan_tpq`
+                                  WHERE `tanggal` LIKE '%$setMonth%' AND
+                                  `keterangan` LIKE '%".$data['nama_lengkap']."%'";
                       $cekResult = mysqli_query($conn, $cekQuery);
                       $cekData = mysqli_fetch_array($cekResult, MYSQLI_ASSOC);
 
@@ -81,11 +75,37 @@ function monthConverter2($month) {
                       }
                       else { ?>
                         <td>
-                          <a type="button" class="btn btn-warning btn-sm" href="detail-spp.php?induk=<?= $data['induk']?>">
+                          <button type="button" class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#detailModal<?= $data['induk']?>">
                             <span><i class="bi bi-pencil"></i><span>
                             <span>Pilih</span>
-                          </a>
-                        </td></tr><?php
+                          </button>
+                        </td></tr>
+                      
+                      <!-- Modal Detail -->
+                      <div class="modal fade" id="detailModal<?=$data['induk']?>" tabindex="-1" aria-labelledby="detailModalLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+                          <div class="modal-content">
+                            <div class="modal-header">
+                              <h5 class="modal-title" id="exampleModalLabel">Konfirmasi Pembayaran</h5>
+                              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                              <div class="row">
+                                <label class="col-sm-5">Nomor Induk Santri</label>
+                                <p class="col-sm-7"><?=$data['induk']?></p>
+                              </div>
+                              <div class="row">
+                                <label class="col-sm-5">Nama Lengkap</label>
+                                <p class="col-sm-7"><?=$data['nama_lengkap']?></p>
+                              </div>
+                            </div>
+                            <div class="modal-footer">
+                              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                              <a role="button" class="btn btn-success" href="action-spp.php?induk=<?=$data['induk']?>">Konfirmasi</a>
+                            </div>
+                          </div>
+                        </div>
+                      </div><?php
                       }
                     }
                   ?>

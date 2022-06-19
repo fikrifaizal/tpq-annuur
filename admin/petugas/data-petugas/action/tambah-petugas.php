@@ -11,7 +11,7 @@ if(isset($_POST['tambah'])) {
   $query = "INSERT INTO `piket`(`nama`, `jenis_kelamin`, `alamat`, `no_telp`) VALUES ('$nama', '$gender', '$alamat', '$telp')";
   $result = mysqli_query($conn, $query);
   
-  header("Location: ../petugas.php?success=create");
+  header("Location: ../petugas.php");
 }
 ?>
 

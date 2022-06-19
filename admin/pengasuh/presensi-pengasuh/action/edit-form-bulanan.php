@@ -20,14 +20,14 @@ if(isset($_POST['edit'])) {
   $query = "UPDATE `filter_presensi` SET `bulan`='$bulan' WHERE `id` LIKE '$id'";
   $result = mysqli_query($conn, $query);
   
-  header("Location: ../presensi.php?success=edit");
+  header("Location: ../presensi.php");
 }
 // hapus data
 elseif(!empty($_GET['action']) && $_GET['action'] == "delete") {
   $query = "DELETE FROM `filter_presensi` WHERE `id` LIKE '$id'";
   $result = mysqli_query($conn, $query);
 
-  header("Location: ../presensi.php?success=delete");
+  header("Location: ../presensi.php");
 }
 ?>
 <!DOCTYPE html>

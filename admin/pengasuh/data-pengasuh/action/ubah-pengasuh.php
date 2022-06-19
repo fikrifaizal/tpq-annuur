@@ -40,7 +40,7 @@ elseif(isset($_POST['hapus'])) {
   $query = "DELETE FROM `pengajar` WHERE `id` LIKE '$id'";
   $result = mysqli_query($conn, $query);
   
-  header("Location: ../pengasuh.php?success=delete");
+  header("Location: ../pengasuh.php");
 }
 // perbarui sertifikat
 elseif(isset($_POST['perbarui'])) {
@@ -61,7 +61,7 @@ elseif(isset($_POST['perbarui'])) {
         $query = "UPDATE `pengajar` SET `sertifikat`='$sertifikat' WHERE `id` LIKE '$id'";
         $result = mysqli_query($conn, $query);
         
-        header("Location: ../pengasuh.php?success=edit");
+        header("Location: ../pengasuh.php");
       } else {      
         $setAlertCondition = true;
         $setAlertText = "File gagal di upload!";

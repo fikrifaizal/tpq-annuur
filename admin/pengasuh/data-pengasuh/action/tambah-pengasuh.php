@@ -31,7 +31,7 @@ if(isset($_POST['tambah'])) {
         $query = "INSERT INTO `pengajar`(`nama`, `jenis_kelamin`, `alamat`, `no_telp`, `sertifikat`) VALUES ('$nama', '$gender', '$alamat', '$telp', '$sertifikat')";
         $result = mysqli_query($conn, $query);
         
-        header("Location: ../pengasuh.php?success=create");
+        header("Location: ../pengasuh.php");
       } else {      
         $setAlertCondition = true;
         $setAlertText = "File gagal di upload!";

@@ -4,33 +4,6 @@ require_once('../../../config.php');
 // connect & query database
 $query = "SELECT * FROM `pengajar`";
 $result = mysqli_query($conn, $query);
-
-// danger alert
-$setAlertCondition = false;
-$setAlertText = "";
-$setAlertText2 = "";
-
-// show danger alert
-if(!empty($_GET['success'])) {
-  $action = $_GET['success'];
-
-  // create success
-  if($action == "create") {
-    $setAlertCondition = true;
-    $setAlertText = "Data berhasil dibuat!";
-  }
-  // edit success
-  elseif($action == "edit") {
-    $setAlertCondition = true;
-    $setAlertText = "Data berhasil diubah!";
-  }  
-  // delete success
-  elseif($action == "delete") {
-    $setAlertCondition = true;
-    $setAlertText = "Data berhasil dihapus!";
-  }  
-}
-
 ?>
 
 <!DOCTYPE html>
@@ -62,12 +35,6 @@ if(!empty($_GET['success'])) {
                 <span><i class="bi bi-plus"></i></span>
                 <span>Tambah Data Pengasuh</span>
               </a>
-            </div>
-            
-            <!-- danger alert -->
-            <div class="alert alert-success alert-dismissible fade show mt-3" id="alert">
-              <strong><?= $setAlertText?></strong> <?= $setAlertText2?>
-              <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div><hr class="my-3">
 
             <!-- table -->
@@ -151,19 +118,5 @@ if(!empty($_GET['success'])) {
         </div>
       </div>
     </main>
-
-    <!-- Javascript -->
-    <!-- Show Alert -->
-    <?php
-      if($setAlertCondition) {
-        echo '<script type="text/javascript">
-                $("#alert").show();
-              </script>';
-      } else {
-        echo '<script type="text/javascript">
-                $("#alert").hide();
-              </script>';
-      }
-    ?>
   </body>
 </html>

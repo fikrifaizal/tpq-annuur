@@ -21,6 +21,13 @@ function monthConverter($month) {
   }
 }
 
+// convert bulan (int) ke text
+function monthConverter2($month) {
+  $bulan = ["Januari","Februari","Maret","April","Mei","Juni","Juli","Agustus","September","Oktober","November","Desember"];
+  $convert = intval($month)-1;
+  return $bulan[$convert];
+}
+
 // mengganti bulan (inggris) ke bahasa indonesia
 function monthLocalization($month) {
   $english = ["January","February","March","April","May","June","July","August","September","October","November","December"];

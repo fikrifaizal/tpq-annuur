@@ -1,5 +1,6 @@
 <?php
 require_once('../../../config.php');
+require_once('../../helper.php');
 
 // connect & query database
 $query = "SELECT * FROM `santri`";
@@ -8,32 +9,6 @@ $result = mysqli_query($conn, $query);
 // function for date formatting
 function formatTanggal($date){
   return date('d-m-Y', strtotime($date));
-}
-
-// danger alert
-$setAlertCondition = false;
-$setAlertText = "";
-$setAlertText2 = "";
-
-// show danger alert
-if(!empty($_GET['success'])) {
-  $action = $_GET['success'];
-
-  // create success
-  if($action == "create") {
-    $setAlertCondition = true;
-    $setAlertText = "Data berhasil dibuat!";
-  }
-  // edit success
-  elseif($action == "edit") {
-    $setAlertCondition = true;
-    $setAlertText = "Data berhasil diubah!";
-  }  
-  // delete success
-  elseif($action == "delete") {
-    $setAlertCondition = true;
-    $setAlertText = "Data berhasil dihapus!";
-  }  
 }
 ?>
 
@@ -66,12 +41,6 @@ if(!empty($_GET['success'])) {
                 <span><i class="bi bi-plus"></i></span>
                 <span>Tambah Data Santri</span>
               </a>
-            </div>
-            
-            <!-- danger alert -->
-            <div class="alert alert-success alert-dismissible fade show mt-3" id="alert">
-              <strong><?= $setAlertText?></strong> <?= $setAlertText2?>
-              <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div><hr class="my-3">
 
             <!-- table -->
@@ -157,7 +126,7 @@ if(!empty($_GET['success'])) {
                               </div>
                               <div class="row">
                                 <label class="col-sm-5">Infak Bulanan</label>
-                                <p class="col-sm-7"><?=$data['infak_bulanan']?></p>
+                                <p class="col-sm-7"><?=setIDRFormat($data['infak_bulanan'])?></p>
                               </div>
                             </div>
                             <div class="modal-footer">
@@ -176,19 +145,5 @@ if(!empty($_GET['success'])) {
         </div>
       </div>
     </main>
-
-    <!-- Javascript -->
-    <!-- Show Alert -->
-    <?php
-      if($setAlertCondition) {
-        echo '<script type="text/javascript">
-                $("#alert").show();
-              </script>';
-      } else {
-        echo '<script type="text/javascript">
-                $("#alert").hide();
-              </script>';
-      }
-    ?>
   </body>
 </html>

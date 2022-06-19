@@ -27,14 +27,14 @@ if(isset($_POST['ubah'])) {
             WHERE `id` LIKE '$id'";
   $result = mysqli_query($conn, $query);
   
-  header("Location: ../petugas.php?success=edit");
+  header("Location: ../petugas.php");
 }
 // form hapus data
 elseif(isset($_POST['hapus'])) {
   $query = "DELETE FROM `piket` WHERE `id` LIKE '$id'";
   $result = mysqli_query($conn, $query);
 
-  header("Location: ../petugas.php?success=delete");
+  header("Location: ../petugas.php");
 }
 ?>
 

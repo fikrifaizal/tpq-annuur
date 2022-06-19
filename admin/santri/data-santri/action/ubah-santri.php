@@ -51,14 +51,14 @@ if(isset($_POST['ubah'])) {
             WHERE `induk` LIKE '$nis'";
   $result = mysqli_query($conn, $query);
   
-  header("Location: ../santri.php?success=edit");
+  header("Location: ../santri.php");
 }
 // form hapus data
 elseif(isset($_POST['hapus'])) {
   $query = "DELETE FROM `santri` WHERE `induk` LIKE '$nis'";
   $result = mysqli_query($conn, $query);
 
-  header("Location: ../santri.php?success=delete");
+  header("Location: ../santri.php");
 }
 ?>
 
@@ -198,8 +198,8 @@ elseif(isset($_POST['hapus'])) {
                 <div class="col-sm-10">
                   <select class="form-select" name="infak" id="infak" required>
                     <option disabled>Pilih Infak Bulanan</option>
-                    <option value="Rp 50.000">Rp50.000</option>
-                    <option value="Rp 70.000">Rp70.000</option>
+                    <option value="50000">Rp 50.000</option>
+                    <option value="70000">Rp 70.000</option>
                   </select>
                 </div>
               </div><br>

@@ -54,7 +54,7 @@ $role = explode(" ", $_SESSION["role"]);
               <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle topbar-text" id="userDropdown" role="button"
                   data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                  <span class="mr-2 d-none d-lg-inline me-2"><?= $name['0']?></span>
+                  <span class="mr-2 d-none d-lg-inline me-2"><?= ucfirst(strtolower($name['0']))?></span>
                   <img class="img-profile rounded-circle" src="\tpq-annuur\assets\image\user.png">
                 </a>
 
