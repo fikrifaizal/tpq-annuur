@@ -7,6 +7,17 @@ $query = "SELECT * FROM `pengajar` WHERE `id` LIKE '$id'";
 $result = mysqli_query($conn, $query);
 $data = mysqli_fetch_array($result, MYSQLI_ASSOC);
 
+// button sertifikat
+$sertifikat = "";
+$sertifText = "Tidak Ada Sertifikat";
+$disabled = "";
+if(!empty($data['sertifikat'])) {
+  $sertifikat = $data['sertifikat'];
+  $sertifText = "Lihat Sertifikat";
+} else {
+  $disabled = "disabled";
+}
+
 // danger alert
 $setAlertCondition = false;
 $setAlertText = "";
@@ -166,7 +177,9 @@ elseif(isset($_POST['perbarui'])) {
                 <label for="sertifikat" class="col-sm-2 col-form-label">Sertifikat</label>
                 <div class="col-sm-10">
                   <div class="btn-group" role="group">
-                    <a href="/tpq-annuur/assets/berkas/sertifikat/<?= $sertifikat?>" class="btn btn-outline-secondary" target="_blank">Lihat Sertifikat</a>
+                    <a href="/tpq-annuur/assets/berkas/sertifikat/<?= $sertifikat?>" class="btn btn-outline-secondary <?= $disabled?>" target="_blank" aria-disabled="true">
+                      <?= $sertifText?>
+                    </a>
                     <button type="button" class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#unggahModal">
                       Unggah Sertifikat Baru
                     </button>

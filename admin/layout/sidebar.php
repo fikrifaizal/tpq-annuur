@@ -1,5 +1,4 @@
 <?php 
-session_start();
 $name = explode(" ", $_SESSION["nama"]);
 $role = explode(" ", $_SESSION["role"]);
 

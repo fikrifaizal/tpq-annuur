@@ -57,7 +57,17 @@ $result = mysqli_query($conn, $query);
                       echo "<td>".$data['nama']."</td>";
                       echo "<td>".ucfirst(strtolower($data['jenis_kelamin']))."</td>";
                       echo "<td>".$data['no_telp']."</td>";
-                      $sertifikat = $data['sertifikat'];?>
+                      $sertifikat = "";
+                      $sertifText = "Tidak Ada Sertifikat";
+                      $disabled = "";
+
+                      if(!empty($data['sertifikat'])) {
+                        $sertifikat = $data['sertifikat'];
+                        $sertifText = "Lihat Sertifikat";
+                      } else {
+                        $disabled = "disabled";
+                      }
+                      ?>
                       <!-- button trigger modal detail -->
                       <td>
                         <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#detailModal<?= $data['id']?>">
@@ -98,7 +108,9 @@ $result = mysqli_query($conn, $query);
                               <div class="row">
                                 <label class="col-sm-5">Sertifikat</label>
                                 <div class="col-sm-7">
-                                  <a href="/tpq-annuur/assets/berkas/sertifikat/<?= $sertifikat?>" class="btn btn-outline-secondary btn-sm" target="_blank">Lihat Sertifikat</a>
+                                  <a href="/tpq-annuur/assets/berkas/sertifikat/<?= $sertifikat?>" class="btn btn-outline-secondary btn-sm <?= $disabled?>" target="_blank" aria-disabled="true">
+                                    <?= $sertifText?>
+                                  </a>
                                 </div>
                               </div>
                             </div>

@@ -27,6 +27,7 @@ $result = mysqli_query($conn, $query);
           <th scope="col">Tanggal</th>
           <th scope="col">Keterangan</th>
           <th scope="col">Kas Keluar</th>
+          <th scope="col">Aksi</th>
         </tr>
       </thead>
       <tbody>
@@ -37,12 +38,46 @@ $result = mysqli_query($conn, $query);
 
           // fetch data menjadi array asosisasi
           while($data = mysqli_fetch_array($result, MYSQLI_ASSOC)){
+            $uangKeluar = $uangKeluar+intval($data['keluar']);
+
+            // tabel
             echo "<tr class='text-center align-middle'><td>".$count++."</td>";
             echo "<td>".customDateFormat($data['tanggal'])."</td>";
-            echo "<td>".$data['keterangan']."</td>";
-            echo "<td>".setIDRFormat($data['keluar'])."</td>";
-            
-            $uangKeluar = $uangKeluar+intval($data['keluar']);
+            echo "<td class='text-start'>".$data['keterangan']."</td>";
+            echo "<td>".setIDRFormat($data['keluar'])."</td>";?>
+
+            <td>
+              <!-- button edit -->
+              <a href="/tpq-annuur/admin/keuangan/action/edit.php?kid=<?= $data['id']?>" class="btn btn-warning btn-sm">
+                <span><i class="bi bi-plus"></i></span>
+              </a>
+              <!-- button hapus -->
+              <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#hapusModal<?=$data['id']?>">
+                <span><i class="bi bi-plus"></i></span>
+              </button>
+            </td>
+
+            <!-- Modal Delete -->
+            <div class="modal fade" tabindex="-1" id="hapusModal<?=$data['id']?>" aria-hidden="true">
+              <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title">Peringatan!</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                  </div>
+                  <div class="modal-body">
+                    <span>Apakah anda yakin untuk menghapus data ini?</span>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tidak</button>
+                    <a href="/tpq-annuur/admin/keuangan/action/delete.php?kid=<?= $data['id']?>" class="btn btn-danger">
+                      <span><i class="bi "></i></span>
+                      <span>Hapus</span>
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div><?php
           }
         ?>
       </tbody>

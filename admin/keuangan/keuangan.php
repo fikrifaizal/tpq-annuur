@@ -164,7 +164,7 @@ elseif((!empty($_GET['start']) && !empty($_GET['end'])) || !empty($_GET['kategor
 
                           <!-- Tanggal -->
                           <div class="form-group row">
-                            <label for="tanggal" class="col-sm-3 col-form-label">Keterangan</label>
+                            <label for="tanggal" class="col-sm-3 col-form-label">Tanggal</label>
                             <div class="col-sm-9">
                               <input type="date" name="tanggal" class="form-control" id="tanggal" required>
                             </div>

@@ -1,6 +1,40 @@
 <?php
 require_once('../../config.php');
+session_start();
+$id = $_SESSION["id"];
 
+// danger modal
+$setAlertCondition = false;
+$setAlertText = "";
+
+$query = "SELECT `nama`,`username` FROM `user` WHERE `id` LIKE '$id'";
+$result = mysqli_query($conn, $query);
+$data = mysqli_fetch_array($result, MYSQLI_ASSOC);
+
+$nama = $data['nama'];
+$username = $data['username'];
+
+if(isset($_POST['ubah'])) {
+  $nama = $_POST['nama'];
+  $username = $_POST['username'];
+
+  if(isset($_POST['passwd'])) {
+    if($_POST['passwd'] == $_POST['passwdulang']) {
+      $passwd = password_hash($_POST['passwd'],PASSWORD_DEFAULT,['cost' => 10]);
+
+      $query = "UPDATE `user` SET `nama`='$nama',`username`='$username',`password`='$passwd' WHERE `id` LIKE '$id'";
+      $result = mysqli_query($conn, $query);
+
+      header("Location: ../dashboard.php");
+    } else {
+      $setAlertCondition = true;
+      $setAlertText = "Kedua password tidak sama!";
+    }
+  } else {
+    $query = "UPDATE `user` SET `nama`='$nama',`username`='$username' WHERE `id` LIKE '$id'";
+    $result = mysqli_query($conn, $query);
+  }
+}
 ?>
 
 <!DOCTYPE html>
@@ -36,7 +70,7 @@ require_once('../../config.php');
               <div class="form-group row">
                 <label for="nama" class="col-sm-2 col-form-label">Nama</label>
                 <div class="col-sm-10">
-                  <input type="text" name="nama" class="form-control" id="nama" required>
+                  <input type="text" name="nama" class="form-control" id="nama" value="<?= $nama?>" required>
                 </div>
               </div><br>
 
@@ -44,10 +78,16 @@ require_once('../../config.php');
               <div class="form-group row">
                 <label for="username" class="col-sm-2 col-form-label">Username</label>
                 <div class="col-sm-10">
-                  <input type="text" name="username" class="form-control" id="username" required>
+                  <input type="text" name="username" class="form-control" id="username" value="<?= $username?>" required>
                 </div>
               </div><hr>
 
+              <!-- danger alert -->
+              <div class="alert alert-danger alert-dismissible fade show" id="alert">
+                <strong><?= $setAlertText;?></strong>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+              </div>
+              
               <!-- Password -->
               <div class="form-group row">
                 <label for="passwdBaru" class="col-sm-2 col-form-label">Password Baru</label>
@@ -102,5 +142,19 @@ require_once('../../config.php');
         </div>
       </div>
     </main>
+
+    <!-- Javascript -->
+    <!-- Show Alert -->
+    <?php
+      if($setAlertCondition) {
+        echo '<script type="text/javascript">
+                $("#alert").show();
+              </script>';
+      } else {
+        echo '<script type="text/javascript">
+                $("#alert").hide();
+              </script>';
+      }
+    ?>
   </body>
 </html>

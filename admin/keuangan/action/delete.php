@@ -1,0 +1,14 @@
+<?php
+require_once('../../../config.php');
+
+if(isset($_GET['kid'])) {
+  $kid = $_GET['kid'];
+
+  $query = "DELETE FROM `keuangan_tpq` WHERE `id` LIKE '$kid'";
+  $result = mysqli_query($conn, $query);
+
+  header("Location: ../keuangan.php");
+} else {
+  header("Location: ../keuangan.php");
+}
+?>

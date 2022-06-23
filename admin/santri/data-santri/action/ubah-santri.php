@@ -65,7 +65,7 @@ elseif(isset($_POST['hapus'])) {
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Santri</title>
+    <title>TPQ</title>
     <link rel="shortcut icon" href="\tpq-annuur\assets\image\logo-annur-bulat.png">
     <!-- style css -->
     <link rel="stylesheet" href="\tpq-annuur\admin\layout\style.css" />
