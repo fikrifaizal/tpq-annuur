@@ -1,69 +1,84 @@
 <?php
 require_once('../../../../config.php');
-// file with many function
 require_once('../../../helper.php');
+require_once('../../../akses.php');
 
-// setting datepicker
-$id = $_GET['id'];
-$dateQuery = "SELECT * FROM `filter_presensi` WHERE `id` LIKE '$id'";
-$dateResult = mysqli_query($conn, $dateQuery);
-$dateData = mysqli_fetch_array($dateResult, MYSQLI_ASSOC);
-$tahun = $dateData['tahun'];
-$bulan = $dateData['bulan'];
-
-$bulanInt = monthConverter(strtoupper($bulan)); // convert bulan dari text ke angka
-$startDate = $tahun."-".$bulanInt."-01";
-$lastDate = lastOfMonth($bulanInt, $tahun);
-$today = ifToday($bulanInt, $tahun);
-$setDate = "";
-$tanggal = "";
-
-// search data with datepicker
-if(isset($_POST['cari'])) {
-  $tanggal = $_POST['tanggal'];
-  $setDate = defaultDateFormat($tanggal);
-  $explodeDate = explode("-",$setDate);
-  $filterDate = $explodeDate['2'];
-
-  // data santri
-  $result = query($conn, $id, $setDate);
-
-  header("Location: detail-presensi.php?id=$id&tgl=$filterDate");
-}
-// ambil data setelah search
-elseif(!empty($_GET['tgl'])){
-  $setDate = $tahun."-".$bulanInt."-".$_GET['tgl'];
-  $tanggal = customDateFormat($setDate);
-
-  // data santri
-  $result = query($conn, $id, $setDate);
-}
-// jika bulan adalah bulan sekarang (today)
-elseif($today['isToday']) {
-  $setDate = date("Y-m-d");
-  $tanggal = $today['date'];
-
-  $countQuery = "SELECT COUNT(santri_induk) as total FROM `presensi_santri`
-                  WHERE filter_id LIKE '$id' && tanggal LIKE '$setDate'";
-  $countResult = mysqli_query($conn, $countQuery);
-  $countData = mysqli_fetch_array($countResult, MYSQLI_ASSOC);
-
-  if($countData['total'] < 1) {
-    // insert from santri to presensi
-    $insertQuery = "INSERT INTO `presensi_santri`(`santri_induk`,`filter_id`,`keterangan`,`tanggal`)
-                    SELECT `induk`,'$id','','$setDate' FROM `santri` ORDER BY induk ASC";
-    $insertResult = mysqli_query($conn, $insertQuery);
+if(isset($_GET['id'])) {
+  // start of setting datepicker
+  $id = $_GET['id'];
+  $dateQuery = "SELECT * FROM `filter_presensi` WHERE `id` LIKE '$id'";
+  $dateResult = mysqli_query($conn, $dateQuery);
+  $dateData = mysqli_fetch_array($dateResult, MYSQLI_ASSOC);
+  $tahun = $dateData['tahun'];
+  $bulan = $dateData['bulan'];
+  
+  $bulanInt = monthConverter(strtoupper($bulan)); // convert bulan dari text ke angka
+  $startDate = $tahun."-".$bulanInt."-01";
+  $lastDate = lastOfMonth($bulanInt, $tahun);
+  $today = ifToday($bulanInt, $tahun);
+  // end of setting datepicker
+  
+  // search data with datepicker
+  if(isset($_POST['cari'])) {
+    $tanggal = $_POST['tanggal'];
+    $setDate = defaultDateFormat($tanggal);
+    $explodeDate = explode("-",$setDate);
+    $filterDate = $explodeDate['2'];
+  
+    // data santri
+    $result = query($conn, $id, $setDate);
+  
+    header("Location: detail-presensi.php?id=$id&tgl=$filterDate");
   }
-
-  // data santri
-  $result = query($conn, $id, $setDate);
-}
-else {
-  $setDate = $startDate;
-  $tanggal = customDateFormat($startDate);
-
-  // data santri
-  $result = query($conn, $id, $startDate);
+  // ambil data setelah search
+  elseif(!empty($_GET['tgl'])){
+    $setDate = $tahun."-".$bulanInt."-".$_GET['tgl'];
+    $tanggal = customDateFormat($setDate);
+  
+    // data santri
+    $result = query($conn, $id, $setDate);
+  }
+  // jika bulan adalah bulan sekarang (today)
+  elseif($today['isToday']) {
+    $setDate = date("Y-m-d");
+    $tanggal = $today['date'];
+  
+    $countQuery = "SELECT COUNT(santri_induk) as total FROM `presensi_santri`
+                    WHERE filter_id LIKE '$id' && tanggal LIKE '$setDate'";
+    $countResult = mysqli_query($conn, $countQuery);
+    $countData = mysqli_fetch_array($countResult, MYSQLI_ASSOC);
+  
+    if($countData['total'] < 1) {
+      // insert from santri to presensi
+      $insertQuery = "INSERT INTO `presensi_santri`(`santri_induk`,`filter_id`,`keterangan`,`tanggal`)
+                      SELECT `induk`,'$id','','$setDate' FROM `santri` ORDER BY induk ASC";
+      $insertResult = mysqli_query($conn, $insertQuery);
+    }
+  
+    // data santri
+    $result = query($conn, $id, $setDate);
+  }
+  else {
+    $setDate = $startDate;
+    $tanggal = customDateFormat($startDate);
+  
+    $countQuery = "SELECT COUNT(santri_induk) as total FROM `presensi_santri`
+                    WHERE filter_id LIKE '$id' && tanggal LIKE '$setDate'";
+    $countResult = mysqli_query($conn, $countQuery);
+    $countData = mysqli_fetch_array($countResult, MYSQLI_ASSOC);
+  
+    if($countData['total'] < 1) {
+      // insert from santri to presensi
+      $insertQuery = "INSERT INTO `presensi_santri`(`santri_induk`,`filter_id`,`keterangan`,`tanggal`)
+                      SELECT `induk`,'$id','','$setDate' FROM `santri` ORDER BY induk ASC";
+      $insertResult = mysqli_query($conn, $insertQuery);
+    }
+  
+    // data santri
+    $result = query($conn, $id, $startDate);
+  }
+} else {
+  header("Location: ../presensi.php");
 }
 
 // data santri

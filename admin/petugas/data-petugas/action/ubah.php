@@ -1,16 +1,35 @@
 <?php
 require_once('../../../../config.php');
+require_once('../../../akses.php');
 
-// form tambah data
-if(isset($_POST['tambah'])) {
-  $nama = $_POST['nama'];
-  $gender = $_POST['gender'];
-  $alamat = $_POST['alamat'];
-  $telp = $_POST['nomortelepon'];
-
-  $query = "INSERT INTO `piket`(`nama`, `jenis_kelamin`, `alamat`, `no_telp`) VALUES ('$nama', '$gender', '$alamat', '$telp')";
+if(isset($_GET['id'])) {
+  // connect & query database
+  $id = $_GET['id'];
+  $query = "SELECT * FROM `piket` WHERE `id` LIKE '$id'";
   $result = mysqli_query($conn, $query);
+  $data = mysqli_fetch_array($result, MYSQLI_ASSOC);
   
+  // get data from database
+  $nama = $data['nama'];
+  $gender = $data['jenis_kelamin'];
+  $alamat = $data['alamat'];
+  $telp = $data['no_telp'];
+  
+  // form ubah data
+  if(isset($_POST['ubah'])) {
+    $nama = $_POST['nama'];
+    $gender = $_POST['gender'];
+    $alamat = $_POST['alamat'];
+    $telp = $_POST['nomortelepon'];
+  
+    // send data to db
+    $query = "UPDATE `piket` SET `nama`='$nama',`jenis_kelamin`='$gender',
+              `alamat`='$alamat',`no_telp`='$telp' WHERE `id` LIKE '$id'";
+    $result = mysqli_query($conn, $query);
+    
+    header("Location: ../petugas.php");
+  }
+} else {
   header("Location: ../petugas.php");
 }
 ?>
@@ -33,7 +52,7 @@ if(isset($_POST['tambah'])) {
     <!-- konten -->
     <main>
       <div class="container-fluid content transition">
-        <h3>Tambah Data Petugas</h3>
+        <h3>Update Data Petugas</h3>
         <a href="/tpq-annuur/admin/petugas/data-petugas/petugas.php" class="btn btn-success btn-sm btn-back">
           <span><i class="bi bi-chevron-left"></i></span>
           <span>Kembali</span>
@@ -42,13 +61,15 @@ if(isset($_POST['tambah'])) {
         <!-- card content -->
         <div class="card border shadow">
           <div class="card-body m-3">
+
+            <!-- form input -->
             <form method="post" enctype="multipart/form-data">
 
               <!-- Nomor Induk -->
               <div class="form-group row">
                 <label for="induk" class="col-sm-2 col-form-label">Nomor Induk</label>
                 <div class="col-sm-10">
-                  <input type="text" name="induk" class="form-control" id="induk" disabled>
+                  <input type="text" name="induk" class="form-control" id="induk" value="<?= $id?>" disabled>
                 </div>
               </div><br>
 
@@ -56,7 +77,7 @@ if(isset($_POST['tambah'])) {
               <div class="form-group row">
                 <label for="nama" class="col-sm-2 col-form-label">Nama Lengkap</label>
                 <div class="col-sm-10">
-                  <input type="text" name="nama" class="form-control" id="nama" required>
+                  <input type="text" name="nama" class="form-control" id="nama" value="<?= $nama?>" required>
                 </div>
               </div><br>
 
@@ -65,7 +86,7 @@ if(isset($_POST['tambah'])) {
                 <label for="gender" class="col-sm-2 col-form-label">Jenis Kelamin</label>
                 <div class="col-sm-10">
                   <select class="form-select" name="gender" id="gender" required>
-                    <option value="" selected disabled>Pilih Jenis Kelamin</option>
+                    <option value="" disabled>Pilih Jenis Kelamin</option>
                     <option value="LAKI-LAKI">Laki-laki</option>
                     <option value="PEREMPUAN">Perempuan</option>
                   </select>
@@ -76,7 +97,7 @@ if(isset($_POST['tambah'])) {
               <div class="form-group row">
                 <label for="alamat" class="col-sm-2 col-form-label">Alamat</label>
                 <div class="col-sm-10">
-                  <textarea name="alamat" class="form-control" id="alamat" required></textarea>
+                  <textarea name="alamat" class="form-control" id="alamat" required><?= $alamat?></textarea>
                 </div>
               </div><br>
 
@@ -84,7 +105,7 @@ if(isset($_POST['tambah'])) {
               <div class="form-group row">
                 <label for="nomortelepon" class="col-sm-2 col-form-label">Nomor Telepon</label>
                 <div class="col-sm-10">
-                  <input type="number" name="nomortelepon" class="form-control" id="nomortelepon" required>
+                  <input type="number" name="nomortelepon" class="form-control" id="nomortelepon" value="<?= $telp?>" required>
                 </div>
               </div><br>
 
@@ -94,15 +115,33 @@ if(isset($_POST['tambah'])) {
                 <div class="col-sm-10">
                   <div class="row">
                     <div class="col col-md-6 d-grid gap-2">
-                      <button type="reset" class="btn btn-danger btn-block">
-                        <span><i class="bi "></i></span>
-                        <span>Reset Data</span>
-                      </button>
                     </div>
                     <div class="col col-md-6 d-grid gap-2">
-                      <button type="submit" name="tambah" class="btn btn-success btn-block">
+                      <button type="submit" name="ubah" class="btn btn-success btn-block">
                         <span><i class="bi "></i></span>
-                        <span>Tambah Data</span>
+                        <span>Ubah Data</span>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Delete Modal Danger -->
+              <div class="modal fade" tabindex="-1" id="deleteModalDanger" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title">Peringatan!</h5>
+                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                      <span>Apakah anda yakin untuk menghapus data ini?</span>
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tidak</button>
+                      <button type="submit" name="hapus" class="btn btn-danger">
+                        <span><i class="bi "></i></span>
+                        <span>Hapus</span>
                       </button>
                     </div>
                   </div>

@@ -1,33 +1,32 @@
 <?php 
 require_once('../../../../config.php');
+require_once('../../../akses.php');
 
 // danger modal
 $setAlertCondition = false;
 $setAlertText = "";
 
-$id = $_GET['id'];
+// tahun sekarang
+$tahun = date('Y');
 
-$query = "SELECT * FROM `filter_presensi` WHERE `id` LIKE '$id'";
-$result = mysqli_query($conn, $query);
-$data = mysqli_fetch_array($result, MYSQLI_ASSOC);
-
-$bulan = $data['bulan'];
-$tahun = $data['tahun'];
-
-if(isset($_POST['edit'])) {
+// form tambah data
+if(isset($_POST['tambah'])) {
   $bulan = strtoupper($_POST['bulan']);
 
-  $query = "UPDATE `filter_presensi` SET `bulan`='$bulan' WHERE `id` LIKE '$id'";
-  $result = mysqli_query($conn, $query);
-  
-  header("Location: ../presensi.php");
-}
-// hapus data
-elseif(!empty($_GET['action']) && $_GET['action'] == "delete") {
-  $query = "DELETE FROM `filter_presensi` WHERE `id` LIKE '$id'";
-  $result = mysqli_query($conn, $query);
+  // mencari data yang sama dengan yang diinput
+  $queryCount = "SELECT COUNT(`id`) as total FROM `filter_presensi` WHERE `bulan` LIKE '$bulan' AND `tahun` LIKE '$tahun'";
+  $resultCount = mysqli_query($conn, $queryCount);
+  $dataCount = mysqli_fetch_array($resultCount, MYSQLI_ASSOC);
 
-  header("Location: ../presensi.php");
+  // membandingkan kesamaan data
+  if($dataCount['total'] >= 1) {
+    $setAlertCondition = true;
+    $setAlertText = "Presensi bulan dan tahun ini sudah dibuat";
+  } else {
+    $query = "INSERT INTO `filter_presensi`(`bulan`,`tahun`) VALUES ('$bulan','$tahun')";
+    $result = mysqli_query($conn, $query);
+    header("Location: ../presensi.php");
+  }
 }
 ?>
 <!DOCTYPE html>
@@ -48,8 +47,8 @@ elseif(!empty($_GET['action']) && $_GET['action'] == "delete") {
     <!-- konten -->
     <main>
       <div class="container-fluid content transition">
-        <h3>Ubah Presensi Bulanan</h3>
-        <a href="/tpq-annuur/admin/santri/presensi-santri/presensi.php" class="btn btn-success btn-sm btn-back">
+        <h3>Buat Presensi Bulanan</h3>
+        <a href="/tpq-annuur/admin/petugas/presensi-petugas/presensi.php" class="btn btn-success btn-sm btn-back">
           <span><i class="bi bi-chevron-left"></i></span>
           <span>Kembali</span>
         </a>
@@ -65,14 +64,14 @@ elseif(!empty($_GET['action']) && $_GET['action'] == "delete") {
           <div class="card-body m-3">
 
             <!-- form input -->
-            <form method="post" class="was-validated">
+            <form method="post">
 
               <!-- Bulan -->
               <div class="form-group row">
                 <label for="bulan" class="col-sm-2 col-form-label">Bulan</label>
                 <div class="col-sm-10">
                   <select class="form-select" name="bulan" id="bulan" required>
-                    <option value="" disabled>Pilih Bulan</option>
+                    <option value="" selected disabled>Pilih Bulan</option>
                     <option value="Januari">Januari</option>
                     <option value="Februari">Februari</option>
                     <option value="Maret">Maret</option>
@@ -103,15 +102,11 @@ elseif(!empty($_GET['action']) && $_GET['action'] == "delete") {
                 <div class="col-sm-10">
                   <div class="row">
                     <div class="col col-md-6 d-grid gap-2">
-                      <button type="button" class="btn btn-danger btn-block" data-bs-toggle="modal" data-bs-target="#deleteModalDanger">
-                        <span><i class="bi "></i></span>
-                        <span>Hapus Data</span>
-                      </button>
                     </div>
                     <div class="col col-md-6 d-grid gap-2">
-                      <button type="submit" name="edit" class="btn btn-success btn-block">
+                      <button type="submit" name="tambah" class="btn btn-success btn-block">
                         <span><i class="bi "></i></span>
-                        <span>Ubah</span>
+                        <span>Buat</span>
                       </button>
                     </div>
                   </div>
@@ -124,20 +119,8 @@ elseif(!empty($_GET['action']) && $_GET['action'] == "delete") {
     </main>
 
     <!-- Javascript -->
+    <!-- Show Alert -->
     <?php
-      // selected data in select form
-      $arrayBulan = ["JANUARI","FEBRUARI","MARET","APRIL","MEI","JUNI","JULI","AGUSTUS","SEPTEMBER","OKTOBER","NOVEMBER","DESEMBER"];
-      for($i=0; $i < count($arrayBulan); $i++) {
-        if(array_search($bulan, $arrayBulan) == $i) {
-          $i = $i+1;
-          echo '<script type="text/javascript">
-                document.getElementById("bulan").getElementsByTagName("option")['.$i.'].selected = "selected"
-              </script>';
-          break;
-        }
-      }
-
-      // Show Alert
       if($setAlertCondition) {
         echo '<script type="text/javascript">
                 $("#alert").show();

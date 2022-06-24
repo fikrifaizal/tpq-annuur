@@ -1,7 +1,8 @@
 <?php
 require_once('../../../config.php');
 require_once('../../helper.php');
-session_start();
+require_once('../../akses.php');
+
 $id = $_SESSION['id'];
 $date = date("Y-m-d");
 $month = monthConverter2(date("m"));

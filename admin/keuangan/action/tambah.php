@@ -1,6 +1,7 @@
 <?php
 require_once('../../../config.php');
-session_start();
+require_once('../../akses.php');
+
 $id = $_SESSION["id"];
 
 $keterangan = $_POST['keterangan'];
@@ -9,10 +10,10 @@ $jumlah = $_POST['jumlah'];
 $tanggal = $_POST['tanggal'];
 
 if($kategori == "masuk") {
-  $query = "INSERT INTO `keuangan_tpq`(`keterangan`, `keluar`, `masuk`, `tanggal`, `user_id`) VALUES ('$keterangan', '0', '$jumlah', '$tanggal', '$id')";
+  $query = "INSERT INTO `keuangan_tpq`(`keterangan`,`keluar`,`masuk`,`tanggal`,`user_id`) VALUES ('$keterangan','0','$jumlah','$tanggal','$id')";
 }
 elseif($kategori == "keluar") {
-  $query = "INSERT INTO `keuangan_tpq`(`keterangan`, `keluar`, `masuk`, `tanggal`, `user_id`) VALUES ('$keterangan', '$jumlah', '0', '$tanggal', '$id')";
+  $query = "INSERT INTO `keuangan_tpq`(`keterangan`,`keluar`,`masuk`,`tanggal`,`user_id`) VALUES ('$keterangan','$jumlah','0','$tanggal','$id')";
 }
 
 $result = mysqli_query($conn, $query);

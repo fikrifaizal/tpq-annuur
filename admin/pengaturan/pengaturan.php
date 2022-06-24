@@ -1,6 +1,6 @@
 <?php
 require_once('../../config.php');
-session_start();
+require_once('../akses.php');
 $id = $_SESSION["id"];
 
 // danger modal

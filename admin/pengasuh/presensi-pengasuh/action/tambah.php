@@ -1,5 +1,6 @@
 <?php 
 require_once('../../../../config.php');
+require_once('../../../akses.php');
 
 // danger modal
 $setAlertCondition = false;
@@ -22,7 +23,7 @@ if(isset($_POST['tambah'])) {
     $setAlertCondition = true;
     $setAlertText = "Presensi bulan dan tahun ini sudah dibuat";
   } else {
-    $query = "INSERT INTO `filter_presensi`(`bulan`, `tahun`) VALUES ('$bulan', '$tahun')";
+    $query = "INSERT INTO `filter_presensi`(`bulan`,`tahun`) VALUES ('$bulan','$tahun')";
     $result = mysqli_query($conn, $query);
     header("Location: ../presensi.php");
   }
@@ -63,7 +64,7 @@ if(isset($_POST['tambah'])) {
           <div class="card-body m-3">
 
             <!-- form input -->
-            <form method="post" class="was-validated">
+            <form method="post">
 
               <!-- Bulan -->
               <div class="form-group row">

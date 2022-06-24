@@ -1,6 +1,7 @@
 <?php
 require_once('../../../config.php');
 require_once('../../helper.php');
+require_once('../../akses.php');
 
 if(isset($_GET['kid'])) {
   $kid = $_GET['kid'];
@@ -28,12 +29,13 @@ if(isset($_GET['kid'])) {
     $tanggal = $_POST['tanggal'];
 
     if($kategori == "masuk") {
-      $query = "UPDATE `keuangan_tpq` SET `keterangan`='$keterangan', `keluar`='0', `masuk`='$jumlah', `tanggal`='$tanggal', `user_id`='$id' WHERE `id` LIKE '$kid'";
+      $query = "UPDATE `keuangan_tpq` SET `keterangan`='$keterangan',`keluar`='0',`masuk`='$jumlah',`tanggal`='$tanggal',`user_id`='$id' WHERE `id` LIKE '$kid'";
     }
     elseif($kategori == "keluar") {
-      $query = "UPDATE `keuangan_tpq` SET `keterangan`='$keterangan', `keluar`='0', `masuk`='$jumlah', `tanggal`='$tanggal', `user_id`='$id' WHERE `id` LIKE '$kid'";
+      $query = "UPDATE `keuangan_tpq` SET `keterangan`='$keterangan',`keluar`='0',`masuk`='$jumlah',`tanggal`='$tanggal',`user_id`='$id' WHERE `id` LIKE '$kid'";
     }
     $result = mysqli_query($conn, $query);
+
     header("Location: ../keuangan.php");
   }
 } else {

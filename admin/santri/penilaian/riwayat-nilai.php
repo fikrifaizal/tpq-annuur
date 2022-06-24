@@ -1,13 +1,12 @@
 <?php
 require_once('../../../config.php');
 require_once('../../helper.php');
-
+require_once('../../akses.php');
 
 $query = "SELECT santri.nama_lengkap as nama_lengkap, penilaian.jenjang_id as jenjang_id,
           penilaian.tanggal as tanggal, penilaian.keterangan FROM `penilaian`
           LEFT JOIN `santri` ON penilaian.santri_induk = santri.induk
           WHERE penilaian.keterangan LIKE '%Lulus%' ORDER BY penilaian.tanggal DESC";
-
 $result = mysqli_query($conn, $query);
 
 // filter

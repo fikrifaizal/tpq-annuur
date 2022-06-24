@@ -1,32 +1,37 @@
 <?php
 include_once('../../../config.php');
+require_once('../../akses.php');
 
-// connect & query database
-$nis = $_GET['nis'];
-$jilidAwal = $_GET['jilid'];
-
-$query = "SELECT santri.nama_lengkap as nama_lengkap, jenjang.jenjang as jenjang, penilaian.jenjang_id as jenjang_id FROM `penilaian`
-          LEFT JOIN `santri` ON penilaian.santri_induk = santri.induk
-          LEFT JOIN `jenjang` ON penilaian.jenjang_id = jenjang.id
-          WHERE penilaian.santri_induk LIKE '$nis' AND penilaian.jenjang_id LIKE '$jilidAwal'";
-$result = mysqli_query($conn, $query);
-$data = mysqli_fetch_array($result, MYSQLI_ASSOC);
-
-// get data from database
-$namaLengkap = $data['nama_lengkap'];
-$jenjangaAwal = ucwords(strtolower($data['jenjang']));
-
-if(isset($_POST['simpan'])) {
-  $tanggal = $_POST['tanggal'];
-  $pengajar = $_POST['penguji'];
+if(isset($_GET['nis'])) {
+  $nis = $_GET['nis'];
+  $jilidAwal = $_GET['jilid'];
   
-  $query = "UPDATE `penilaian` SET `tanggal`='$tanggal', `keterangan`='Lulus', `pengajar_id`='$pengajar' WHERE `santri_induk` LIKE '$nis' AND `jenjang_id` LIKE '$jilidAwal'";
+  // connect & query database
+  $query = "SELECT santri.nama_lengkap as nama_lengkap, jenjang.jenjang as jenjang, penilaian.jenjang_id as jenjang_id FROM `penilaian`
+            LEFT JOIN `santri` ON penilaian.santri_induk = santri.induk
+            LEFT JOIN `jenjang` ON penilaian.jenjang_id = jenjang.id
+            WHERE penilaian.santri_induk LIKE '$nis' AND penilaian.jenjang_id LIKE '$jilidAwal'";
   $result = mysqli_query($conn, $query);
-
-  $newJenjang = $_POST['jilid'];
-  $newQuery = "INSERT INTO `penilaian`(`santri_induk`, `jenjang_id`, `tanggal`, `keterangan`, `pengajar_id`) VALUES ('$nis', '$newJenjang', '$tanggal', 'Belum Ujian', '$pengajar')";
-  $newResult = mysqli_query($conn, $newQuery);
-
+  $data = mysqli_fetch_array($result, MYSQLI_ASSOC);
+  
+  // get data from database
+  $namaLengkap = $data['nama_lengkap'];
+  $jenjangaAwal = ucwords(strtolower($data['jenjang']));
+  
+  if(isset($_POST['simpan'])) {
+    $tanggal = $_POST['tanggal'];
+    $pengajar = $_POST['penguji'];
+    
+    $query = "UPDATE `penilaian` SET `tanggal`='$tanggal', `keterangan`='Lulus', `pengajar_id`='$pengajar' WHERE `santri_induk` LIKE '$nis' AND `jenjang_id` LIKE '$jilidAwal'";
+    $result = mysqli_query($conn, $query);
+  
+    $newJenjang = $_POST['jilid'];
+    $newQuery = "INSERT INTO `penilaian`(`santri_induk`, `jenjang_id`, `tanggal`, `keterangan`, `pengajar_id`) VALUES ('$nis', '$newJenjang', '$tanggal', 'Belum Ujian', '$pengajar')";
+    $newResult = mysqli_query($conn, $newQuery);
+  
+    header("Location: penilaian.php");
+  }
+} else {
   header("Location: penilaian.php");
 }
 ?>

@@ -1,5 +1,6 @@
 <?php
 require_once('../../../config.php');
+require_once('../../akses.php');
 
 // connect & query database
 $query = "SELECT * FROM `piket`";
@@ -31,7 +32,7 @@ $result = mysqli_query($conn, $query);
           <div class="card-body m-3">
             <!-- button tambah data -->
             <div>
-              <a href="action/tambah-petugas.php" class="btn btn-success">
+              <a href="action/tambah.php" class="btn btn-success">
                 <span><i class="bi bi-plus"></i></span>
                 <span>Tambah Data Petugas</span>
               </a>
@@ -62,6 +63,9 @@ $result = mysqli_query($conn, $query);
                         <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#detailModal<?= $data['id']?>">
                           <span><i class="bi bi-pencil"></i><span>
                           <span>Detail Lengkap</span>
+                        </button>
+                        <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#deleteModalDanger<?= $data['id']?>">
+                          <span><i class="bi bi-pencil"></i><span>
                         </button>
                       </td></tr>
                       
@@ -97,7 +101,29 @@ $result = mysqli_query($conn, $query);
                             </div>
                             <div class="modal-footer">
                               <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                              <a role="button" class="btn btn-primary" href="action/ubah-petugas.php?id=<?= $data['id']?>">Edit</a>
+                              <a role="button" class="btn btn-primary" href="action/ubah.php?id=<?= $data['id']?>">Edit</a>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      <!-- Delete Modal Danger -->
+                      <div class="modal fade" tabindex="-1" id="deleteModalDanger<?= $data['id']?>" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered">
+                          <div class="modal-content">
+                            <div class="modal-header">
+                              <h5 class="modal-title">Peringatan!</h5>
+                              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                              <span>Apakah anda yakin untuk menghapus data ini?</span>
+                            </div>
+                            <div class="modal-footer">
+                              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tidak</button>
+                              <a href="/tpq-annuur/admin/pengasuh/data-pengasuh/action/delete.php?id=<?= $data['id']?>" class="btn btn-danger">
+                                <span><i class="bi "></i></span>
+                                <span>Hapus</span>
+                              </a>
                             </div>
                           </div>
                         </div>

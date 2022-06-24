@@ -1,12 +1,14 @@
 <?php
 require_once('../../config.php');
 require_once('../helper.php');
+require_once('../akses.php');
 
-// filter tanggal
+// variabel for filter
 $startDate = "";
 $endDate = "";
 $file = $kategori = "semua";
 
+// set filter
 if(isset($_POST['filter'])) {
   if(!empty($_POST['start']) && !empty($_POST['end'])) {
     $startDate = defaultDateFormat($_POST['start']);
@@ -20,6 +22,7 @@ if(isset($_POST['filter'])) {
     header("Location: ?kategori=$kategori");
   }
 }
+// hapus filter
 elseif(isset($_POST['hapus'])) {
   header("Location: keuangan.php");
 }

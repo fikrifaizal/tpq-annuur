@@ -1,5 +1,6 @@
 <?php
 require_once('../../../config.php');
+require_once('../../akses.php');
 
 // tahun sekarang
 $tahun = date('Y');
@@ -37,7 +38,7 @@ $filterResult = mysqli_query($conn, $filterQuery);
             
             <div class="row">
               <div class="col-sm">
-                <a href="action/tambah-form-bulanan.php" class="btn btn-success">
+                <a href="action/tambah.php" class="btn btn-success">
                   <span><i class="bi bi-plus"></i></span>
                   <span>Tambah Absensi Bulanan</span>
                 </a>
@@ -85,7 +86,7 @@ $filterResult = mysqli_query($conn, $filterQuery);
                         <button type="button" class="btn btn-success btn-sm">Rekap</button>
                       </td>
                       <td>
-                        <a role="button" href="action/edit-form-bulanan.php?id=<?= $data['id']?>" class="btn btn-warning btn-sm">
+                        <a role="button" href="action/edit.php?id=<?= $data['id']?>" class="btn btn-warning btn-sm">
                           <span><i class="bi bi-pencil"></i><span>
                           <span>Ubah</span>
                         </a>
@@ -108,7 +109,7 @@ $filterResult = mysqli_query($conn, $filterQuery);
                             </div>
                             <div class="modal-footer">
                               <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tidak</button>
-                              <a role="button" href="action/edit-form-bulanan.php?action=delete&id=<?= $data['id']?>" class="btn btn-danger">
+                              <a role="button" href="action/delete.php?id=<?= $data['id']?>" class="btn btn-danger">
                                 <span><i class="bi bi-pencil"></i><span>
                                 <span>Hapus</span>
                               </a>

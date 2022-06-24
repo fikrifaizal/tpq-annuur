@@ -1,93 +1,91 @@
 <?php
 require_once('../../../../config.php');
-
-// connect & query database
-$id = $_GET['id'];
-$query = "SELECT * FROM `pengajar` WHERE `id` LIKE '$id'";
-$result = mysqli_query($conn, $query);
-$data = mysqli_fetch_array($result, MYSQLI_ASSOC);
-
-// button sertifikat
-$sertifikat = "";
-$sertifText = "Tidak Ada Sertifikat";
-$disabled = "";
-if(!empty($data['sertifikat'])) {
-  $sertifikat = $data['sertifikat'];
-  $sertifText = "Lihat Sertifikat";
-} else {
-  $disabled = "disabled";
-}
+require_once('../../../akses.php');
 
 // danger alert
 $setAlertCondition = false;
 $setAlertText = "";
 $setAlertText2 = "";
 
-// get data from database
-$nama = $data['nama'];
-$gender = $data['jenis_kelamin'];
-$alamat = $data['alamat'];
-$telp = $data['no_telp'];
-$sertifikat = $data['sertifikat'];
-
-// form ubah data
-if(isset($_POST['ubah'])) {
-  $nama = $_POST['nama'];
-  $gender = $_POST['gender'];
-  $alamat = $_POST['alamat'];
-  $telp = $_POST['nomortelepon'];
-
-  // send data to db
-  $query = "UPDATE `pengajar` SET 
-            `nama`='$nama', `jenis_kelamin`='$gender',
-            `alamat`='$alamat', `no_telp`='$telp'
-            WHERE `id` LIKE '$id'";
+if(isset($_GET['id'])) {
+  // connect & query database
+  $id = $_GET['id'];
+  $query = "SELECT * FROM `pengajar` WHERE `id` LIKE '$id'";
   $result = mysqli_query($conn, $query);
-  
-  header("Location: ../pengasuh.php?success=edit");
-}
-// form hapus data
-elseif(isset($_POST['hapus'])) {
-  $query = "DELETE FROM `pengajar` WHERE `id` LIKE '$id'";
-  $result = mysqli_query($conn, $query);
-  
-  header("Location: ../pengasuh.php");
-}
-// perbarui sertifikat
-elseif(isset($_POST['perbarui'])) {
-  $sertifikat = $_FILES['sertifikat']['name'];
-  $type = "application/pdf";
-  $maximumSize	= 2000000; // 2 MB
-  $directory = "C:/xampp/htdocs/tpq-annuur/assets/berkas/sertifikat/";
+  $data = mysqli_fetch_array($result, MYSQLI_ASSOC);
 
-  // checking size of file
-  if($_FILES['sertifikat']['size'] <= $maximumSize) {
-    // checking type of file
-    if($_FILES['sertifikat']['type'] == $type) {
-      $upload = move_uploaded_file($_FILES['sertifikat']['tmp_name'], $directory.$sertifikat);
-      
-      // checking if upload is success
-      if($upload) {
-        // send data to db
-        $query = "UPDATE `pengajar` SET `sertifikat`='$sertifikat' WHERE `id` LIKE '$id'";
-        $result = mysqli_query($conn, $query);
-        
-        header("Location: ../pengasuh.php");
-      } else {      
+  // button sertifikat
+  $sertifikat = "";
+  $sertifText = "Tidak Ada Sertifikat";
+  $disabled = "";
+  if(!empty($data['sertifikat'])) {
+    $sertifikat = $data['sertifikat'];
+    $sertifText = "Lihat Sertifikat";
+  } else {
+    $disabled = "disabled";
+  }
+  
+  // get data from database
+  $nama = $data['nama'];
+  $gender = $data['jenis_kelamin'];
+  $alamat = $data['alamat'];
+  $telp = $data['no_telp'];
+  $sertifikat = $data['sertifikat'];
+
+  // form ubah data
+  if(isset($_POST['ubah'])) {
+    $nama = $_POST['nama'];
+    $gender = $_POST['gender'];
+    $alamat = $_POST['alamat'];
+    $telp = $_POST['nomortelepon'];
+
+    // send data to db
+    $query = "UPDATE `pengajar` SET `nama`='$nama',`jenis_kelamin`='$gender',
+              `alamat`='$alamat',`no_telp`='$telp' WHERE `id` LIKE '$id'";
+    $result = mysqli_query($conn, $query);
+    
+    header("Location: ../pengasuh.php");
+  }
+  // perbarui sertifikat
+  elseif(isset($_POST['perbarui'])) {
+    $explodeName = explode(" ",$nama);
+    $maximumSize	= 2000000; // 2 MB
+
+    // checking size of file
+    if($_FILES['sertifikat']['size'] <= $maximumSize) {
+      $sertifikat = $explodeName[0]."_".$_FILES['sertifikat']['name'];
+      $type = "application/pdf";
+      $directory = "C:/xampp/htdocs/tpq-annuur/assets/berkas/sertifikat/";
+
+      // checking type of file
+      if($_FILES['sertifikat']['type'] == $type) {
+        $upload = move_uploaded_file($_FILES['sertifikat']['tmp_name'],$directory.$sertifikat);
+  
+        // checking if upload is success
+        if($upload) {
+          // send data to db
+          $query = "UPDATE `pengajar` SET `sertifikat`='$sertifikat' WHERE `id` LIKE '$id'";
+          $result = mysqli_query($conn, $query);
+          
+          header("Location: ubah.php?id=".$data['id']."");
+        } else {      
+          $setAlertCondition = true;
+          $setAlertText = "File gagal di upload!";
+          $setAlertText2 = "Silahkan coba kembali";
+        }
+      } else {
         $setAlertCondition = true;
-        $setAlertText = "File gagal di upload!";
-        $setAlertText2 = "Silahkan coba kembali";
+        $setAlertText = "Tipe file salah!";
+        $setAlertText2 = "Tipe file yang diperbolehkan adalah pdf";
       }
     } else {
       $setAlertCondition = true;
-      $setAlertText = "Tipe file salah!";
-      $setAlertText2 = "Tipe file yang diperbolehkan adalah pdf";
+      $setAlertText = "Ukuran file terlalu besar!";
+      $setAlertText2 = "Ukuran maksimal adalah 2 MB";
     }
-  } else {
-    $setAlertCondition = true;
-    $setAlertText = "Ukuran file terlalu besar!";
-    $setAlertText2 = "Ukuran maksimal adalah 2 MB";
   }
+} else {
+  header("Location: ../pengasuh.php");
 }
 ?>
 
@@ -223,37 +221,11 @@ elseif(isset($_POST['perbarui'])) {
                 <div class="col-sm-10">
                   <div class="row">
                     <div class="col col-md-6 d-grid gap-2">
-                      <button type="button" class="btn btn-danger btn-block" data-bs-toggle="modal" data-bs-target="#deleteModalDanger">
-                        <span><i class="bi "></i></span>
-                        <span>Hapus Data</span>
-                      </button>
                     </div>
                     <div class="col col-md-6 d-grid gap-2">
                       <button type="submit" name="ubah" class="btn btn-success btn-block">
                         <span><i class="bi "></i></span>
                         <span>Ubah Data</span>
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <!-- Delete Modal Danger -->
-              <div class="modal fade" tabindex="-1" id="deleteModalDanger" aria-hidden="true">
-                <div class="modal-dialog modal-dialog-centered">
-                  <div class="modal-content">
-                    <div class="modal-header">
-                      <h5 class="modal-title">Peringatan!</h5>
-                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                      <span>Apakah anda yakin untuk menghapus data ini?</span>
-                    </div>
-                    <div class="modal-footer">
-                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tidak</button>
-                      <button type="submit" name="hapus" class="btn btn-danger">
-                        <span><i class="bi "></i></span>
-                        <span>Hapus</span>
                       </button>
                     </div>
                   </div>

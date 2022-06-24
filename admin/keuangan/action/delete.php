@@ -1,5 +1,6 @@
 <?php
 require_once('../../../config.php');
+require_once('../../akses.php');
 
 if(isset($_GET['kid'])) {
   $kid = $_GET['kid'];

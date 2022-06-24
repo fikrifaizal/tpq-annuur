@@ -1,5 +1,6 @@
 <?php
 include_once('../../../config.php');
+require_once('../../akses.php');
 
 $query = "SELECT santri.induk as induk, santri.nama_lengkap as nama_lengkap, jenjang.jenjang as jenjang, penilaian.jenjang_id as jenjang_id FROM `penilaian`
           LEFT JOIN `santri` ON penilaian.santri_induk = santri.induk

@@ -1,6 +1,7 @@
 <?php
 require_once('../../../config.php');
 require_once('../../helper.php');
+require_once('../../akses.php');
 
 $setMonth = date("m");
 $setYear = date("Y");

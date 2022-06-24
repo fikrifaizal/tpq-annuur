@@ -1,34 +1,43 @@
 <?php 
 require_once('../../../../config.php');
+require_once('../../../akses.php');
 
 // danger modal
 $setAlertCondition = false;
 $setAlertText = "";
 
-$id = $_GET['id'];
+if(isset($_GET['id'])) {
+  $id = $_GET['id'];
 
-$query = "SELECT * FROM `filter_presensi` WHERE `id` LIKE '$id'";
-$result = mysqli_query($conn, $query);
-$data = mysqli_fetch_array($result, MYSQLI_ASSOC);
-
-$bulan = $data['bulan'];
-$tahun = $data['tahun'];
-
-if(isset($_POST['edit'])) {
-  $bulan = strtoupper($_POST['bulan']);
-
-  $query = "UPDATE `filter_presensi` SET `bulan`='$bulan' WHERE `id` LIKE '$id'";
+  $query = "SELECT * FROM `filter_presensi` WHERE `id` LIKE '$id'";
   $result = mysqli_query($conn, $query);
+  $data = mysqli_fetch_array($result, MYSQLI_ASSOC);
   
+  $bulan = $data['bulan'];
+  $tahun = $data['tahun'];
+  
+  if(isset($_POST['edit'])) {
+    $bulan = strtoupper($_POST['bulan']);
+  
+    // mencari data yang sama dengan yang diinput
+    $queryCount = "SELECT COUNT(`id`) as total FROM `filter_presensi` WHERE `bulan` LIKE '$bulan' AND `tahun` LIKE '$tahun'";
+    $resultCount = mysqli_query($conn, $queryCount);
+    $dataCount = mysqli_fetch_array($resultCount, MYSQLI_ASSOC);
+  
+    if($dataCount['total'] >= 1) {
+      $setAlertCondition = true;
+      $setAlertText = "Presensi bulan dan tahun ini sudah dibuat";
+    } else {
+      $query = "UPDATE `filter_presensi` SET `bulan`='$bulan' WHERE `id` LIKE '$id'";
+      $result = mysqli_query($conn, $query);
+      
+      header("Location: ../presensi.php");
+    }
+  }
+} else {
   header("Location: ../presensi.php");
 }
-// hapus data
-elseif(!empty($_GET['action']) && $_GET['action'] == "delete") {
-  $query = "DELETE FROM `filter_presensi` WHERE `id` LIKE '$id'";
-  $result = mysqli_query($conn, $query);
 
-  header("Location: ../presensi.php");
-}
 ?>
 <!DOCTYPE html>
 <html>
@@ -49,7 +58,7 @@ elseif(!empty($_GET['action']) && $_GET['action'] == "delete") {
     <main>
       <div class="container-fluid content transition">
         <h3>Ubah Presensi Bulanan</h3>
-        <a href="/tpq-annuur/admin/petugas/presensi-petugas/presensi.php" class="btn btn-success btn-sm btn-back">
+        <a href="/tpq-annuur/admin/santri/presensi-santri/presensi.php" class="btn btn-success btn-sm btn-back">
           <span><i class="bi bi-chevron-left"></i></span>
           <span>Kembali</span>
         </a>
@@ -65,7 +74,7 @@ elseif(!empty($_GET['action']) && $_GET['action'] == "delete") {
           <div class="card-body m-3">
 
             <!-- form input -->
-            <form method="post" class="was-validated">
+            <form method="post">
 
               <!-- Bulan -->
               <div class="form-group row">
@@ -103,10 +112,6 @@ elseif(!empty($_GET['action']) && $_GET['action'] == "delete") {
                 <div class="col-sm-10">
                   <div class="row">
                     <div class="col col-md-6 d-grid gap-2">
-                      <button type="button" class="btn btn-danger btn-block" data-bs-toggle="modal" data-bs-target="#deleteModalDanger">
-                        <span><i class="bi "></i></span>
-                        <span>Hapus Data</span>
-                      </button>
                     </div>
                     <div class="col col-md-6 d-grid gap-2">
                       <button type="submit" name="edit" class="btn btn-success btn-block">
