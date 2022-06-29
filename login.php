@@ -25,7 +25,7 @@ if(isset($_POST['login'])) {
       setcookie('role', $data['roles'], time()+3600, '/');
     }
 
-    header("location: admin/dashboard.php");
+    header("location: /admin/dashboard.php");
   }
 }
 ?>
