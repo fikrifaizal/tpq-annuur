@@ -24,7 +24,7 @@ $role = explode(" ", $_SESSION["role"]);
   </head>
   
   <body>
-    <!-- top navigation bar -->
+    <!-- start of top navigation bar -->
     <nav class="navbar navbar-light navbar-expand-lg fixed-top shadow">
       <div class="container-fluid">
         
@@ -33,12 +33,12 @@ $role = explode(" ", $_SESSION["role"]);
           <span class="navbar-toggler-icon" data-bs-target="#sidebar"></span>
         </button>
         <!-- navbar title -->
-        <a class="navbar-brand me-auto ms-lg-0 mx-2 text-uppercase fw-bold navbar-title text-black">SI TPQ</a>
+        <a class="navbar-brand me-auto ms-lg-0 mx-2 text-uppercase fw-bold navbar-title text-black">SIMTPQ</a>
         <!-- account button -->
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#topNavBar" aria-controls="topNavBar" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
-        
+
         <div class="collapse navbar-collapse mx-5" id="topNavBar">
           <div class="navbar-nav me-auto mb-2 mb-lg-0">
             <li class="nav-item">
@@ -47,7 +47,7 @@ $role = explode(" ", $_SESSION["role"]);
           </div>
 
           <div class="topbar-divider"></div>
-          
+
           <div class="d-flex">
             <ul class="navbar-nav">
               <li class="nav-item dropdown">
@@ -75,15 +75,15 @@ $role = explode(" ", $_SESSION["role"]);
         </div>
       </div>
     </nav>
-    <!-- top navigation bar -->
+    <!-- end of top navigation bar -->
 
-    <!-- offcanvas -->
+    <!-- start of offcanvas -->
     <div class="offcanvas offcanvas-start sidebar-nav" tabindex="-1" id="sidebar">
       <div class="offcanvas-body p-0">
         <nav class="navbar-light">
           <ul class="navbar-nav">
             <li>
-              <img class="logo" src="\tpq-annuur\assets\image\logo.png" alt="" />
+              <img class="logo" src="\tpq-annuur\assets\image\logo-annur-bulat.png" />
               <li class="mx-4">
                 <div class="navbar-divider"></div>
                 <span class="user-info text-light"><?= ucfirst(strtolower($role['0']))?></span>
@@ -184,7 +184,7 @@ $role = explode(" ", $_SESSION["role"]);
         </nav>
       </div>
     </div>
-    <!-- offcanvas -->
+    <!-- end of offcanvas -->
 
     <!-- Javascript Support -->
     <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>

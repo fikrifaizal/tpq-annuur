@@ -118,6 +118,8 @@ main {
   margin-top: 0.3rem !important;
 }
 
+
+/* when non-collapse */
 @media (min-width: 992px) {
   body {
     overflow: auto !important;
@@ -195,7 +197,7 @@ main {
     margin-top: 30px;
     margin-bottom: 4px;
     margin-right: 24px;
-    width: 209px;
+    width: 53px;
     height: 53px;
   }
 
