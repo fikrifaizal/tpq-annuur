@@ -92,7 +92,7 @@ $role = explode(" ", $_SESSION["role"]);
 
             <!-- sidebar item -->
             <li class="mt-3 mx-4">
-              <a href="/admin/dashboard.php" class="btn-sidebar nav-link text-light">
+              <a href="/admin/dashboard" class="btn-sidebar nav-link text-light">
                 <span class="me-2"><i class="bi bi-house"></i></span>
                 <span>Dashboard</span>
               </a>
@@ -101,12 +101,12 @@ $role = explode(" ", $_SESSION["role"]);
             <li class="mx-4">
               <div class="navbar-divider my-3"></div>
               <div class="text-light small fw-bold text-uppercase"><label>Santri</label></div>
-              <a href="/admin/santri/data-santri/santri.php" class="btn-sidebar nav-link text-light">
+              <a href="/admin/santri/data-santri/santri" class="btn-sidebar nav-link text-light">
                 <span class="me-2"><i class="bi bi-house"></i></span>
                 <span>Data Santri</span>
               </a>
               
-              <a href="/admin/santri/presensi-santri/presensi.php" class="btn-sidebar nav-link text-light">
+              <a href="/admin/santri/presensi-santri/presensi" class="btn-sidebar nav-link text-light">
                 <span class="me-2"><i class="bi bi-house"></i></span>
                 <span>Presensi Santri</span>
               </a>
