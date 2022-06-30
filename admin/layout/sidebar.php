@@ -59,7 +59,7 @@ $role = explode(" ", $_SESSION["role"]);
 
                 <!-- Dropdown User Information -->
                 <div class="dropdown-menu dropdown-menu-end dropdown-margin-top" aria-labelledby="userDropdown">
-                  <a class="dropdown-item" href="/tpq-annuur/admin/pengaturan/pengaturan.php">
+                  <a class="dropdown-item" href="/admin/pengaturan/pengaturan.php">
                     <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
                     Pengaturan
                   </a>
@@ -92,7 +92,7 @@ $role = explode(" ", $_SESSION["role"]);
 
             <!-- sidebar item -->
             <li class="mt-3 mx-4">
-              <a href="/tpq-annuur/admin/dashboard.php" class="btn-sidebar nav-link text-light">
+              <a href="/admin/dashboard.php" class="btn-sidebar nav-link text-light">
                 <span class="me-2"><i class="bi bi-house"></i></span>
                 <span>Dashboard</span>
               </a>
@@ -101,12 +101,12 @@ $role = explode(" ", $_SESSION["role"]);
             <li class="mx-4">
               <div class="navbar-divider my-3"></div>
               <div class="text-light small fw-bold text-uppercase"><label>Santri</label></div>
-              <a href="/tpq-annuur/admin/santri/data-santri/santri.php" class="btn-sidebar nav-link text-light">
+              <a href="/admin/santri/data-santri/santri.php" class="btn-sidebar nav-link text-light">
                 <span class="me-2"><i class="bi bi-house"></i></span>
                 <span>Data Santri</span>
               </a>
               
-              <a href="/tpq-annuur/admin/santri/presensi-santri/presensi.php" class="btn-sidebar nav-link text-light">
+              <a href="/admin/santri/presensi-santri/presensi.php" class="btn-sidebar nav-link text-light">
                 <span class="me-2"><i class="bi bi-house"></i></span>
                 <span>Presensi Santri</span>
               </a>
@@ -123,13 +123,13 @@ $role = explode(" ", $_SESSION["role"]);
               <div class="collapse" id="penilaian">
                 <ul class="navbar-nav mx-4">
                   <li>
-                    <a href="/tpq-annuur/admin/santri/penilaian/penilaian.php" class="btn-sidebar nav-link text-light">
+                    <a href="/admin/santri/penilaian/penilaian.php" class="btn-sidebar nav-link text-light">
                       <span class="me-2"><i class="bi bi-file-earmark-check"></i></span>
                       <span>Penilaian</span>
                     </a>
                   </li>
                   <li>
-                    <a href="/tpq-annuur/admin/santri/penilaian/riwayat-nilai.php" class="btn-sidebar nav-link text-light">
+                    <a href="/admin/santri/penilaian/riwayat-nilai.php" class="btn-sidebar nav-link text-light">
                       <span class="me-2"><i class="bi bi-file-earmark-minus"></i></span>
                       <span>Riwayat</span>
                     </a>
@@ -137,7 +137,7 @@ $role = explode(" ", $_SESSION["role"]);
                 </ul>
               </div>
               
-              <a href="/tpq-annuur/admin/santri/spp/spp.php" class="btn-sidebar nav-link text-light">
+              <a href="/admin/santri/spp/spp.php" class="btn-sidebar nav-link text-light">
                 <span class="me-2"><i class="bi bi-house"></i></span>
                 <span>SPP Santri</span>
               </a>
@@ -146,12 +146,12 @@ $role = explode(" ", $_SESSION["role"]);
             <li class="mx-4">
               <div class="navbar-divider my-3"></div>
               <div class="text-light small fw-bold text-uppercase"><label>Pengasuh</label></div>
-              <a href="/tpq-annuur/admin/pengasuh/data-pengasuh/pengasuh.php" class="btn-sidebar nav-link text-light">
+              <a href="/admin/pengasuh/data-pengasuh/pengasuh.php" class="btn-sidebar nav-link text-light">
                 <span class="me-2"><i class="bi bi-house"></i></span>
                 <span>Data Pengasuh</span>
               </a>
 
-              <a href="/tpq-annuur/admin/pengasuh/presensi-pengasuh/presensi.php" class="btn-sidebar nav-link text-light">
+              <a href="/admin/pengasuh/presensi-pengasuh/presensi.php" class="btn-sidebar nav-link text-light">
                 <span class="me-2"><i class="bi bi-house"></i></span>
                 <span>Presensi Pengasuh</span>
               </a>
@@ -160,12 +160,12 @@ $role = explode(" ", $_SESSION["role"]);
             <li class="mx-4">
               <div class="navbar-divider my-3"></div>
               <div class="text-light small fw-bold text-uppercase"><label>Petugas Piket</label></div>
-              <a href="/tpq-annuur/admin/petugas/data-petugas/petugas.php" class="btn-sidebar nav-link text-light">
+              <a href="/admin/petugas/data-petugas/petugas.php" class="btn-sidebar nav-link text-light">
                 <span class="me-2"><i class="bi bi-house"></i></span>
                 <span>Data Petugas</span>
               </a>
 
-              <a href="/tpq-annuur/admin/petugas/presensi-petugas/presensi.php" class="btn-sidebar nav-link text-light">
+              <a href="/admin/petugas/presensi-petugas/presensi.php" class="btn-sidebar nav-link text-light">
                 <span class="me-2"><i class="bi bi-house"></i></span>
                 <span>Presensi Petugas</span>
               </a>
@@ -174,7 +174,7 @@ $role = explode(" ", $_SESSION["role"]);
             <li class="mx-4 mb-3">
               <div class="navbar-divider my-3"></div>
               <div class="text-light small fw-bold text-uppercase"><label>Keuangan TPQ</label></div>
-              <a href="/tpq-annuur/admin/keuangan/keuangan.php" class="btn-sidebar nav-link text-light">
+              <a href="/admin/keuangan/keuangan.php" class="btn-sidebar nav-link text-light">
                 <span class="me-2"><i class="bi bi-house"></i></span>
                 <span>Laporan Keuangan</span>
               </a>
@@ -195,8 +195,8 @@ $role = explode(" ", $_SESSION["role"]);
     <script src="https://cdn.datatables.net/1.11.3/js/dataTables.bootstrap5.min.js" crossorigin="anonymous"></script>
     
     <!-- datepicker -->
-    <script type="text/javascript" src="/tpq-annuur/lib/js/bootstrap-datepicker.min.js"></script>
-    <script type="text/javascript" src="/tpq-annuur/lib/locales/bootstrap-datepicker.id.min.js"></script>
+    <script type="text/javascript" src="/lib/js/bootstrap-datepicker.min.js"></script>
+    <script type="text/javascript" src="/lib/locales/bootstrap-datepicker.id.min.js"></script>
 
     <script>
       $(document).ready(function () {
