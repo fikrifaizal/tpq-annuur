@@ -16,9 +16,9 @@ $filterResult = mysqli_query($conn, $filterQuery);
 <html>
   <head>
     <title>TPQ</title>
-    <link rel="shortcut icon" href="\tpq-annuur\assets\image\logo-annur-bulat.png">
+    <link rel="shortcut icon" href="\assets\image\logo-annur-bulat.png">
     <!-- style css -->
-    <link rel="stylesheet" href="\tpq-annuur\admin\layout\style.css" />
+    <link rel="stylesheet" href="\admin\layout\style.css" />
   </head>
 
   <body>
@@ -39,7 +39,6 @@ $filterResult = mysqli_query($conn, $filterQuery);
             <div class="row">
               <div class="col-sm">
                 <a href="action/tambah.php" class="btn btn-success">
-                  <span><i class="bi bi-plus"></i></span>
                   <span>Tambah Absensi Bulanan</span>
                 </a>
               </div>
@@ -80,19 +79,16 @@ $filterResult = mysqli_query($conn, $filterQuery);
                       echo "<td>".$data['tahun']."</td>";?>
                       <td>
                         <a role="button" href="detail/detail-presensi.php?id=<?= $data['id']?>" class="btn btn-primary btn-sm">
-                          <span><i class="bi bi-pencil"></i><span>
                           <span>Input</span>
                         </a>
                         <button type="button" class="btn btn-success btn-sm">Rekap</button>
                       </td>
                       <td>
                         <a role="button" href="action/edit.php?id=<?= $data['id']?>" class="btn btn-warning btn-sm">
-                          <span><i class="bi bi-pencil"></i><span>
                           <span>Ubah</span>
                         </a>
                         <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#deleteModalDanger<?= $data['id']?>">
-                          <span><i class="bi "></i></span>
-                          <span>Hapus Data</span>
+                          <span>Hapus</span>
                         </button>
                       </td></tr>
 

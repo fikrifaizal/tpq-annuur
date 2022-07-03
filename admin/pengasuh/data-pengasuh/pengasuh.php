@@ -33,7 +33,6 @@ $result = mysqli_query($conn, $query);
             <!-- button tambah data -->
             <div>
               <a href="action/tambah.php" class="btn btn-success">
-                <span><i class="bi bi-plus"></i></span>
                 <span>Tambah Data Pengasuh</span>
               </a>
             </div><hr class="my-3">
@@ -71,12 +70,11 @@ $result = mysqli_query($conn, $query);
                       ?>
                       <!-- button trigger modal detail -->
                       <td>
-                        <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#detailModal<?= $data['id']?>">
-                          <span><i class="bi bi-pencil"></i><span>
-                          <span>Detail Lengkap</span>
+                        <button type="button" class="btn btn-info btn-sm" data-toggle="tooltip" title="Detail" data-bs-toggle="modal" data-bs-target="#detailModal<?= $data['id']?>">
+                          <span><i class="bi bi-journal"></i><span>
                         </button>
-                        <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#deleteModalDanger<?= $data['id']?>">
-                          <span><i class="bi bi-pencil"></i><span>
+                        <button type="button" class="btn btn-danger btn-sm" data-toggle="tooltip" title="Hapus" data-bs-toggle="modal" data-bs-target="#deleteModalDanger<?= $data['id']?>">
+                          <span><i class="bi bi-trash"></i><span>
                         </button>
                       </td></tr>
                       
@@ -112,7 +110,7 @@ $result = mysqli_query($conn, $query);
                               <div class="row">
                                 <label class="col-sm-5">Sertifikat</label>
                                 <div class="col-sm-7">
-                                  <a href="/tpq-annuur/assets/berkas/sertifikat/<?= $sertifikat?>" class="btn btn-outline-secondary btn-sm <?= $disabled?>" target="_blank" aria-disabled="true">
+                                  <a href="/assets/berkas/sertifikat/<?= $sertifikat?>" class="btn btn-outline-secondary btn-sm <?= $disabled?>" target="_blank" aria-disabled="true">
                                     <?= $sertifText?>
                                   </a>
                                 </div>
@@ -120,7 +118,7 @@ $result = mysqli_query($conn, $query);
                             </div>
                             <div class="modal-footer">
                               <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                              <a role="button" class="btn btn-primary" href="action/ubah.php?id=<?= $data['id']?>">Edit</a>
+                              <a role="button" class="btn btn-warning" href="action/ubah.php?id=<?= $data['id']?>">Edit</a>
                             </div>
                           </div>
                         </div>
@@ -139,7 +137,7 @@ $result = mysqli_query($conn, $query);
                             </div>
                             <div class="modal-footer">
                               <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tidak</button>
-                              <a href="/tpq-annuur/admin/pengasuh/data-pengasuh/action/delete.php?id=<?= $data['id']?>" class="btn btn-danger">
+                              <a href="/admin/pengasuh/data-pengasuh/action/delete.php?id=<?= $data['id']?>" class="btn btn-danger">
                                 <span><i class="bi "></i></span>
                                 <span>Hapus</span>
                               </a>
@@ -156,5 +154,11 @@ $result = mysqli_query($conn, $query);
         </div>
       </div>
     </main>
+
+    <script>
+      $(document).ready(function() {
+        $('[data-toggle="tooltip"]').tooltip();
+      });
+    </script>
   </body>
 </html>

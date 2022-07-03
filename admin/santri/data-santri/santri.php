@@ -17,9 +17,9 @@ function formatTanggal($date){
 <html>
   <head>
     <title>TPQ</title>
-    <link rel="shortcut icon" href="\tpq-annuur\assets\image\logo-annur-bulat.png">
+    <link rel="shortcut icon" href="\assets\image\logo-annur-bulat.png">
     <!-- style css -->
-    <link rel="stylesheet" href="\tpq-annuur\admin\layout\style.css" />
+    <link rel="stylesheet" href="\admin\layout\style.css" />
   </head>
 
   <body>
@@ -39,7 +39,6 @@ function formatTanggal($date){
             <!-- button tambah data -->
             <div>
               <a href="action/tambah.php" class="btn btn-success">
-                <span><i class="bi bi-plus"></i></span>
                 <span>Tambah Data Santri</span>
               </a>
             </div><hr class="my-3">
@@ -53,7 +52,7 @@ function formatTanggal($date){
                     <th scope="col">Nama Lengkap</th>
                     <th scope="col">Nama Wali</th>
                     <th scope="col">Nomor Telepon Wali</th>
-                    <th scope="col" width="15%">Aksi</th>
+                    <th scope="col">Aksi</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -66,12 +65,11 @@ function formatTanggal($date){
                       echo "<td>".$data['no_telp_ortu']."</td>";?>
                       <!-- button trigger modal detail -->
                       <td>
-                        <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#detailModal<?=$data['induk']?>">
-                          <span><i class="bi bi-pencil"></i><span>
-                          <span>Detail Lengkap</span>
+                        <button type="button" class="btn btn-info btn-sm" data-toggle="tooltip" title="Detail" data-bs-toggle="modal" data-bs-target="#detailModal<?=$data['induk']?>">
+                          <span><i class="bi bi-journal"></i><span>
                         </button>
-                        <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#deleteModalDanger<?=$data['induk']?>">
-                          <span><i class="bi bi-pencil"></i><span>
+                        <button type="button" class="btn btn-danger btn-sm" data-toggle="tooltip" title="Hapus" data-bs-toggle="modal" data-bs-target="#deleteModalDanger<?=$data['induk']?>">
+                          <span><i class="bi bi-trash"></i><span>
                         </button>
                       </td></tr>
                       
@@ -135,7 +133,7 @@ function formatTanggal($date){
                             </div>
                             <div class="modal-footer">
                               <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                              <a role="button" class="btn btn-primary" href="action/ubah.php?nis=<?=$data['induk']?>">Edit</a>
+                              <a role="button" class="btn btn-warning" href="action/ubah.php?nis=<?=$data['induk']?>">Edit</a>
                             </div>
                           </div>
                         </div>
@@ -154,8 +152,7 @@ function formatTanggal($date){
                             </div>
                             <div class="modal-footer">
                               <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tidak</button>
-                              <a href="/tpq-annuur/admin/pengasuh/data-pengasuh/action/delete.php?nis=<?=$data['induk']?>" class="btn btn-danger">
-                                <span><i class="bi "></i></span>
+                              <a href="/admin/pengasuh/data-pengasuh/action/delete.php?nis=<?=$data['induk']?>" class="btn btn-danger">
                                 <span>Hapus</span>
                               </a>
                             </div>
@@ -171,5 +168,11 @@ function formatTanggal($date){
         </div>
       </div>
     </main>
+
+    <script>
+      $(document).ready(function() {
+        $('[data-toggle="tooltip"]').tooltip();
+      });
+    </script>
   </body>
 </html>

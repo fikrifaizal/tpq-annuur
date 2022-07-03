@@ -48,12 +48,12 @@ $result = mysqli_query($conn, $query);
 
             <td>
               <!-- button edit -->
-              <a href="/tpq-annuur/admin/keuangan/action/edit.php?kid=<?= $data['id']?>" class="btn btn-warning btn-sm">
-                <span><i class="bi bi-plus"></i></span>
+              <a href="/admin/keuangan/action/edit.php?kid=<?= $data['id']?>" class="btn btn-warning btn-sm" data-toggle="tooltip" title="Edit">
+                <span><i class="bi bi-pencil"></i></span>
               </a>
               <!-- button hapus -->
-              <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#hapusModal<?=$data['id']?>">
-                <span><i class="bi bi-plus"></i></span>
+              <button type="button" class="btn btn-danger btn-sm" data-toggle="tooltip" title="Hapus" data-bs-toggle="modal" data-bs-target="#hapusModal<?=$data['id']?>">
+                <span><i class="bi bi-trash"></i></span>
               </button>
             </td>
 
@@ -70,8 +70,7 @@ $result = mysqli_query($conn, $query);
                   </div>
                   <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tidak</button>
-                    <a href="/tpq-annuur/admin/keuangan/action/delete.php?kid=<?= $data['id']?>" class="btn btn-danger">
-                      <span><i class="bi "></i></span>
+                    <a href="/admin/keuangan/action/delete.php?kid=<?= $data['id']?>" class="btn btn-danger">
                       <span>Hapus</span>
                     </a>
                   </div>
@@ -91,8 +90,9 @@ $result = mysqli_query($conn, $query);
   </div>
   
   <script>
-    $(document).ready(function () {
+    $(document).ready(function() {
       $('#dataTables-masuk').dataTable();
+      $('[data-toggle="tooltip"]').tooltip();
     });
   </script>
 </html>

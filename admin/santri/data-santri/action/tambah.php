@@ -37,9 +37,9 @@ function formatTanggal($date){
 <html>
   <head>
     <title>TPQ</title>
-    <link rel="shortcut icon" href="\tpq-annuur\assets\image\logo-annur-bulat.png">
+    <link rel="shortcut icon" href="\assets\image\logo-annur-bulat.png">
     <!-- style css -->
-    <link rel="stylesheet" href="\tpq-annuur\admin\layout\style.css" />
+    <link rel="stylesheet" href="\admin\layout\style.css" />
   </head>
 
   <body>
@@ -52,7 +52,7 @@ function formatTanggal($date){
     <main>
       <div class="container-fluid content transition">
         <h3>Update Data Santri</h3>
-        <a href="/tpq-annuur/admin/santri/data-santri/santri.php" class="btn btn-success btn-sm btn-back">
+        <a href="/admin/santri/data-santri/santri.php" class="btn btn-success btn-sm btn-back">
           <span><i class="bi bi-chevron-left"></i></span>
           <span>Kembali</span>
         </a>
@@ -174,13 +174,11 @@ function formatTanggal($date){
                   <div class="row">
                     <div class="col col-md-6 d-grid gap-2">
                       <button type="reset" class="btn btn-danger btn-block">
-                        <span><i class="bi "></i></span>
                         <span>Reset Data</span>
                       </button>
                     </div>
                     <div class="col col-md-6 d-grid gap-2">
                       <button type="submit" name="tambah" class="btn btn-success btn-block">
-                        <span><i class="bi "></i></span>
                         <span>Tambah Data</span>
                       </button>
                     </div>

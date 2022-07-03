@@ -55,7 +55,7 @@ if(isset($_GET['id'])) {
     if($_FILES['sertifikat']['size'] <= $maximumSize) {
       $sertifikat = $explodeName[0]."_".$_FILES['sertifikat']['name'];
       $type = "application/pdf";
-      $directory = "C:/xampp/htdocs/tpq-annuur/assets/berkas/sertifikat/";
+      $directory = "C:/xampp/htdocs/assets/berkas/sertifikat/";
 
       // checking type of file
       if($_FILES['sertifikat']['type'] == $type) {
@@ -108,7 +108,7 @@ if(isset($_GET['id'])) {
     <main>
       <div class="container-fluid content transition">
         <h3>Update Data Pengasuh</h3>
-        <a href="/tpq-annuur/admin/pengasuh/data-pengasuh/pengasuh.php" class="btn btn-success btn-sm btn-back">
+        <a href="/admin/pengasuh/data-pengasuh/pengasuh.php" class="btn btn-success btn-sm btn-back">
           <span><i class="bi bi-chevron-left"></i></span>
           <span>Kembali</span>
         </a>
@@ -175,7 +175,7 @@ if(isset($_GET['id'])) {
                 <label for="sertifikat" class="col-sm-2 col-form-label">Sertifikat</label>
                 <div class="col-sm-10">
                   <div class="btn-group" role="group">
-                    <a href="/tpq-annuur/assets/berkas/sertifikat/<?= $sertifikat?>" class="btn btn-outline-secondary <?= $disabled?>" target="_blank" aria-disabled="true">
+                    <a href="/assets/berkas/sertifikat/<?= $sertifikat?>" class="btn btn-outline-secondary <?= $disabled?>" target="_blank" aria-disabled="true">
                       <?= $sertifText?>
                     </a>
                     <button type="button" class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#unggahModal">
@@ -204,7 +204,6 @@ if(isset($_GET['id'])) {
                           <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                             <button type="submit" name="perbarui" class="btn btn-success">
-                              <span><i class="bi "></i></span>
                               <span>Unggah</span>
                             </button>
                           </div>
@@ -224,7 +223,6 @@ if(isset($_GET['id'])) {
                     </div>
                     <div class="col col-md-6 d-grid gap-2">
                       <button type="submit" name="ubah" class="btn btn-success btn-block">
-                        <span><i class="bi "></i></span>
                         <span>Ubah Data</span>
                       </button>
                     </div>

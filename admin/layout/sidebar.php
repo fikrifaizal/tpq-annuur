@@ -10,13 +10,11 @@ $role = explode(" ", $_SESSION["role"]);
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <!-- cdn bootstrap 5 & icons -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous" />
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" />
-    <!-- cdn font style -->
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,500;0,600;1,400;1,500;1,600&display=swap" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.3/font/bootstrap-icons.css">
     <!-- cdn dataTables -->
     <link rel="stylesheet" href="https://cdn.datatables.net/1.11.3/css/dataTables.bootstrap5.min.css" />
-    <!-- cdn fontawesome icons -->
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css" integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm" crossorigin="anonymous"/>
+    <!-- cdn font style -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,500;0,600;1,400;1,500;1,600&display=swap" />
     <!-- lib datepicker -->
     <link rel="stylesheet" href="\lib\css\bootstrap-datepicker3.min.css" />
     <!-- css sidebar -->
@@ -92,8 +90,8 @@ $role = explode(" ", $_SESSION["role"]);
 
             <!-- sidebar item -->
             <li class="mt-3 mx-4">
-              <a href="/admin/dashboard" class="btn-sidebar nav-link text-light">
-                <span class="me-2"><i class="bi bi-house"></i></span>
+              <a href="/admin/dashboard.php" class="btn-sidebar nav-link text-light">
+                <span class="me-2"><i class="bi bi-columns-gap"></i></span>
                 <span>Dashboard</span>
               </a>
             </li>
@@ -101,13 +99,13 @@ $role = explode(" ", $_SESSION["role"]);
             <li class="mx-4">
               <div class="navbar-divider my-3"></div>
               <div class="text-light small fw-bold text-uppercase"><label>Santri</label></div>
-              <a href="/admin/santri/data-santri/santri" class="btn-sidebar nav-link text-light">
-                <span class="me-2"><i class="bi bi-house"></i></span>
+              <a href="/admin/santri/data-santri/santri.php" class="btn-sidebar nav-link text-light">
+                <span class="me-2"><i class="bi bi-people-fill"></i></span>
                 <span>Data Santri</span>
               </a>
               
-              <a href="/admin/santri/presensi-santri/presensi" class="btn-sidebar nav-link text-light">
-                <span class="me-2"><i class="bi bi-house"></i></span>
+              <a href="/admin/santri/presensi-santri/presensi.php" class="btn-sidebar nav-link text-light">
+                <span class="me-2"><i class="bi bi-list-check"></i></span>
                 <span>Presensi Santri</span>
               </a>
 
@@ -138,7 +136,7 @@ $role = explode(" ", $_SESSION["role"]);
               </div>
               
               <a href="/admin/santri/spp/spp.php" class="btn-sidebar nav-link text-light">
-                <span class="me-2"><i class="bi bi-house"></i></span>
+                <span class="me-2"><i class="bi bi-cash-coin"></i></span>
                 <span>SPP Santri</span>
               </a>
             </li>
@@ -147,12 +145,12 @@ $role = explode(" ", $_SESSION["role"]);
               <div class="navbar-divider my-3"></div>
               <div class="text-light small fw-bold text-uppercase"><label>Pengasuh</label></div>
               <a href="/admin/pengasuh/data-pengasuh/pengasuh.php" class="btn-sidebar nav-link text-light">
-                <span class="me-2"><i class="bi bi-house"></i></span>
+                <span class="me-2"><i class="bi bi-people-fill"></i></span>
                 <span>Data Pengasuh</span>
               </a>
 
               <a href="/admin/pengasuh/presensi-pengasuh/presensi.php" class="btn-sidebar nav-link text-light">
-                <span class="me-2"><i class="bi bi-house"></i></span>
+                <span class="me-2"><i class="bi bi-list-check"></i></span>
                 <span>Presensi Pengasuh</span>
               </a>
             </li>
@@ -161,12 +159,12 @@ $role = explode(" ", $_SESSION["role"]);
               <div class="navbar-divider my-3"></div>
               <div class="text-light small fw-bold text-uppercase"><label>Petugas Piket</label></div>
               <a href="/admin/petugas/data-petugas/petugas.php" class="btn-sidebar nav-link text-light">
-                <span class="me-2"><i class="bi bi-house"></i></span>
+                <span class="me-2"><i class="bi bi-people-fill"></i></span>
                 <span>Data Petugas</span>
               </a>
 
               <a href="/admin/petugas/presensi-petugas/presensi.php" class="btn-sidebar nav-link text-light">
-                <span class="me-2"><i class="bi bi-house"></i></span>
+                <span class="me-2"><i class="bi bi-list-check"></i></i></span>
                 <span>Presensi Petugas</span>
               </a>
             </li>
@@ -175,7 +173,7 @@ $role = explode(" ", $_SESSION["role"]);
               <div class="navbar-divider my-3"></div>
               <div class="text-light small fw-bold text-uppercase"><label>Keuangan TPQ</label></div>
               <a href="/admin/keuangan/keuangan.php" class="btn-sidebar nav-link text-light">
-                <span class="me-2"><i class="bi bi-house"></i></span>
+                <span class="me-2"><i class="bi bi-wallet2"></i></span>
                 <span>Laporan Keuangan</span>
               </a>
             </li>
@@ -188,12 +186,14 @@ $role = explode(" ", $_SESSION["role"]);
 
     <!-- Javascript Support -->
     <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+
+    <!-- bootstrap -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
 
     <!-- dataTables -->
     <script src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js" crossorigin="anonymous"></script>
     <script src="https://cdn.datatables.net/1.11.3/js/dataTables.bootstrap5.min.js" crossorigin="anonymous"></script>
-    
+
     <!-- datepicker -->
     <script type="text/javascript" src="/lib/js/bootstrap-datepicker.min.js"></script>
     <script type="text/javascript" src="/lib/locales/bootstrap-datepicker.id.min.js"></script>

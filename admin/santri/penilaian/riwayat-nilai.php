@@ -32,9 +32,9 @@ function setJilid($connection, int $id = 0) {
 <html>
   <head>
     <title>TPQ</title>
-    <link rel="shortcut icon" href="\tpq-annuur\assets\image\logo-annur-bulat.png">
+    <link rel="shortcut icon" href="\assets\image\logo-annur-bulat.png">
     <!-- style css -->
-    <link rel="stylesheet" href="\tpq-annuur\admin\layout\style.css" />
+    <link rel="stylesheet" href="\admin\layout\style.css" />
   </head>
 
   <body>

@@ -94,9 +94,9 @@ function query($connection, $filter, $date) {
 <html>
   <head>
     <title>TPQ</title>
-    <link rel="shortcut icon" href="\tpq-annuur\assets\image\logo-annur-bulat.png">
+    <link rel="shortcut icon" href="\assets\image\logo-annur-bulat.png">
     <!-- style css -->
-    <link rel="stylesheet" href="\tpq-annuur\admin\layout\style.css" />
+    <link rel="stylesheet" href="\admin\layout\style.css" />
   </head>
 
   <body>
@@ -109,7 +109,7 @@ function query($connection, $filter, $date) {
     <main>
       <div class="container-fluid content transition">
         <h3>Input Presensi Petugas Piket</h3>
-        <a href="/tpq-annuur/admin/petugas/presensi-petugas/presensi.php" class="btn btn-success btn-sm btn-back">
+        <a href="/admin/petugas/presensi-petugas/presensi.php" class="btn btn-success btn-sm btn-back">
           <span><i class="bi bi-chevron-left"></i></span>
           <span>Kembali</span>
         </a>
@@ -126,7 +126,6 @@ function query($connection, $filter, $date) {
                   <div class="input-group">
                     <input type="text" name="tanggal" class="form-control btn btn-input text-start" id="btn-datepicker" value="<?= $tanggal?>" required readonly>
                     <button type="submit" name="cari" class="btn btn-success">
-                      <span><i class="bi "></i></span>
                       <span>Tetapkan</span>
                     </button>
                   </div>

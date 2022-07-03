@@ -38,9 +38,9 @@ if(isset($_GET['id'])) {
 <html>
   <head>
     <title>TPQ</title>
-    <link rel="shortcut icon" href="\tpq-annuur\assets\image\logo-annur-bulat.png">
+    <link rel="shortcut icon" href="\assets\image\logo-annur-bulat.png">
     <!-- style css -->
-    <link rel="stylesheet" href="\tpq-annuur\admin\layout\style.css" />
+    <link rel="stylesheet" href="\admin\layout\style.css" />
   </head>
 
   <body>
@@ -53,7 +53,7 @@ if(isset($_GET['id'])) {
     <main>
       <div class="container-fluid content transition">
         <h3>Update Data Petugas</h3>
-        <a href="/tpq-annuur/admin/petugas/data-petugas/petugas.php" class="btn btn-success btn-sm btn-back">
+        <a href="/admin/petugas/data-petugas/petugas.php" class="btn btn-success btn-sm btn-back">
           <span><i class="bi bi-chevron-left"></i></span>
           <span>Kembali</span>
         </a>
@@ -118,7 +118,6 @@ if(isset($_GET['id'])) {
                     </div>
                     <div class="col col-md-6 d-grid gap-2">
                       <button type="submit" name="ubah" class="btn btn-success btn-block">
-                        <span><i class="bi "></i></span>
                         <span>Ubah Data</span>
                       </button>
                     </div>
@@ -140,7 +139,6 @@ if(isset($_GET['id'])) {
                     <div class="modal-footer">
                       <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tidak</button>
                       <button type="submit" name="hapus" class="btn btn-danger">
-                        <span><i class="bi "></i></span>
                         <span>Hapus</span>
                       </button>
                     </div>

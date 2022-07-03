@@ -44,9 +44,9 @@ elseif((!empty($_GET['start']) && !empty($_GET['end'])) || !empty($_GET['kategor
 <html>
   <head>
     <title>TPQ</title>
-    <link rel="shortcut icon" href="\tpq-annuur\assets\image\logo-annur-bulat.png">
+    <link rel="shortcut icon" href="\assets\image\logo-annur-bulat.png">
     <!-- style css -->
-    <link rel="stylesheet" href="\tpq-annuur\admin\layout\style.css" />
+    <link rel="stylesheet" href="\admin\layout\style.css" />
     <style>
     </style>
   </head>
@@ -98,11 +98,9 @@ elseif((!empty($_GET['start']) && !empty($_GET['end'])) || !empty($_GET['kategor
                   <p for="btn-group" class="form-label fw-bold">&nbsp</p>
                   <div class="btn-group" role="group" aria-label="Button group">
                     <button type="submit" name="hapus" class="btn btn-danger btn-block">
-                      <span><i class="bi bi-check"></i></span>
-                      <span>Hapus</span>
+                      <span>Reset</span>
                     </button>
-                    <button type="submit" name="filter" class="btn btn-info btn-block">
-                      <span><i class="bi bi-check"></i></span>
+                    <button type="submit" name="filter" class="btn btn-primary btn-block">
                       <span>Tampilkan</span>
                     </button>
                   </div>
@@ -122,8 +120,7 @@ elseif((!empty($_GET['start']) && !empty($_GET['end'])) || !empty($_GET['kategor
               </div>
               <div class="col-sm">
                 <!-- button trigger modal -->
-                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#tambahKeuangan" style="float: right;">
-                  <span><i class="bi bi-plus"></i></span>
+                <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#tambahKeuangan" style="float: right;">
                   <span>Tambah</span>
                 </button>
 
@@ -177,7 +174,6 @@ elseif((!empty($_GET['start']) && !empty($_GET['end'])) || !empty($_GET['kategor
                         <div class="modal-footer">
                           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                           <button type="submit" name="tambah" class="btn btn-success btn-block">
-                            <span><i class="bi "></i></span>
                             <span>Simpan</span>
                           </button>
                         </div>

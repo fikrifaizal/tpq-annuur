@@ -22,7 +22,7 @@ if(isset($_POST['tambah'])) {
     if($_FILES['sertifikat']['size'] <= $maximumSize) {
       $sertifikat = $explodeName[0]."_".$_FILES['sertifikat']['name'];
       $type = "application/pdf";
-      $directory = "C:/xampp/htdocs/tpq-annuur/assets/berkas/sertifikat/";
+      $directory = "C:/xampp/htdocs/assets/berkas/sertifikat/";
 
       // checking type of file
       if($_FILES['sertifikat']['type'] == $type) {
@@ -78,7 +78,7 @@ if(isset($_POST['tambah'])) {
     <main>
       <div class="container-fluid content transition">
         <h3>Tambah Data Pengasuh</h3>
-        <a href="/tpq-annuur/admin/pengasuh/data-pengasuh/pengasuh.php" class="btn btn-success btn-sm btn-back">
+        <a href="/admin/pengasuh/data-pengasuh/pengasuh.php" class="btn btn-success btn-sm btn-back">
           <span><i class="bi bi-chevron-left"></i></span>
           <span>Kembali</span>
         </a>
@@ -148,13 +148,11 @@ if(isset($_POST['tambah'])) {
                   <div class="row">
                     <div class="col col-md-6 d-grid gap-2">
                       <button type="reset" class="btn btn-danger btn-block">
-                        <span><i class="bi "></i></span>
                         <span>Reset Data</span>
                       </button>
                     </div>
                     <div class="col col-md-6 d-grid gap-2">
                       <button type="submit" name="tambah" class="btn btn-success btn-block">
-                        <span><i class="bi "></i></span>
                         <span>Tambah Data</span>
                       </button>
                     </div>

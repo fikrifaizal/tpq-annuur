@@ -40,9 +40,9 @@ if(isset($_GET['nis'])) {
 <html>
   <head>
     <title>TPQ</title>
-    <link rel="shortcut icon" href="\tpq-annuur\assets\image\logo-annur-bulat.png">
+    <link rel="shortcut icon" href="\assets\image\logo-annur-bulat.png">
     <!-- style css -->
-    <link rel="stylesheet" href="\tpq-annuur\admin\layout\style.css" />
+    <link rel="stylesheet" href="\admin\layout\style.css" />
   </head>
 
   <body>
@@ -147,7 +147,6 @@ if(isset($_GET['nis'])) {
                     </div>
                     <div class="col col-md-6 d-grid gap-2">
                       <button type="submit" name="simpan" class="btn btn-success btn-block">
-                        <span><i class="bi bi-check"></i></span>
                         <span>Simpan</span>
                       </button>
                     </div>
