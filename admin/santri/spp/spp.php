@@ -39,7 +39,10 @@ $result = mysqli_query($conn, $query);
           <div>
             <label class="text-secondary">Periode</label>
             <h5><?= $setDate?></h5>
-          </div><hr class="my-3">
+          </div>
+          <a href="rekap-spp.php" class="btn btn-success">
+            <span>Cetak</span>
+          </a><hr class="my-3">
 
             <!-- table -->
             <div class="table-responsive">
