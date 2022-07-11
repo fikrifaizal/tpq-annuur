@@ -18,7 +18,7 @@ $role = explode(" ", $_SESSION["role"]);
     <!-- lib datepicker -->
     <link rel="stylesheet" href="/lib/css/bootstrap-datepicker3.min.css" />
     <!-- css sidebar -->
-    <link rel="stylesheet" href="/user/admin/layout/sidebar.css" />
+    <link rel="stylesheet" href="/user/bendahara/layout/sidebar.css" />
     <link rel="shortcut icon" href="/assets/image/logo-annur-bulat.png">
   </head>
 
@@ -59,7 +59,7 @@ $role = explode(" ", $_SESSION["role"]);
 
                 <!-- Dropdown User Information -->
                 <div class="dropdown-menu dropdown-menu-end dropdown-margin-top" aria-labelledby="userDropdown">
-                  <a class="dropdown-item" href="/user/admin/pengaturan/pengaturan.php">
+                  <a class="dropdown-item" href="/user/bendahara/pengaturan/pengaturan.php">
                     <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
                     Pengaturan
                   </a>
@@ -92,89 +92,16 @@ $role = explode(" ", $_SESSION["role"]);
 
             <!-- sidebar item -->
             <li class="mx-4">
-              <a href="/user/admin/dashboard.php" class="btn-sidebar nav-link text-light">
+              <a href="/user/bendahara/dashboard.php" class="btn-sidebar nav-link text-light">
                 <span class="me-2"><i class="bi bi-columns-gap"></i></span>
                 <span>Dashboard</span>
               </a>
             </li>
-            
-            <li class="mx-4">
-              <div class="navbar-divider my-3"></div>
-              <div class="text-light small fw-bold text-uppercase"><label>Santri</label></div>
-              <a href="/user/admin/santri/data-santri/santri.php" class="btn-sidebar nav-link text-light">
-                <span class="me-2"><i class="bi bi-people-fill"></i></span>
-                <span>Data Santri</span>
-              </a>
-              
-              <a href="/user/admin/santri/presensi-santri/presensi.php" class="btn-sidebar nav-link text-light">
-                <span class="me-2"><i class="bi bi-list-check"></i></span>
-                <span>Presensi Santri</span>
-              </a>
 
-              <a class="nav-link btn-sidebar sidebar-link text-light" data-bs-toggle="collapse" href="#penilaian">
-                <span class="me-2"><i class="bi bi-file-earmark-text"></i></span>
-                <span>Penilaian Santri</span>
-                <span class="ms-auto">
-                  <span class="right-icon">
-                    <i class="bi bi-chevron-down"></i>
-                  </span>
-                </span>
-              </a>
-              <div class="collapse" id="penilaian">
-                <ul class="navbar-nav mx-4">
-                  <li>
-                    <a href="/user/admin/santri/penilaian/penilaian.php" class="btn-sidebar nav-link text-light">
-                      <span class="me-2"><i class="bi bi-file-earmark-check"></i></span>
-                      <span>Penilaian</span>
-                    </a>
-                  </li>
-                  <li>
-                    <a href="/user/admin/santri/penilaian/riwayat-nilai.php" class="btn-sidebar nav-link text-light">
-                      <span class="me-2"><i class="bi bi-file-earmark-minus"></i></span>
-                      <span>Riwayat</span>
-                    </a>
-                  </li>
-                </ul>
-              </div>
-              
-              <a href="/user/admin/santri/spp/spp.php" class="btn-sidebar nav-link text-light">
-                <span class="me-2"><i class="bi bi-cash-coin"></i></span>
-                <span>SPP Santri</span>
-              </a>
-            </li>
-            
-            <li class="mx-4">
-              <div class="navbar-divider my-3"></div>
-              <div class="text-light small fw-bold text-uppercase"><label>Pengasuh</label></div>
-              <a href="/user/admin/pengasuh/data-pengasuh/pengasuh.php" class="btn-sidebar nav-link text-light">
-                <span class="me-2"><i class="bi bi-people-fill"></i></span>
-                <span>Data Pengasuh</span>
-              </a>
-
-              <a href="/user/admin/pengasuh/presensi-pengasuh/presensi.php" class="btn-sidebar nav-link text-light">
-                <span class="me-2"><i class="bi bi-list-check"></i></span>
-                <span>Presensi Pengasuh</span>
-              </a>
-            </li>
-            
-            <li class="mx-4">
-              <div class="navbar-divider my-3"></div>
-              <div class="text-light small fw-bold text-uppercase"><label>Petugas Piket</label></div>
-              <a href="/user/admin/petugas/data-petugas/petugas.php" class="btn-sidebar nav-link text-light">
-                <span class="me-2"><i class="bi bi-people-fill"></i></span>
-                <span>Data Petugas</span>
-              </a>
-
-              <a href="/user/admin/petugas/presensi-petugas/presensi.php" class="btn-sidebar nav-link text-light">
-                <span class="me-2"><i class="bi bi-list-check"></i></i></span>
-                <span>Presensi Petugas</span>
-              </a>
-            </li>
-            
             <li class="mx-4 mb-3">
               <div class="navbar-divider my-3"></div>
               <div class="text-light small fw-bold text-uppercase"><label>Keuangan TPQ</label></div>
-              <a href="/user/admin/keuangan/keuangan.php" class="btn-sidebar nav-link text-light">
+              <a href="/user/bendahara/keuangan/keuangan.php" class="btn-sidebar nav-link text-light">
                 <span class="me-2"><i class="bi bi-wallet2"></i></span>
                 <span>Laporan Keuangan</span>
               </a>
