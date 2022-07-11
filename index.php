@@ -6,7 +6,7 @@
   <body>
     <!-- sidebar & navbar -->
     <?php
-      include_once('user/auth/login.php');
+	    header("location: user/auth/login.php");
     ?>
   </body>
 </html>
