@@ -25,7 +25,13 @@ if(isset($_POST['login'])) {
       setcookie('role', $data['roles'], time()+3600, '/');
     }
 
-    header("location: admin/dashboard.php");
+    if($data['roles'] == "ADMINISTRATOR") {
+      header("location: ../admin/dashboard.php");
+    } elseif($data['roles'] == "BENDAHARA TPQ") {
+      header("location: ../bendahara/dashboard.php");
+    } else {
+      
+    }
   }
 }
 ?>
