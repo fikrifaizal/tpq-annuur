@@ -1,10 +1,10 @@
 <?php
 /* mysqli_connect for database connection */
 
-$dbHost = 'remotemysql.com';
-$dbUser = 'ruqv5cbA2D';
-$dbPassword = 'TT97lZJdWA';
-$dbName = 'ruqv5cbA2D';
+$dbHost = 'sql.freedb.tech';
+$dbUser = 'freedb_santri';
+$dbPassword = 'b@AJx#3u6W29SsR';
+$dbName = 'freedb_annuur';
 
 // connect to database
 $conn = mysqli_connect($dbHost, $dbUser, $dbPassword, $dbName);
