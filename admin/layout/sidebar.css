@@ -10,7 +10,7 @@ button {
 
 :root {
   --offcanvas-width: 280px;
-  --topNavbarHeight: 42px;
+  --topNavbarHeight: 50px;
 }
 
 main {
@@ -28,6 +28,7 @@ main {
 .sidebar-nav {
   width: var(--offcanvas-width);
   background-color: #088A44;
+  border: none !important;
 }
 
 .sidebar-link {
@@ -43,26 +44,16 @@ main {
   transform: rotate(180deg);
 }
 
-.sidebar-nav .logo {
-  margin: 0px;
-  width: 0px;
-  height: 0px;
-}
-
-.sidebar-nav .logo, .user-info {
-  display: none;
-}
-
 .btn-sidebar:hover {
   font-weight: bold !important;
 }
 
 .content {
-  padding: 1rem;
+  padding: 1rem 1.5rem 1rem 1.5rem;
 }
 
 .content h3 {
-  margin-bottom: 1rem;
+  margin-bottom: 0.75rem;
   color: #6C757D;
 }
 
@@ -72,6 +63,17 @@ main {
 
 .navbar {
   background-color: #F8F9FC;
+}
+
+.navbar .navbar-margin {
+  margin: 0 20px 0 20px;
+}
+
+.navbar .logo {
+  margin: 0px;
+  width: 0px;
+  height: 0px;
+  display: none;
 }
 
 .navbar-nav .active {
@@ -130,11 +132,11 @@ main {
   }
   
   .content {
-    padding: 2rem;
+    padding: 1.5rem 2rem 1.5rem 2rem;
   }
 
   .content h3 {
-    margin-bottom: 1.5rem;
+    margin-bottom: 1.2rem;
   }
 
   .content .btn-back {
@@ -159,7 +161,7 @@ main {
     opacity: 0;
     visibility: hidden;
     transition: .3s;
-    margin-top: 2px !important;
+    margin-top: 4px !important;
   }
 
   .navbar .dropdown-menu.fade-down{
@@ -174,6 +176,13 @@ main {
     visibility: visible;
     top: 100%;
     transform: rotateX(0deg);
+  }
+
+  .navbar .logo {
+    display: initial;
+    width: 30px;
+    height: 30px;
+    margin-right: 4px;
   }
 
   .navbar-title {
@@ -192,16 +201,19 @@ main {
     height: 100%;
   }
 
-  .sidebar-nav .logo {
-    margin-left: 24px;
-    margin-top: 30px;
-    margin-bottom: 4px;
-    margin-right: 24px;
-    width: 53px;
-    height: 53px;
+  .sidebar-nav .side-property {
+    height: var(--topNavbarHeight);
+    width: var(--offcanvas-width);
   }
 
-  .sidebar-nav .logo, .user-info {
-    display: initial;
+  .sidebar-nav .side-property .item-property {
+    font-weight: 500;
+    font-size: 16px;
+  }
+
+  .sidebar-nav .side-divider {
+    height: 1px;
+    background-color: #70BB93;
+    margin: 0 0 1.25rem 0;
   }
 }

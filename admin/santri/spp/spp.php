@@ -36,13 +36,17 @@ $result = mysqli_query($conn, $query);
         <div class="card border shadow">
           <div class="card-body m-3">
 
-          <div>
-            <label class="text-secondary">Periode</label>
-            <h5><?= $setDate?></h5>
-          </div>
-          <a href="rekap-spp.php" class="btn btn-success">
-            <span>Cetak</span>
-          </a><hr class="my-3">
+            <div class="row">
+              <div class="col-sm">
+                <label class="text-secondary">Periode</label>
+                <h5><?= $setDate?></h5>
+              </div>
+              <div class="col-sm">
+                <a href="rekap-spp.php" class="btn btn-success" style="float: right;">
+                  <span>Cetak</span>
+                </a>
+              </div>
+            </div><hr class="my-3">
 
             <!-- table -->
             <div class="table-responsive">
@@ -79,7 +83,7 @@ $result = mysqli_query($conn, $query);
                       }
                       else { ?>
                         <td>
-                          <button type="button" class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#detailModal<?= $data['induk']?>">
+                          <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#detailModal<?= $data['induk']?>">
                             <span>Pilih</span>
                           </button>
                         </td></tr>

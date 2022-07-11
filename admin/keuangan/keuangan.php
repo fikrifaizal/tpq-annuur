@@ -6,7 +6,8 @@ require_once('../akses.php');
 // variabel for filter
 $startDate = "";
 $endDate = "";
-$file = $kategori = "semua";
+$hrefCetak = "";
+$file = $kategori = $setHeader = "semua";
 
 // set filter
 if(isset($_POST['filter'])) {
@@ -28,15 +29,19 @@ elseif(isset($_POST['hapus'])) {
 }
 // set data on filter form
 elseif((!empty($_GET['start']) && !empty($_GET['end'])) || !empty($_GET['kategori'])){
+  $hrefCetak = "?";
+
   if(!empty($_GET['start']) && !empty($_GET['end'])) {
     $getStartDate = $_GET['start'];
     $getEndDate = $_GET['end'];
 
     $startDate = customDateFormat($getStartDate);
     $endDate = customDateFormat($getEndDate);
+    $hrefCetak .= "start=$getStartDate&end=$getEndDate&";
   }
 
-  $file = $kategori = $_GET['kategori'];
+  $file = $kategori = $setHeader = $_GET['kategori'];
+  $hrefCetak .= "kategori=$kategori";
 }
 ?>
 
@@ -116,9 +121,13 @@ elseif((!empty($_GET['start']) && !empty($_GET['end'])) || !empty($_GET['kategor
           <div class="card-body m-3">
             <div class="row">
               <div class="col-sm">
-                <h5>Laporan Keuangan</h5>
+                <h5>Laporan Keuangan [<?= $setHeader?>]</h5>
               </div>
               <div class="col-sm">
+                <!-- cetak button -->
+                <a href="action/rekap.php<?= $hrefCetak?>" class="btn btn-success ms-1" style="float: right;">
+                  <span>Cetak</span>
+                </a>
                 <!-- button trigger modal -->
                 <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#tambahKeuangan" style="float: right;">
                   <span>Tambah</span>

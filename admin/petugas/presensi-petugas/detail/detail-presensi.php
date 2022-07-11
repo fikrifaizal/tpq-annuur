@@ -35,6 +35,18 @@ if(isset($_GET['id'])) {
     $setDate = $tahun."-".$bulanInt."-".$_GET['tgl'];
     $tanggal = customDateFormat($setDate);
   
+    $countQuery = "SELECT COUNT(piket_id) as total FROM `presensi_piket`
+                    WHERE filter_id LIKE '$id' && tanggal LIKE '$setDate'";
+    $countResult = mysqli_query($conn, $countQuery);
+    $countData = mysqli_fetch_array($countResult, MYSQLI_ASSOC);
+  
+    if($countData['total'] < 1) {
+      // insert from piket to presensi
+      $insertQuery = "INSERT INTO `presensi_piket`(`piket_id`,`filter_id`,`keterangan`,`tanggal`)
+                      SELECT `id`,'$id','','$setDate' FROM `piket` ORDER BY id ASC";
+      $insertResult = mysqli_query($conn, $insertQuery);
+    }
+  
     // data piket
     $result = query($conn, $id, $setDate);
   }
@@ -141,7 +153,7 @@ function query($connection, $filter, $date) {
               <table class="table table-bordered table-hover" id="dataTables-table">
                 <thead class="table-secondary">
                   <tr class="text-center align-middle">
-                    <th scope="col" width="10%">NIS</th>
+                    <th scope="col" width="10%">Induk</th>
                     <th scope="col">Nama Lengkap</th>
                     <th scope="col">Keterangan</th>
                     <th scope="col">Aksi</th>

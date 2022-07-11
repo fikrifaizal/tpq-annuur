@@ -20,7 +20,7 @@ $role = explode(" ", $_SESSION["role"]);
     <!-- css sidebar -->
     <link rel="stylesheet" href="\admin\layout\sidebar.css" />
   </head>
-  
+
   <body>
     <!-- start of top navigation bar -->
     <nav class="navbar navbar-light navbar-expand-lg fixed-top shadow">
@@ -37,9 +37,10 @@ $role = explode(" ", $_SESSION["role"]);
           <span class="navbar-toggler-icon"></span>
         </button>
 
-        <div class="collapse navbar-collapse mx-5" id="topNavBar">
+        <div class="collapse navbar-collapse navbar-margin" id="topNavBar">
           <div class="navbar-nav me-auto mb-2 mb-lg-0">
             <li class="nav-item">
+              <img class="logo" src="\assets\image\logo-annur-bulat.png" />
               <span class="topbar-text">Selamat Datang di Sistem Informasi Manajemen TPQ</span>
             </li>
           </div>
@@ -80,16 +81,16 @@ $role = explode(" ", $_SESSION["role"]);
       <div class="offcanvas-body p-0">
         <nav class="navbar-light">
           <ul class="navbar-nav">
-            <li>
-              <img class="logo" src="\assets\image\logo-annur-bulat.png" />
-              <li class="mx-4">
-                <div class="navbar-divider"></div>
-                <span class="user-info text-light"><?= ucfirst(strtolower($role['0']))?></span>
-              </li>
-            </li>
+            <div class="side-property">
+              <span class="nav-link text-light item-property mx-4 my-1">
+                <span class="me-2"><i class="bi bi-calendar"></i></span>
+                <?= customDateFormat(date("Y-m-d"))?>
+              </span>
+            </div>
+            <div class="side-divider mx-4"></div>
 
             <!-- sidebar item -->
-            <li class="mt-3 mx-4">
+            <li class="mx-4">
               <a href="/admin/dashboard.php" class="btn-sidebar nav-link text-light">
                 <span class="me-2"><i class="bi bi-columns-gap"></i></span>
                 <span>Dashboard</span>

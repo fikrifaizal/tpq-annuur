@@ -38,7 +38,7 @@ $result = mysqli_query($conn, $query);
           $uangKeluar = 0;
 
           // fetch data menjadi array asosisasi
-          while($data = mysqli_fetch_array($result, MYSQLI_ASSOC)){            
+          while($data = mysqli_fetch_array($result, MYSQLI_ASSOC)){
             $uangMasuk = $uangMasuk+intval($data['masuk']);
             $uangKeluar = $uangKeluar+intval($data['keluar']);
 

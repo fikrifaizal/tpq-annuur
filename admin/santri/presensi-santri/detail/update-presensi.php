@@ -12,13 +12,13 @@ if(isset($_GET['id']) && isset($_GET['nis'])) {
   $filterDate = $dateExplode[2];
   
   if($keterangan == 1) {
-    $queryRalat = "UPDATE `presensi_santri` SET `keterangan`='HADIR' WHERE `santri_induk` LIKE '$nis'";
+    $queryRalat = "UPDATE `presensi_santri` SET `keterangan`='HADIR' WHERE `santri_induk` LIKE '$nis' AND `tanggal` LIKE '$tanggal'";
     $resultRalat = mysqli_query($conn, $queryRalat);
   
     header("Location: detail-presensi.php?id=$id&tgl=$filterDate");
   }
   elseif($keterangan == 0) {
-    $queryRalat = "UPDATE `presensi_santri` SET `keterangan`='TIDAK HADIR' WHERE `santri_induk` LIKE '$nis'";
+    $queryRalat = "UPDATE `presensi_santri` SET `keterangan`='TIDAK HADIR' WHERE `santri_induk` LIKE '$nis' AND `tanggal` LIKE '$tanggal'";
     $resultRalat = mysqli_query($conn, $queryRalat);
     
     header("Location: detail-presensi.php?id=$id&tgl=$filterDate");

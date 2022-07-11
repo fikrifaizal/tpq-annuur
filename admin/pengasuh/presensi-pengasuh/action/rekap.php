@@ -27,7 +27,7 @@ if(isset($_GET['id'])) {
 }
 
 // get data from database
-$query = "SELECT `induk`,`nama_lengkap` FROM `santri`";
+$query = "SELECT `id`,`nama` FROM `pengajar`";
 $result = mysqli_query($conn, $query);
 
 // Start of TCPDF
@@ -37,10 +37,10 @@ $pdf = new TCPDF('L', PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
 // document info
 $pdf->setCreator('Tim Annuur');
 $pdf->setTitle('Informasi Absensi');
-$pdf->setSubject('Absensi Santri');
+$pdf->setSubject('Absensi Pengasuh');
 
 // header & footer data
-$pdf->setHeaderData('logo-annur-bulat-tanpa-alpha.jpg', 16, 'Informasi Absensi Santri', "Periode ".ucfirst(strtolower($dateData['bulan']))." ".$dateData['tahun'], array(8,138,68), array(0,0,0));
+$pdf->setHeaderData('logo-annur-bulat-tanpa-alpha.jpg', 16, 'Informasi Absensi Pengasuh', "Periode ".ucfirst(strtolower($dateData['bulan']))." ".$dateData['tahun'], array(8,138,68), array(0,0,0));
 $pdf->setHeaderFont(array(PDF_FONT_NAME_MAIN, '', 16));
 
 $pdf->setFooterData(array(0,0,0),array(0,0,0));
@@ -107,7 +107,7 @@ while($data = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
   $setData .= '
     <tr>
       <td style="text-align: center">'.$count++.'</td>
-      <td>'.$data['nama_lengkap'].'</td>';
+      <td>'.$data['nama'].'</td>';
 
   // set attendance
   for($i=1;$i<=$manyDays;$i++) {
@@ -120,8 +120,8 @@ while($data = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
     }
 
     // get attendance data from database
-    $cekPresensi = "SELECT keterangan FROM `presensi_santri`
-                    WHERE tanggal LIKE '$today' AND santri_induk LIKE '".$data['induk']."'";
+    $cekPresensi = "SELECT keterangan FROM `presensi_pengajar`
+                    WHERE tanggal LIKE '$today' AND pengajar_id LIKE '".$data['id']."'";
     $cekResult = mysqli_query($conn, $cekPresensi);
     $cekData = mysqli_fetch_array($cekResult, MYSQLI_ASSOC);
 

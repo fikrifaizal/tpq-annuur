@@ -35,6 +35,18 @@ if(isset($_GET['id'])) {
     $setDate = $tahun."-".$bulanInt."-".$_GET['tgl'];
     $tanggal = customDateFormat($setDate);
   
+    $countQuery = "SELECT COUNT(santri_induk) as total FROM `presensi_santri`
+                    WHERE filter_id LIKE '$id' && tanggal LIKE '$setDate'";
+    $countResult = mysqli_query($conn, $countQuery);
+    $countData = mysqli_fetch_array($countResult, MYSQLI_ASSOC);
+  
+    if($countData['total'] < 1) {
+      // insert from santri to presensi
+      $insertQuery = "INSERT INTO `presensi_santri`(`santri_induk`,`filter_id`,`keterangan`,`tanggal`)
+                      SELECT `induk`,'$id','','$setDate' FROM `santri` ORDER BY induk ASC";
+      $insertResult = mysqli_query($conn, $insertQuery);
+    }
+  
     // data santri
     $result = query($conn, $id, $setDate);
   }
