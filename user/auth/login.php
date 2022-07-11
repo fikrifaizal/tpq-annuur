@@ -30,8 +30,10 @@ if(isset($_POST['login'])) {
     } elseif($data['roles'] == "BENDAHARA TPQ") {
       header("location: ../bendahara/dashboard.php");
     } else {
-      
+
     }
+  } else {
+    echo 'salah';
   }
 }
 ?>
