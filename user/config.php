@@ -1,10 +1,10 @@
 <?php
 /* mysqli_connect for database connection */
 
-$dbHost = 'sql.freedb.tech';
-$dbUser = 'freedb_santri';
-$dbPassword = 'b@AJx#3u6W29SsR';
-$dbName = 'freedb_annuur';
+$dbHost = 'sql6.freemysqlhosting.net';
+$dbUser = 'sql6505252';
+$dbPassword = 'qfagAwgEw3';
+$dbName = 'sql6505252';
 
 // connect to database
 $conn = mysqli_connect($dbHost, $dbUser, $dbPassword, $dbName);
