@@ -48,7 +48,7 @@ $result = mysqli_query($conn, $query);
 
             <td>
               <!-- button edit -->
-              <a href="/user/admin/keuangan/action/edit.php?kid=<?= $data['id']?>" class="btn btn-warning btn-sm" data-toggle="tooltip" title="Edit">
+              <a href="/user/bendahara/keuangan/action/edit.php?kid=<?= $data['id']?>" class="btn btn-warning btn-sm" data-toggle="tooltip" title="Edit">
                 <span><i class="bi bi-pencil"></i></span>
               </a>
               <!-- button hapus -->
@@ -70,7 +70,7 @@ $result = mysqli_query($conn, $query);
                   </div>
                   <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tidak</button>
-                    <a href="/user/admin/keuangan/action/delete.php?kid=<?= $data['id']?>" class="btn btn-danger">
+                    <a href="/user/bendahara/keuangan/action/delete.php?kid=<?= $data['id']?>" class="btn btn-danger">
                       <span>Hapus</span>
                     </a>
                   </div>

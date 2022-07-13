@@ -1,7 +1,6 @@
 <?php 
 $name = explode(" ", $_SESSION["nama"]);
 $role = explode(" ", $_SESSION["role"]);
-
 ?>
 
 <!DOCTYPE html>
@@ -85,7 +84,20 @@ $role = explode(" ", $_SESSION["role"]);
             <div class="side-property">
               <span class="nav-link text-light item-property mx-4 my-1">
                 <span class="me-2"><i class="bi bi-calendar"></i></span>
-                <?= customDateFormat(date("Y-m-d"))?>
+                <span>
+                  <script type="text/javascript">
+                    var months = ["Januari","Februari","Maret","April","Mei","Juni","Juli","Agustus","September","Oktober","November","Desember"];
+                    var myDays = ["Minggu", "Senin", "Selasa", "Rabu", "Kamis", "Jum&#39;at", "Sabtu"];
+                    var date = new Date();
+                    var day = date.getDate();
+                    var month = date.getMonth();
+                    var thisDay = date.getDay(),
+                      thisDay = myDays[thisDay];
+                    var yy = date.getYear();
+                    var year = yy < 1000 ? yy + 1900 : yy;
+                    document.write(thisDay + ", " + day + " " + months[month] + " " + year);
+                  </script>
+                </span>
               </span>
             </div>
             <div class="side-divider mx-4"></div>
@@ -101,6 +113,11 @@ $role = explode(" ", $_SESSION["role"]);
             <li class="mx-4 mb-3">
               <div class="navbar-divider my-3"></div>
               <div class="text-light small fw-bold text-uppercase"><label>Keuangan TPQ</label></div>
+              <a href="/user/bendahara/spp-santri/spp.php" class="btn-sidebar nav-link text-light">
+                <span class="me-2"><i class="bi bi-cash-coin"></i></span>
+                <span>SPP Santri</span>
+              </a>
+
               <a href="/user/bendahara/keuangan/keuangan.php" class="btn-sidebar nav-link text-light">
                 <span class="me-2"><i class="bi bi-wallet2"></i></span>
                 <span>Laporan Keuangan</span>

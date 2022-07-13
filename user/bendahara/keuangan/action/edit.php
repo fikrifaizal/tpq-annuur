@@ -48,7 +48,8 @@ if(isset($_GET['kid'])) {
   <head>
     <title>TPQ</title>
     <!-- style css -->
-    <link rel="stylesheet" href="\user\admin\layout\style.css" />
+    <link rel="stylesheet" href="\user\bendahara\layout\style.css" />
+    <link rel="shortcut icon" href="/assets/image/logo-annur-bulat.png">
   </head>
 
   <body>
@@ -61,7 +62,7 @@ if(isset($_GET['kid'])) {
     <main>
       <div class="container-fluid content transition">
         <h3>Update Data Keuangan</h3>
-        <a href="/user/admin/keuangan/keuangan.php" class="btn btn-success btn-sm btn-back">
+        <a href="/user/bendahara/keuangan/keuangan.php" class="btn btn-success btn-sm btn-back">
           <span><i class="bi bi-chevron-left"></i></span>
           <span>Kembali</span>
         </a>

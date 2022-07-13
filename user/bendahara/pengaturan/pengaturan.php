@@ -43,7 +43,7 @@ if(isset($_POST['ubah'])) {
   <head>
     <title>TPQ</title>
     <!-- style css -->
-    <link rel="stylesheet" href="\user\admin\layout\style.css" />
+    <link rel="stylesheet" href="\user\bendahara\layout\style.css" />
     <style>
     </style>
   </head>
@@ -87,7 +87,7 @@ if(isset($_POST['ubah'])) {
                 <strong><?= $setAlertText;?></strong>
                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
               </div>
-              
+
               <!-- Password -->
               <div class="form-group row">
                 <label for="passwdBaru" class="col-sm-2 col-form-label">Password Baru</label>
@@ -102,7 +102,7 @@ if(isset($_POST['ubah'])) {
                   <input type="password" name="passwdulang" class="form-control" id="passwdBaruUlang">
                 </div>
               </div><hr>
-              
+
               <!-- Button -->
               <div class="form-group row mt-2">
                 <label for="button" class="col-sm-2 col-form-label"></label>
@@ -120,7 +120,7 @@ if(isset($_POST['ubah'])) {
                 </div>
               </div>
             </form>
-            
+
             <!-- Modal Danger -->
             <div class="modal fade" tabindex="-1" id="modalDanger" aria-hidden="true" >
               <div class="modal-dialog modal-dialog-centered">
