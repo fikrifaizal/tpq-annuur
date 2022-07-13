@@ -44,7 +44,8 @@ if(isset($_GET['id'])) {
   <head>
     <title>TPQ</title>
     <!-- style css -->
-    <link rel="stylesheet" href="\user\admin\layout\style.css" />
+    <link rel="stylesheet" href="/user/admin/layout/style.css" />
+    <link rel="shortcut icon" href="/assets/image/logo-annur-bulat.png">
   </head>
 
   <body>
