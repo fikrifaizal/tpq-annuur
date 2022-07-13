@@ -17,13 +17,9 @@ if(isset($_POST['login'])) {
     $_SESSION["nama"] = $data['nama'];
     $_SESSION["role"] = $data['roles'];
 
-    //cek remember me
-    if($_POST['remember'] == "remember"){
-      //set cookie
-      setcookie('id', $data['id'], time()+3600, '/');
-      setcookie('nama', $data['nama'], time()+3600, '/');
-      setcookie('role', $data['roles'], time()+3600, '/');
-    }
+    setcookie('id', $data['id'], time()+3600, '/');
+    setcookie('nama', $data['nama'], time()+3600, '/');
+    setcookie('role', $data['roles'], time()+3600, '/');
 
     if($data['roles'] == "ADMINISTRATOR") {
       header("location: ../admin/dashboard.php");
