@@ -17,7 +17,8 @@ $result = mysqli_query($conn, $query);
   <head>
     <title>TPQ</title>
     <!-- style css -->
-    <link rel="stylesheet" href="\user\bendahara\layout\style.css" />
+    <link rel="stylesheet" href="/user/bendahara/layout/style.css" />
+    <link rel="shortcut icon" href="/assets/image/logo-annur-bulat.png">
   </head>
 
   <body>
@@ -56,7 +57,7 @@ $result = mysqli_query($conn, $query);
                     <th scope="col">NIS</th>
                     <th scope="col">Nama Lengkap</th>
                     <th scope="col">Nama Wali</th>
-                    <th scope="col" width="10%">Aksi</th>
+                    <th scope="col" width="10%">Keterangan</th>
                   </tr>
                 </thead>
                 <tbody>

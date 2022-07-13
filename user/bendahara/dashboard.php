@@ -3,20 +3,12 @@ require_once('../config.php');
 require_once('../helper.php');
 include_once('akses.php');
 
+$setMonth = date("m");
+
 // santri
-$querySantri = "SELECT COUNT(induk) as santri FROM `santri`";
+$querySantri = "SELECT COUNT(id) as santri FROM `keuangan_tpq` WHERE `keluar` LIKE '0' AND `tanggal` LIKE '%$setMonth%' AND `keterangan` LIKE '%SPP%'";
 $resultSantri = mysqli_query($conn, $querySantri);
 $dataSantri = mysqli_fetch_array($resultSantri, MYSQLI_ASSOC);
-
-// pengasuh
-$queryPengasuh = "SELECT COUNT(id) as pengasuh FROM `pengajar`";
-$resultPengasuh = mysqli_query($conn, $queryPengasuh);
-$dataPengasuh = mysqli_fetch_array($resultPengasuh, MYSQLI_ASSOC);
-
-// petugas piket
-$queryPiket = "SELECT COUNT(id) as piket FROM `piket`";
-$resultPiket = mysqli_query($conn, $queryPiket);
-$dataPiket = mysqli_fetch_array($resultPiket, MYSQLI_ASSOC);
 
 // saldo
 $querySaldo = "SELECT (SUM(masuk)-SUM(keluar)) as saldo FROM `keuangan_tpq`";
@@ -31,7 +23,7 @@ $setYear = date("Y");
   <head>
     <title>TPQ</title>
     <!-- style css -->
-    <link rel="stylesheet" href="\user\bendahara\layout\style.css" />
+    <link rel="stylesheet" href="/user/bendahara/layout/style.css" />
     <link rel="shortcut icon" href="/assets/image/logo-annur-bulat.png">
   </head>
 
@@ -53,8 +45,8 @@ $setYear = date("Y");
               <div class="card-body">
                 <div class="row align-items-center">
                   <div class="col mr-2">
-                    <div class="font-weight-bold text-primary text-uppercase mb-1">SPP Belum Lunas</div>
-                    <div class="h5 font-weight-bold"><?= $dataSantri['santri']?> Orang</div>
+                    <div class="font-weight-bold text-primary text-uppercase mb-1">SPP Belum Lunas Bulan Ini</div>
+                    <div class="h5 font-weight-bold"><?= $dataSantri['santri']?> Santri</div>
                   </div>
                   <div class="col-auto">
                     <i class="bi bi-book" aria-hidden="true"></i>
@@ -69,7 +61,7 @@ $setYear = date("Y");
               <div class="card-body">
                 <div class="row align-items-center">
                   <div class="col mr-2">
-                    <div class="font-weight-bold text-secondary text-uppercase mb-1">Saldo TPQ</div>
+                    <div class="font-weight-bold text-secondary text-uppercase mb-1">Saldo TPQ Saat Ini</div>
                     <div class="h5 font-weight-bold"><?= setIDRFormat($dataSaldo['saldo'])?></div>
                   </div>
                   <div class="col-auto">
@@ -85,11 +77,11 @@ $setYear = date("Y");
           <div class="col-md-12 mb-3">
             <div class="card border-left-success shadow h-100">
               <div class="card-header">
-                <span class="me-2"><i class="bi bi-bar-chart-fill"></i></span>
+                <span class="me-1"><i class="bi bi-bar-chart-fill"></i></span>
                 <span>Keuangan Tahun <?=$setYear?></span>
               </div>
               <div class="card-body">
-                <canvas class="keuanganchart" width="400" height="200"></canvas>
+                <canvas id="keuanganchart" width="100%" height="25px"></canvas>
               </div>
             </div>
           </div>
@@ -101,63 +93,75 @@ $setYear = date("Y");
     <script src="https://cdn.jsdelivr.net/npm/chart.js@3.0.2/dist/chart.min.js"></script>
 
     <script>
-      // Area Chart Januari-Juni
-      const chart1 = document.querySelectorAll(".keuanganchart");
+      // Area Chart
+      new Chart("keuanganchart", {
+        type: "line",
+        data: {
+          labels: ["Januari","Februari","Maret","April","Mei","Juni","Juli","Agustus","September","Oktober","November","Desember"],
+          datasets: [{
+            label: "Kas Masuk",
+            data: [
+              <?php
+                for($i=1;$i<=12;$i++) {
+                  if($i<10) {
+                    $setMonth = $setYear."-0$i";
+                  } else {
+                    $setMonth = $setYear."-$i";
+                  }
 
-      chart1.forEach(function (chart) {
-        var ctx = chart.getContext("2d");
-        var myChart = new Chart(ctx, {
-          type: "line",
-          data: {
-            labels: ["Januari","Februari","Maret","April","Mei","Juni","Juli","Agustus","September","Oktober","November","Desember"],
-            datasets: [
-              {
-                label: "Jumlah Peminjaman",
-                data: [
-                  <?php
-                    for($i=1;$i<=12;$i++) {
-                      if($i<10) {
-                        $setMonth = $setYear."-0$i";
-                      } else {
-                        $setMonth = $setYear."-$i";
-                      }
+                  $count_chart = "SELECT SUM(masuk) as totalmasuk FROM `keuangan_tpq` WHERE `tanggal` LIKE '%$setMonth%' AND `keluar` LIKE '0'";
+                  $query_chart = mysqli_query($conn, $count_chart);
+                  $data_chart = mysqli_fetch_array($query_chart, MYSQLI_ASSOC);
+                  if(!empty($data_chart['totalmasuk'])) {
+                    echo $data_chart['totalmasuk'];
+                  } else {
+                    echo 0;
+                  }
 
-                      $count_chart = "SELECT id FROM `keuangan_tpq` WHERE `tanggal` LIKE '%$setMonth%'";
-                      $query_chart = mysqli_query($conn, $count_chart);
-                      echo mysqli_num_rows($query_chart);
-
-                      if($i<12) {
-                        echo ',';
-                      }
-                    }
-                  ?>
-                ],
-                borderColor: [
-                  "rgba(255, 99, 132, 1)",
-                  "rgba(54, 162, 235, 1)",
-                  "rgba(255, 206, 86, 1)",
-                  "rgba(75, 192, 192, 1)",
-                  "rgba(75, 206, 192, 1)",
-                  "rgba(75, 192, 235, 1)",
-                  "rgba(255, 192, 192, 1)",
-                  "rgba(132, 192, 192, 1)",
-                  "rgba(75, 255, 99, 1)",
-                  "rgba(75, 102, 192, 1)",
-                  "rgba(153, 102, 255, 1)",
-                  "rgba(255, 159, 64, 1)"
-                ],
-                borderWidth: 1,
-              },
+                  if($i<12) {
+                    echo ',';
+                  }
+                }
+              ?>
             ],
+            borderColor: "green",
+            borderWidth: 1,
+            fill: false
           },
-          options: {
-            scales: {
-              y: {
-                beginAtZero: true,
-              },
-            },
-          },
-        });
+          {
+            label: "Kas Keluar",
+            data: [
+              <?php
+                for($i=1;$i<=12;$i++) {
+                  if($i<10) {
+                    $setMonth = $setYear."-0$i";
+                  } else {
+                    $setMonth = $setYear."-$i";
+                  }
+
+                  $count_chart = "SELECT SUM(keluar) as totalkeluar FROM `keuangan_tpq` WHERE `tanggal` LIKE '%$setMonth%' AND `masuk` LIKE '0'";
+                  $query_chart = mysqli_query($conn, $count_chart);
+                  $data_chart = mysqli_fetch_array($query_chart, MYSQLI_ASSOC);
+                  if(!empty($data_chart['totalkeluar'])) {
+                    echo $data_chart['totalkeluar'];
+                  } else {
+                    echo 0;
+                  }
+
+                  if($i<12) {
+                    echo ',';
+                  }
+                }
+              ?>
+            ],
+            borderColor: "red",
+            borderWidth: 1,
+            fill: false
+          }]
+        },
+        options: {
+          legend: {display: false}
+        }
       });
     </script>
   </body>
