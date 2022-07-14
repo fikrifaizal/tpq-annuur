@@ -3,7 +3,7 @@ require_once '../config.php';
 
 if(isset($_POST['login'])) {
   $username = $_POST['username'];
-  $password = $_POST['password'];
+  $password = $_POST['passwd'];
 
   $query = "SELECT `id`,`nama`,`roles`,`password` FROM user
             WHERE `username`='$username'";
@@ -29,24 +29,82 @@ if(isset($_POST['login'])) {
 
     }
   } else {
-    echo 'salah';
+    
   }
 }
 ?>
 
-<body>
-  <div class="wrapper">
-    <div class="text-center mt-4 name">Masjid An-Nuur Minomartani</div>
-    <form class="p-3 mt-3" method="post">
-      <div class="form-field d-flex align-items-center">
-        <span class="far fa-user"></span>
-        <input type="text" name="username" id="username" placeholder="Username"/>
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>TPQ</title>
+    <!-- style css -->
+    <link rel="stylesheet" href="/user/auth/login.css" />
+    <link rel="stylesheet" href="/user/bendahara/layout/style.css" />
+    <link rel="shortcut icon" href="/assets/image/logo-annur-bulat.png">
+
+    <!-- cdn bootstrap 5 & icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.3/font/bootstrap-icons.css">
+    <!-- cdn font style -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,500;0,600;1,400;1,500;1,600&display=swap" />
+  </head>
+
+  <body class="text-center">
+    <main>
+      <div class="container-fluid form-signin transition">
+        <!-- card login -->
+        <div class="card border shadow">
+          <div class="card-body mx-4 my-3">
+            <img class="logo mb-1" src="\assets\image\logo-annur-bulat.png" />
+            <h4 class="mb-3">Sistem Informasi TPQ Annuur</h4>
+
+            <form class="text-center" method="post">
+              <div class="mb-3">
+                <input type="text" class="form-control" name="username" id="username" placeholder="Username" required>
+              </div>
+              <div class="mb-4">
+                <input type="password" class="form-control" name="passwd" id="passwd" placeholder="Password" required>
+              </div>
+              <button type="submit" class="w-100 mb-1 btn btn-success" name="login">Login</button>
+            </form>
+          </div>
+        </div>
       </div>
-      <div class="form-field d-flex align-items-center">
-        <span class="fas fa-key"></span>
-        <input type="password" name="password" id="pwd" placeholder="Password"/>
+    </main>
+    
+    <footer>
+      <div class="container-fluid footer transition">
+        <div class="menu row">
+          <div class="col-sm-4">
+            <a href="rekap-spp.php" class="btn btn-success p-3">
+              <div class="text-center">
+                <img class="img-btn mb-3" src="\assets\image\logo-annur-bulat.png" />
+                <h6>Web Masjid</h6>
+              </div>
+            </a>
+          </div>
+          <div class="col-sm-4">
+            <a href="rekap-spp.php" class="btn btn-success p-3">
+              <div class="text-center">
+                <img class="img-btn mb-3" src="\assets\image\logo-annur-bulat.png" />
+                <h6>TPQ Annuur</h6>
+              </div>
+            </a>
+          </div>
+          <div class="col-sm-4">
+            <a href="rekap-spp.php" class="btn btn-success p-3">
+              <div class="text-center">
+                <img class="img-btn mb-3" src="\assets\image\logo-annur-bulat.png" />
+                <h6>Keuangan Masjid</h6>
+              </div>
+            </a>
+          </div>
+        </div>
+        <div class="footer-divider mx-5"></div>
+
+        <h6 class="copyright">Powered by Teknik Informatika UIN Sunan Kalijaga 2022</h6>
       </div>
-      <button class="btn mt-3" type="submit" name="login">Login</button>
-    </form>
-  </div>
-</body>
+    </footer>
+  </body>
+</html>
