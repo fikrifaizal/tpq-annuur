@@ -19,7 +19,7 @@ if(isset($_POST['tambah'])) {
 <!DOCTYPE html>
 <html>
   <head>
-    <title>TPQ</title>
+    <title>TPQ - Masjid Annuur</title>
     <!-- style css -->
     <link rel="stylesheet" href="/user/admin/layout/style.css" />
     <link rel="shortcut icon" href="/assets/image/logo-annur-bulat.png">
