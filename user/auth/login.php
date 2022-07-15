@@ -85,7 +85,7 @@ if(isset($_POST['login'])) {
             </a>
           </div>
           <div class="col-sm-4">
-            <a href="rekap-spp.php" class="btn btn-success p-3">
+            <a href="https://tpq-annuurr.herokuapp.com/" class="btn btn-success p-3">
               <div class="text-center">
                 <img class="img-btn mb-3" src="\assets\image\logo-annur-bulat.png" />
                 <h6>TPQ Annuur</h6>
@@ -93,7 +93,7 @@ if(isset($_POST['login'])) {
             </a>
           </div>
           <div class="col-sm-4">
-            <a href="rekap-spp.php" class="btn btn-success p-3">
+            <a href="https://keuangan-annuur.herokuapp.com/" class="btn btn-success p-3">
               <div class="text-center">
                 <img class="img-btn mb-3" src="\assets\image\logo-annur-bulat.png" />
                 <h6>Keuangan Masjid</h6>
