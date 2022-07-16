@@ -77,7 +77,7 @@ if(isset($_POST['login'])) {
       <div class="container-fluid footer transition">
         <div class="menu row">
           <div class="col-sm-4">
-            <a href="rekap-spp.php" class="btn btn-success p-3">
+            <a href="https://annuur-testing.herokuapp.com/" class="btn btn-success p-3">
               <div class="text-center">
                 <img class="img-btn mb-3" src="\assets\image\illus\Masjid.png" />
                 <h6>Web Masjid</h6>
