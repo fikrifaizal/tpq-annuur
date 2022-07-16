@@ -13,10 +13,10 @@ if(isset($_GET['kid'])) {
   $tanggal = $data['tanggal'];
 
   if(intval($data['masuk']) != 0) {
-    $kategori = "masuk";
+    $kategori = "Kas Masuk";
     $jumlah = $data['masuk'];
   } else {
-    $kategori = "keluar";
+    $kategori = "Kas Keluar";
     $jumlah = $data['keluar'];
   }
 
@@ -24,15 +24,15 @@ if(isset($_GET['kid'])) {
     session_start();
     $id = $_SESSION["id"];
     $keterangan = $_POST['keterangan'];
-    $kategori = $_POST['newkategori'];
+    $kategori = $_POST['kategori'];
     $jumlah = $_POST['jumlah'];
     $tanggal = $_POST['tanggal'];
 
-    if($kategori == "masuk") {
+    if($kategori == "Kas Masuk") {
       $query = "UPDATE `keuangan_tpq` SET `keterangan`='$keterangan',`keluar`='0',`masuk`='$jumlah',`tanggal`='$tanggal',`user_id`='$id' WHERE `id` LIKE '$kid'";
     }
-    elseif($kategori == "keluar") {
-      $query = "UPDATE `keuangan_tpq` SET `keterangan`='$keterangan',`keluar`='0',`masuk`='$jumlah',`tanggal`='$tanggal',`user_id`='$id' WHERE `id` LIKE '$kid'";
+    elseif($kategori == "Kas Keluar") {
+      $query = "UPDATE `keuangan_tpq` SET `keterangan`='$keterangan',`masuk`='0',`keluar`='$jumlah',`tanggal`='$tanggal',`user_id`='$id' WHERE `id` LIKE '$kid'";
     }
     $result = mysqli_query($conn, $query);
 
@@ -84,13 +84,9 @@ if(isset($_GET['kid'])) {
 
               <!-- Kategori -->
               <div class="form-group row">
-                <label for="newkategori" class="col-sm-3 col-form-label">Kategori</label>
+                <label for="kategori" class="col-sm-3 col-form-label">Kategori</label>
                 <div class="col-sm-9">
-                  <select class="form-select" name="newkategori" id="newkategori">
-                    <option selected disabled></option>
-                    <option value="masuk">Kas Masuk</option>
-                    <option value="keluar">Kas Keluar</option>
-                  </select>
+                  <input type="text" name="kategori" class="form-control" id="kategori" value="<?= $kategori?>" readonly>
                 </div>
               </div><br>
 
@@ -130,19 +126,5 @@ if(isset($_GET['kid'])) {
         </div>
       </div>
     </main>
-            
-    <!-- Javascript -->
-    <?php
-      // selected data in select form
-      if($kategori == "masuk") {
-        echo '<script type="text/javascript">
-                document.getElementById("newkategori").getElementsByTagName("option")[1].selected = "selected"
-              </script>';
-      } else {
-        echo '<script type="text/javascript">
-                document.getElementById("newkategori").getElementsByTagName("option")[2].selected = "selected"
-              </script>';
-      }
-    ?>
   </body>
 </html>

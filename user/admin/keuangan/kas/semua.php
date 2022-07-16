@@ -14,6 +14,11 @@ if(!empty($_GET['start']) && !empty($_GET['end'])){
 
 // connect & query database
 $result = mysqli_query($conn, $query);
+
+// get saldo
+$querySaldo = "SELECT (SUM(masuk)-SUM(keluar)) as saldo FROM `keuangan_tpq`";
+$resultSaldo = mysqli_query($conn, $querySaldo);
+$dataSaldo = mysqli_fetch_array($resultSaldo, MYSQLI_ASSOC);
 ?>
 
 <!DOCTYPE html>
@@ -96,7 +101,7 @@ $result = mysqli_query($conn, $query);
         </tr>
         <tr>
           <td colspan="3" class="fw-bold">Saldo Saat Ini</td>
-          <td colspan="2" class='text-center align-middle'>Rp <?= number_format($uangMasuk-$uangKeluar,0,'.','.')?></td>
+          <td colspan="2" class='text-center align-middle'><?= setIDRFormat($dataSaldo['saldo'])?></td>
         </tr>
       </tfoot>
     </table>

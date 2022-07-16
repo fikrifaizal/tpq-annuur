@@ -55,7 +55,7 @@ if(isset($_GET['id'])) {
     if($_FILES['sertifikat']['size'] <= $maximumSize) {
       $sertifikat = $explodeName[0]."_".$_FILES['sertifikat']['name'];
       $type = "application/pdf";
-      $directory = "C:/xampp/htdocs/assets/berkas/sertifikat/";
+      $directory = "../../../../../assets/berkas/sertifikat/";
 
       // checking type of file
       if($_FILES['sertifikat']['type'] == $type) {

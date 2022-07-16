@@ -72,7 +72,7 @@ $result = mysqli_query($conn, $query);
                         <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
                           <div class="modal-content">
                             <div class="modal-header">
-                              <h5 class="modal-title" id="exampleModalLabel">Data Lengkap Pengajar</h5>
+                              <h5 class="modal-title" id="exampleModalLabel">Data Lengkap Petugas</h5>
                               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
                             <div class="modal-body">
@@ -118,7 +118,7 @@ $result = mysqli_query($conn, $query);
                             </div>
                             <div class="modal-footer">
                               <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tidak</button>
-                              <a href="/user/admin/pengasuh/data-pengasuh/action/delete.php?id=<?= $data['id']?>" class="btn btn-danger">
+                              <a href="action/delete.php?id=<?= $data['id']?>" class="btn btn-danger">
                                 <span>Hapus</span>
                               </a>
                             </div>

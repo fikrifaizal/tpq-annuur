@@ -152,7 +152,7 @@ function formatTanggal($date){
                             </div>
                             <div class="modal-footer">
                               <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tidak</button>
-                              <a href="/user/admin/pengasuh/data-pengasuh/action/delete.php?nis=<?=$data['induk']?>" class="btn btn-danger">
+                              <a href="action/delete.php?nis=<?=$data['induk']?>" class="btn btn-danger">
                                 <span>Hapus</span>
                               </a>
                             </div>

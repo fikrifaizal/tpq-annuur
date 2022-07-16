@@ -108,7 +108,6 @@ $filterResult = mysqli_query($conn, $filterQuery);
                             <div class="modal-footer">
                               <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tidak</button>
                               <a role="button" href="action/delete.php?id=<?= $data['id']?>" class="btn btn-danger">
-                                <span><i class="bi bi-pencil"></i><span>
                                 <span>Hapus</span>
                               </a>
                             </div>

@@ -51,7 +51,7 @@ function formatTanggal($date){
     <!-- konten -->
     <main>
       <div class="container-fluid content transition">
-        <h3>Update Data Santri</h3>
+        <h3>Tambah Data Santri</h3>
         <a href="/user/admin/santri/data-santri/santri.php" class="btn btn-success btn-sm btn-back">
           <span><i class="bi bi-chevron-left"></i></span>
           <span>Kembali</span>
