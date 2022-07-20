@@ -31,7 +31,7 @@ if(isset($_POST['tambah'])) {
         // checking if upload is success
         if($upload) {
           // send data to db
-          $query = "INSERT INTO `pengajar`(`nama`,`jenis_kelamin`,`alamat`,`no_telp`,`sertifikat`) VALUES ('$nama','$gender','$alamat','$telp','$sertifikat')";
+          $query = "INSERT INTO `pengajar`(`nama`,`jenis_kelamin`,`alamat`,`no_telp`,`sertifikat`,`foto`) VALUES ('$nama','$gender','$alamat','$telp','$sertifikat','')";
           $result = mysqli_query($conn, $query);
           
           header("Location: ../pengasuh.php");
@@ -51,7 +51,7 @@ if(isset($_POST['tambah'])) {
       $setAlertText2 = "Ukuran maksimal adalah 2 MB";
     }
   } else {
-    $query = "INSERT INTO `pengajar`(`nama`,`jenis_kelamin`,`alamat`,`no_telp`,`sertifikat`) VALUES ('$nama','$gender','$alamat','$telp','')";
+    $query = "INSERT INTO `pengajar`(`nama`,`jenis_kelamin`,`alamat`,`no_telp`,`sertifikat`,`foto`) VALUES ('$nama','$gender','$alamat','$telp','','')";
     $result = mysqli_query($conn, $query);
     
     header("Location: ../pengasuh.php");
