@@ -5,10 +5,17 @@ require_once('../../akses.php');
 $id = $_SESSION["id"];
 
 $keterangan = addslashes($_POST['keterangan']);
+$kategori = $_POST['newkategori'];
 $jumlah = $_POST['jumlah'];
 $tanggal = $_POST['tanggal'];
 
-$query = "INSERT INTO `keuangan_tpq`(`keterangan`,`keluar`,`masuk`,`tanggal`,`user_id`) VALUES ('$keterangan','$jumlah','0','$tanggal','$id')";
+if($kategori == "masuk") {
+  $query = "INSERT INTO `keuangan_tpq`(`keterangan`,`masuk`,`keluar`,`tanggal`,`user_id`) VALUES ('$keterangan','$jumlah','0','$tanggal','$id')";
+}
+elseif($kategori == "keluar") {
+  $query = "INSERT INTO `keuangan_tpq`(`keterangan`,`keluar`,`masuk`,`tanggal`,`user_id`) VALUES ('$keterangan','$jumlah','0','$tanggal','$id')";
+}
+
 $result = mysqli_query($conn, $query);
 
 header("Location: ../keuangan.php");
