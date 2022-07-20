@@ -34,9 +34,9 @@ if(isset($_GET['id'])) {
 
   // form ubah data
   if(isset($_POST['ubah'])) {
-    $nama = $_POST['nama'];
+    $nama = addslashes($_POST['nama']);
     $gender = $_POST['gender'];
-    $alamat = $_POST['alamat'];
+    $alamat = addslashes($_POST['alamat']);
     $telp = $_POST['nomortelepon'];
 
     // send data to db

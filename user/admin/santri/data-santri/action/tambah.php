@@ -4,18 +4,18 @@ require_once('../../../akses.php');
 
 // form tambah data
 if(isset($_POST['tambah'])) {
-  $namaLengkap = $_POST['namaLengkap'];
-  $panggilan = ucwords($_POST['panggilan']);
-  $tempatLahir = ucwords($_POST['tempat']);
+  $namaLengkap = addslashes($_POST['namaLengkap']);
+  $panggilan = addslashes(ucwords($_POST['panggilan']));
+  $tempatLahir = addslashes(ucwords($_POST['tempat']));
   $tglLahir = $_POST['tanggal'];
   $tglLahir = formatTanggal($tglLahir);
   $jenjangSekolah = $_POST['jenjangSekolah'];
   $kelas = $_POST['kelas'];
   $telpSantri = $_POST['telpSantri'];
-  $namaWali = $_POST['namaWali'];
-  $pekerjaanWali = $_POST['pekerjaanWali'];
+  $namaWali = addslashes($_POST['namaWali']);
+  $pekerjaanWali = addslashes($_POST['pekerjaanWali']);
   $telpWali = $_POST['telpWali'];
-  $alamat = $_POST['alamat'];
+  $alamat = addslashes($_POST['alamat']);
   $infakBulanan = $_POST['infak'];
   
   $query = "INSERT INTO santri(`nama_lengkap`, `panggilan`, `tempat_lahir`, `tgl_lahir`, `jenjang_sekolah`, `kelas`,

@@ -4,7 +4,7 @@ require_once('../../akses.php');
 
 $id = $_SESSION["id"];
 
-$keterangan = $_POST['keterangan'];
+$keterangan = addslashes($_POST['keterangan']);
 $jumlah = $_POST['jumlah'];
 $tanggal = $_POST['tanggal'];
 

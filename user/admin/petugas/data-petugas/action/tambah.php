@@ -4,9 +4,9 @@ require_once('../../../akses.php');
 
 // form tambah data
 if(isset($_POST['tambah'])) {
-  $nama = $_POST['nama'];
+  $nama = addslashes($_POST['nama']);
   $gender = $_POST['gender'];
-  $alamat = $_POST['alamat'];
+  $alamat = addslashes($_POST['alamat']);
   $telp = $_POST['nomortelepon'];
 
   $query = "INSERT INTO `piket`(`nama`,`jenis_kelamin`,`alamat`,`no_telp`) VALUES ('$nama','$gender','$alamat','$telp')";

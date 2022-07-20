@@ -23,7 +23,7 @@ if(isset($_GET['kid'])) {
   if(isset($_POST['ubah'])) {
     session_start();
     $id = $_SESSION["id"];
-    $keterangan = $_POST['keterangan'];
+    $keterangan = addslashes($_POST['keterangan']);
     $kategori = $_POST['kategori'];
     $jumlah = $_POST['jumlah'];
     $tanggal = $_POST['tanggal'];
