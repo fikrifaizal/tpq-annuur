@@ -1,9 +1,6 @@
 #mengaktifkan rewrite
 RewriteEngine On
 
-#aturan rewrite 1
-RewriteRule ^(.*)$ /user/$1
-
 #remove extension html
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteCond %{REQUEST_FILENAME}.html -f
