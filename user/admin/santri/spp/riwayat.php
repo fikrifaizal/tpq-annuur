@@ -5,11 +5,26 @@ require_once('../../akses.php');
 
 $setMonth = date("m");
 $setYear = date("Y");
-$setDate = monthConverter2($setMonth)." ".$setYear;
+$periode = monthConverter2($setMonth)." ".$setYear;
+$tanggal = $setYear."-".$setMonth;
 
 // connect & query database
 $query = "SELECT * FROM `santri`";
 $result = mysqli_query($conn, $query);
+
+// set periode
+if(isset($_POST['filter'])) {
+  $explodeData = explode(" ",$_POST['periode']);
+  $periode = $explodeData[1]."-".monthConverter(strtoupper($explodeData[0]));
+
+  header("Location: ?periode=$periode");
+}
+// ambil data setelah search
+elseif(!empty($_GET['periode'])){
+  $tanggal = $_GET['periode'];
+  $explodeData = explode("-",$_GET['periode']);
+  $periode = monthConverter2($explodeData[1])." ".$explodeData[0];
+}
 ?>
 
 <!DOCTYPE html>
@@ -30,26 +45,41 @@ $result = mysqli_query($conn, $query);
     <!-- konten -->
     <main>
       <div class="container-fluid content transition">
-        <h3>SPP Santri</h3>
+        <h3>Riwayat SPP Santri</h3>
+        <a href="/user/admin/santri/spp/spp.php" class="btn btn-success btn-sm btn-back">
+          <span><i class="bi bi-chevron-left"></i></span>
+          <span>Kembali</span>
+        </a>
 
         <!-- card tabel -->
         <div class="card border shadow">
           <div class="card-body m-3">
 
-            <div class="row">
-              <div class="col-sm">
-                <label class="text-secondary">Periode</label>
-                <h5><?= $setDate?></h5>
+            <form method="post">
+              <div class="row">
+
+                <!-- filter periode -->
+                <div class="col-sm-9">
+                  <p for="datepicker" class="form-label fw-bold">Periode</p>
+                  <input type="text" name="periode" class="form-control btn btn-input text-start" id="input-periode" placeholder="Klik untuk memilih bulan" value="<?= $periode?>" readonly>
+                </div>
+
+                <!-- button -->
+                <div class="col-sm-2 d-grid">
+                  <p for="btn-group" class="form-label fw-bold">&nbsp</p>
+                  <button type="submit" name="filter" class="btn btn-primary btn-block">
+                    <span>Tampilkan</span>
+                  </button>
+                </div>
+                <!-- button -->
+                <div class="col-sm-1 d-grid">
+                  <p for="btn-group" class="form-label fw-bold">&nbsp</p>
+                  <a href="rekap-spp.php" class="btn btn-success btn-block">
+                    <span>Cetak</span>
+                  </a>
+                </div>
               </div>
-              <div class="col-sm">
-                <a href="rekap-spp.php" class="btn btn-success ms-1" target="_blank" style="float: right;">
-                  <span>Cetak</span>
-                </a>
-                <a href="riwayat.php" class="btn btn-success" style="float: right;">
-                  <span>Riwayat</span>
-                </a>
-              </div>
-            </div><hr class="my-3">
+            </form><hr class="my-3">
 
             <!-- table -->
             <div class="table-responsive">
@@ -70,7 +100,7 @@ $result = mysqli_query($conn, $query);
                     while($data = mysqli_fetch_array($result, MYSQLI_ASSOC)){
                       // cek pembayaran
                       $cekQuery = "SELECT COUNT(id) as id FROM `keuangan_tpq`
-                                  WHERE `tanggal` LIKE '%$setMonth%' AND
+                                  WHERE `tanggal` LIKE '%$tanggal%' AND
                                   `keterangan` LIKE '%".$data['nama_lengkap']."%'";
                       $cekResult = mysqli_query($conn, $cekQuery);
                       $cekData = mysqli_fetch_array($cekResult, MYSQLI_ASSOC);
@@ -78,7 +108,7 @@ $result = mysqli_query($conn, $query);
                       echo "<tr class='text-center'><td class='fw-bold'>".$count++."</td>";
                       echo "<td>".$data['induk']."</td>";
                       echo "<td class='text-start'>".$data['nama_lengkap']."</td>";
-
+                      
                       if($cekData['id'] > 0) {
                         echo "<td><span class='badge bg-success text-wrap'>Sudah Bayar</span></td>";
                       }
@@ -124,5 +154,19 @@ $result = mysqli_query($conn, $query);
         </div>
       </div>
     </main>
+    
+    <!-- Javascript -->
+    <script type="text/javascript">
+      $(document).ready(function(){
+        $('#input-periode').datepicker({
+          format: "MM yyyy",
+          startView: 1,
+          minViewMode: 1,
+          maxViewMode: 2,
+          language: "id",
+          orientation: "bottom auto"
+        });
+      });
+    </script>
   </body>
 </html>
