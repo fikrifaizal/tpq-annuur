@@ -81,7 +81,7 @@ $filterResult = mysqli_query($conn, $filterQuery);
                         <a role="button" href="detail/detail-presensi.php?id=<?= $data['id']?>" class="btn btn-primary btn-sm">
                           <span>Input</span>
                         </a>
-                        <a role="button" href="action/rekap.php?id=<?= $data['id']?>" class="btn btn-success btn-sm">
+                        <a role="button" href="action/rekap.php?id=<?= $data['id']?>" class="btn btn-success btn-sm" target="_blank">
                           <span>Rekap</span>
                         </a>
                       </td>
