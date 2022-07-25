@@ -50,8 +50,7 @@ function formatTanggal($date){
                   <tr class="text-center align-middle">
                     <th scope="col">NIS</th>
                     <th scope="col">Nama Lengkap</th>
-                    <th scope="col">Nama Wali</th>
-                    <th scope="col">Nomor Telepon Wali</th>
+                    <th scope="col">Nama Panggilan</th>
                     <th scope="col">Aksi</th>
                   </tr>
                 </thead>
@@ -59,10 +58,9 @@ function formatTanggal($date){
                   <?php
                     // fetch data menjadi array asosisasi
                     while($data = mysqli_fetch_array($result, MYSQLI_ASSOC)){
-                      echo "<tr class='text-center align-middle'><td>".$data['induk']."</td>";
-                      echo "<td>".$data['nama_lengkap']."</td>";
-                      echo "<td>".$data['nama_ortu']."</td>";
-                      echo "<td>".$data['no_telp_ortu']."</td>";?>
+                      echo "<tr class='text-center'><td>".$data['induk']."</td>";
+                      echo "<td class='text-start'>".$data['nama_lengkap']."</td>";
+                      echo "<td class='text-start'>".$data['panggilan']."</td>";?>
                       <!-- button trigger modal detail -->
                       <td>
                         <button type="button" class="btn btn-info btn-sm" data-toggle="tooltip" title="Detail" data-bs-toggle="modal" data-bs-target="#detailModal<?=$data['induk']?>">
@@ -107,16 +105,20 @@ function formatTanggal($date){
                                 <p class="col-sm-7"><?=$data['kelas']?></p>
                               </div>
                               <div class="row">
-                                <label class="col-sm-5">Nomor Telepon Santri</label>
-                                <p class="col-sm-7"><?=$data['no_telp_santri']?></p>
+                                <label class="col-sm-5">Nama Bapak</label>
+                                <p class="col-sm-7"><?=$data['nama_bapak']?></p>
                               </div>
                               <div class="row">
-                                <label class="col-sm-5">Nama Wali</label>
-                                <p class="col-sm-7"><?=$data['nama_ortu']?></p>
+                                <label class="col-sm-5">Pekerjaan Bapak</label>
+                                <p class="col-sm-7"><?=$data['pekerjaan_bapak']?></p>
                               </div>
                               <div class="row">
-                                <label class="col-sm-5">Pekerjaan Wali</label>
-                                <p class="col-sm-7"><?=$data['pekerjaan_ortu']?></p>
+                                <label class="col-sm-5">Nama Ibu</label>
+                                <p class="col-sm-7"><?=$data['nama_ibu']?></p>
+                              </div>
+                              <div class="row">
+                                <label class="col-sm-5">Pekerjaan Ibu</label>
+                                <p class="col-sm-7"><?=$data['pekerjaan_ibu']?></p>
                               </div>
                               <div class="row">
                                 <label class="col-sm-5">Nomor Telepon Wali</label>

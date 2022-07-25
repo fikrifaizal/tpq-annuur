@@ -115,27 +115,36 @@ function formatTanggal($date){
                 </div>
               </div><br>
 
-              <!-- Telp Santri -->
+              <!-- Wali -->
+              <!-- Nama Bapak -->
               <div class="form-group row">
-                <label for="telpSantri" class="col-sm-2 col-form-label">Telepon Santri</label>
+                <label for="namaBapak" class="col-sm-2 col-form-label">Nama Bapak</label>
                 <div class="col-sm-10">
-                  <input type="number" name="telpSantri" class="form-control" id="telpSantri" required>
+                  <input type="text" name="namaBapak" class="form-control" id="namaBapak" required>
                 </div>
               </div><br>
 
-              <!-- Nama Wali -->
+              <!-- Pekerjaan Bapak -->
               <div class="form-group row">
-                <label for="namaWali" class="col-sm-2 col-form-label">Nama Wali</label>
+                <label for="pekerjaanBapak" class="col-sm-2 col-form-label">Pekerjaan Bapak</label>
                 <div class="col-sm-10">
-                  <input type="text" name="namaWali" class="form-control" id="namaWali" required>
+                  <input type="text" name="pekerjaanBapak" class="form-control" id="pekerjaanBapak" required>
                 </div>
               </div><br>
 
-              <!-- Pekerjaan Wali -->
+              <!-- Nama Ibu -->
               <div class="form-group row">
-                <label for="pekerjaanWali" class="col-sm-2 col-form-label">Pekerjaan Wali</label>
+                <label for="namaIbu" class="col-sm-2 col-form-label">Nama Ibu</label>
                 <div class="col-sm-10">
-                  <input type="text" name="pekerjaanWali" class="form-control" id="pekerjaanWali" required>
+                  <input type="text" name="namaIbu" class="form-control" id="namaIbu" required>
+                </div>
+              </div><br>
+
+              <!-- Pekerjaan Ibu -->
+              <div class="form-group row">
+                <label for="pekerjaanIbu" class="col-sm-2 col-form-label">Pekerjaan Ibu</label>
+                <div class="col-sm-10">
+                  <input type="text" name="pekerjaanIbu" class="form-control" id="pekerjaanIbu" required>
                 </div>
               </div><br>
 

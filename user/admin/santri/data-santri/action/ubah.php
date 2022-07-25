@@ -16,9 +16,11 @@ if(isset($_GET['nis'])) {
   $tglLahir = $data['tgl_lahir'];
   $jenjangSekolah = $data['jenjang_sekolah'];
   $kelas = $data['kelas'];
-  $telpSantri = $data['no_telp_santri'];
-  $namaWali = $data['nama_ortu'];
-  $pekerjaanWali = $data['pekerjaan_ortu'];
+  // wali
+  $namaBapak = $data['nama_bapak'];
+  $pekerjaanBapak = $data['pekerjaan_bapak'];
+  $namaIbu = $data['nama_ibu'];
+  $pekerjaanIbu = $data['pekerjaan_ibu'];
   $telpWali = $data['no_telp_ortu'];
   $alamat = $data['alamat_ortu'];
   $infakBulanan = $data['infak_bulanan'];
@@ -32,9 +34,11 @@ if(isset($_GET['nis'])) {
     $tglLahir = formatTanggal($tglLahir);
     $jenjangSekolah = $_POST['jenjangSekolah'];
     $kelas = $_POST['kelas'];
-    $telpSantri = $_POST['telpSantri'];
-    $namaWali = addslashes($_POST['namaWali']);
-    $pekerjaanWali = addslashes($_POST['pekerjaanWali']);
+    // wali
+    $namaBapak = addslashes($_POST['namaBapak']);
+    $pekerjaanBapak = addslashes($_POST['pekerjaanBapak']);
+    $namaIbu = addslashes($_POST['namaIbu']);
+    $pekerjaanIbu = addslashes($_POST['pekerjaanIbu']);
     $telpWali = $_POST['telpWali'];
     $alamat = addslashes($_POST['alamat']);
     $infakBulanan = $_POST['infak'];
@@ -42,7 +46,7 @@ if(isset($_GET['nis'])) {
     $query = "UPDATE `santri` SET 
               `nama_lengkap`='$namaLengkap', `panggilan`='$panggilan', `tempat_lahir`='$tempatLahir',
               `tgl_lahir`='$tglLahir', `jenjang_sekolah`='$jenjangSekolah', `kelas`='$kelas',
-              `no_telp_santri`='$telpSantri', `nama_ortu`='$namaWali', `pekerjaan_ortu`='$pekerjaanWali',
+              `nama_ortu`='$namaWali', `pekerjaan_ortu`='$pekerjaanWali',
               `no_telp_ortu`='$telpWali', `alamat_ortu`='$alamat', `infak_bulanan`='$infakBulanan'
               WHERE `induk` LIKE '$nis'";
     $result = mysqli_query($conn, $query);
@@ -149,27 +153,36 @@ function formatTanggal($date){
                 </div>
               </div><br>
 
-              <!-- Telp Santri -->
+              <!-- Wali -->
+              <!-- Nama Bapak -->
               <div class="form-group row">
-                <label for="telpSantri" class="col-sm-2 col-form-label">Telepon Santri</label>
+                <label for="namaBapak" class="col-sm-2 col-form-label">Nama Bapak</label>
                 <div class="col-sm-10">
-                  <input type="number" name="telpSantri" class="form-control" id="telpSantri" value="<?= $telpSantri?>" required>
+                  <input type="text" name="namaBapak" class="form-control" id="namaBapak" value="<?= $namaBapak?>" required>
                 </div>
               </div><br>
 
-              <!-- Nama Wali -->
+              <!-- Pekerjaan Bapak -->
               <div class="form-group row">
-                <label for="namaWali" class="col-sm-2 col-form-label">Nama Wali</label>
+                <label for="pekerjaanBapak" class="col-sm-2 col-form-label">Pekerjaan Bapak</label>
                 <div class="col-sm-10">
-                  <input type="text" name="namaWali" class="form-control" id="namaWali" value="<?= $namaWali?>" required>
+                  <input type="text" name="pekerjaanBapak" class="form-control" id="pekerjaanBapak" value="<?= $pekerjaanBapak?>" required>
                 </div>
               </div><br>
 
-              <!-- Pekerjaan Wali -->
+              <!-- Nama Ibu -->
               <div class="form-group row">
-                <label for="pekerjaanWali" class="col-sm-2 col-form-label">Pekerjaan Wali</label>
+                <label for="namaIbu" class="col-sm-2 col-form-label">Nama Ibu</label>
                 <div class="col-sm-10">
-                  <input type="text" name="pekerjaanWali" class="form-control" id="pekerjaanWali" value="<?= $pekerjaanWali?>" required>
+                  <input type="text" name="namaIbu" class="form-control" id="namaIbu" value="<?= $namaIbu?>" required>
+                </div>
+              </div><br>
+
+              <!-- Pekerjaan Ibu -->
+              <div class="form-group row">
+                <label for="pekerjaanIbu" class="col-sm-2 col-form-label">Pekerjaan Ibu</label>
+                <div class="col-sm-10">
+                  <input type="text" name="pekerjaanIbu" class="form-control" id="pekerjaanIbu" value="<?= $pekerjaanIbu?>" required>
                 </div>
               </div><br>
 
