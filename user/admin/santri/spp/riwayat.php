@@ -99,9 +99,9 @@ elseif(!empty($_GET['periode'])){
                     // fetch data menjadi array asosisasi
                     while($data = mysqli_fetch_array($result, MYSQLI_ASSOC)){
                       // cek pembayaran
-                      $cekQuery = "SELECT COUNT(id) as id FROM `keuangan_tpq`
-                                  WHERE `tanggal` LIKE '%$tanggal%' AND
-                                  `keterangan` LIKE '%".$data['nama_lengkap']."%'";
+                      $cekQuery = "SELECT EXISTS
+                                  (SELECT id FROM `keuangan_tpq` WHERE `tanggal` LIKE '%$setMonth%' AND `keterangan` LIKE '%".$data['nama_lengkap']."%')
+                                  as ket";
                       $cekResult = mysqli_query($conn, $cekQuery);
                       $cekData = mysqli_fetch_array($cekResult, MYSQLI_ASSOC);
 
@@ -109,7 +109,7 @@ elseif(!empty($_GET['periode'])){
                       echo "<td>".$data['induk']."</td>";
                       echo "<td class='text-start'>".$data['nama_lengkap']."</td>";
                       
-                      if($cekData['id'] > 0) {
+                      if($cekData['ket'] > 0) {
                         echo "<td><span class='badge bg-success text-wrap'>Sudah Bayar</span></td>";
                       }
                       else { ?>
