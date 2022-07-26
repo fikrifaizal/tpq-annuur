@@ -64,7 +64,7 @@ footer {
 
 .footer .menu {
   text-align: center;
-  margin: 0 300px 30px 300px;
+  margin: 0;
 }
 
 .footer .menu .btn-success {
@@ -85,5 +85,11 @@ footer {
 @media (min-width: 992px) {
   body {
     overflow: auto !important;
+  }
+
+  /* footer content */
+  .footer .menu {
+    text-align: center;
+    margin: 0 300px 30px 300px;
   }
 }

@@ -37,6 +37,7 @@ if(isset($_POST['login'])) {
 <!DOCTYPE html>
 <html>
   <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>TPQ - Masjid Annuur</title>
     <!-- style css -->
     <link rel="stylesheet" href="/user/auth/login.css" />
