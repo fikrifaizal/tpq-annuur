@@ -5,7 +5,7 @@ require_once('../../../akses.php');
 if(isset($_GET['nis'])) {
   // connect & query database
   $nis = $_GET['nis'];
-  $query = "SELECT * FROM `santri` WHERE `induk` LIKE '$nis'";
+  $query = "SELECT * FROM `santri` WHERE `nis` LIKE '$nis'";
   $result = mysqli_query($conn, $query);
   $data = mysqli_fetch_array($result, MYSQLI_ASSOC);
   
@@ -46,9 +46,9 @@ if(isset($_GET['nis'])) {
     $query = "UPDATE `santri` SET 
               `nama_lengkap`='$namaLengkap', `panggilan`='$panggilan', `tempat_lahir`='$tempatLahir',
               `tgl_lahir`='$tglLahir', `jenjang_sekolah`='$jenjangSekolah', `kelas`='$kelas',
-              `nama_ortu`='$namaWali', `pekerjaan_ortu`='$pekerjaanWali',
+              `nama_bapak`='$namaBapak', `pekerjaan_bapak`='$pekerjaanBapak',`nama_ibu`='$namaIbu', `pekerjaan_ibu`='$pekerjaanIbu',
               `no_telp_ortu`='$telpWali', `alamat_ortu`='$alamat', `infak_bulanan`='$infakBulanan'
-              WHERE `induk` LIKE '$nis'";
+              WHERE `nis` LIKE '$nis'";
     $result = mysqli_query($conn, $query);
     
     header("Location: ../santri.php");

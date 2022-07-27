@@ -2,8 +2,21 @@
 require_once('../../../../config.php');
 require_once('../../../akses.php');
 
+$getYear = date("Y");
+
 // form tambah data
 if(isset($_POST['tambah'])) {
+  // set Nomor Induk Santri
+  $queryCheck = "SELECT nis FROM santri WHERE nis LIKE '%$getYear%' ORDER BY nis DESC LIMIT 1";
+  $resultCheck = mysqli_query($conn, $queryCheck);
+  $dataCheck = mysqli_fetch_array($resultCheck, MYSQLI_ASSOC);
+  if(!empty($dataCheck['nis'])) {
+    $setNIS = $dataCheck['nis']+1;
+  } else {
+    $setNIS = $getYear."001";
+  }
+
+  // get data from form
   $namaLengkap = addslashes($_POST['namaLengkap']);
   $panggilan = addslashes(ucwords($_POST['panggilan']));
   $tempatLahir = addslashes(ucwords($_POST['tempat']));
@@ -11,17 +24,19 @@ if(isset($_POST['tambah'])) {
   $tglLahir = formatTanggal($tglLahir);
   $jenjangSekolah = $_POST['jenjangSekolah'];
   $kelas = $_POST['kelas'];
-  $telpSantri = $_POST['telpSantri'];
-  $namaWali = addslashes($_POST['namaWali']);
-  $pekerjaanWali = addslashes($_POST['pekerjaanWali']);
+  // wali section
+  $namaBapak = addslashes($_POST['namaBapak']);
+  $pekerjaanBapak = addslashes($_POST['pekerjaanBapak']);
+  $namaIbu = addslashes($_POST['namaIbu']);
+  $pekerjaanIbu = addslashes($_POST['pekerjaanIbu']);
   $telpWali = $_POST['telpWali'];
   $alamat = addslashes($_POST['alamat']);
   $infakBulanan = $_POST['infak'];
   
-  $query = "INSERT INTO santri(`nama_lengkap`, `panggilan`, `tempat_lahir`, `tgl_lahir`, `jenjang_sekolah`, `kelas`,
-            `no_telp_santri`, `nama_ortu`, `pekerjaan_ortu`, `no_telp_ortu`, `alamat_ortu`, `infak_bulanan`)
-            VALUES ('$namaLengkap', '$panggilan', '$tempatLahir', '$tglLahir', '$jenjangSekolah', '$kelas',
-            '$telpSantri', '$namaWali', '$pekerjaanWali', '$telpWali', '$alamat', '$infakBulanan')";
+  $query = "INSERT INTO santri(`nis`, `nama_lengkap`, `panggilan`, `tempat_lahir`, `tgl_lahir`, `jenjang_sekolah`, `kelas`,
+            `nama_bapak`, `pekerjaan_bapak`,`nama_ibu`, `pekerjaan_ibu`, `no_telp_ortu`, `alamat_ortu`, `infak_bulanan`)
+            VALUES ('$setNIS', '$namaLengkap', '$panggilan', '$tempatLahir', '$tglLahir', '$jenjangSekolah', '$kelas',
+            '$namaBapak', '$pekerjaanBapak','$namaIbu', '$pekerjaanIbu', '$telpWali', '$alamat', '$infakBulanan')";
   $result = mysqli_query($conn, $query);
   
   header("Location: ../santri.php");

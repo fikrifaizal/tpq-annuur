@@ -58,21 +58,21 @@ function formatTanggal($date){
                   <?php
                     // fetch data menjadi array asosisasi
                     while($data = mysqli_fetch_array($result, MYSQLI_ASSOC)){
-                      echo "<tr class='text-center'><td>".$data['induk']."</td>";
+                      echo "<tr class='text-center'><td>".$data['nis']."</td>";
                       echo "<td class='text-start'>".$data['nama_lengkap']."</td>";
                       echo "<td class='text-start'>".$data['panggilan']."</td>";?>
                       <!-- button trigger modal detail -->
                       <td>
-                        <button type="button" class="btn btn-info btn-sm" data-toggle="tooltip" title="Detail" data-bs-toggle="modal" data-bs-target="#detailModal<?=$data['induk']?>">
+                        <button type="button" class="btn btn-info btn-sm" data-toggle="tooltip" title="Detail" data-bs-toggle="modal" data-bs-target="#detailModal<?=$data['nis']?>">
                           <span><i class="bi bi-journal"></i><span>
                         </button>
-                        <button type="button" class="btn btn-danger btn-sm" data-toggle="tooltip" title="Hapus" data-bs-toggle="modal" data-bs-target="#deleteModalDanger<?=$data['induk']?>">
+                        <button type="button" class="btn btn-danger btn-sm" data-toggle="tooltip" title="Hapus" data-bs-toggle="modal" data-bs-target="#deleteModalDanger<?=$data['nis']?>">
                           <span><i class="bi bi-trash"></i><span>
                         </button>
                       </td></tr>
                       
                       <!-- Modal Detail -->
-                      <div class="modal fade" id="detailModal<?=$data['induk']?>" tabindex="-1" aria-labelledby="detailModalLabel" aria-hidden="true">
+                      <div class="modal fade" id="detailModal<?=$data['nis']?>" tabindex="-1" aria-labelledby="detailModalLabel" aria-hidden="true">
                         <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
                           <div class="modal-content">
                             <div class="modal-header">
@@ -82,7 +82,7 @@ function formatTanggal($date){
                             <div class="modal-body">
                               <div class="row">
                                 <label class="col-sm-5">Nomor Induk Santri</label>
-                                <p class="col-sm-7"><?=$data['induk']?></p>
+                                <p class="col-sm-7"><?=$data['nis']?></p>
                               </div>
                               <div class="row">
                                 <label class="col-sm-5">Nama Lengkap</label>
@@ -135,14 +135,14 @@ function formatTanggal($date){
                             </div>
                             <div class="modal-footer">
                               <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                              <a role="button" class="btn btn-warning" href="action/ubah.php?nis=<?=$data['induk']?>">Edit</a>
+                              <a role="button" class="btn btn-warning" href="action/ubah.php?nis=<?=$data['nis']?>">Edit</a>
                             </div>
                           </div>
                         </div>
                       </div>
 
                       <!-- Delete Modal Danger -->
-                      <div class="modal fade" tabindex="-1" id="deleteModalDanger<?= $data['induk']?>" aria-hidden="true">
+                      <div class="modal fade" tabindex="-1" id="deleteModalDanger<?= $data['nis']?>" aria-hidden="true">
                         <div class="modal-dialog modal-dialog-centered">
                           <div class="modal-content">
                             <div class="modal-header">
@@ -154,7 +154,7 @@ function formatTanggal($date){
                             </div>
                             <div class="modal-footer">
                               <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tidak</button>
-                              <a href="action/delete.php?nis=<?=$data['induk']?>" class="btn btn-danger">
+                              <a href="action/delete.php?nis=<?=$data['nis']?>" class="btn btn-danger">
                                 <span>Hapus</span>
                               </a>
                             </div>
