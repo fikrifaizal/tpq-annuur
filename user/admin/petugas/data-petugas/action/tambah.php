@@ -2,16 +2,28 @@
 require_once('../../../../config.php');
 require_once('../../../akses.php');
 
+$getYear = date("Y");
+
 // form tambah data
 if(isset($_POST['tambah'])) {
+  // set Nomor Induk Piket (NIPT)
+  $queryCheck = "SELECT nipt FROM piket WHERE nipt LIKE '%$getYear%' ORDER BY nipt DESC LIMIT 1";
+  $resultCheck = mysqli_query($conn, $queryCheck);
+  $dataCheck = mysqli_fetch_array($resultCheck, MYSQLI_ASSOC);
+  if(!empty($dataCheck['nipt'])) {
+    $setNIPT = $dataCheck['nipt']+1;
+  } else {
+    $setNIPT = $getYear."02001";
+  }
+
   $nama = addslashes($_POST['nama']);
   $gender = $_POST['gender'];
   $alamat = addslashes($_POST['alamat']);
   $telp = $_POST['nomortelepon'];
 
-  $query = "INSERT INTO `piket`(`nama`,`jenis_kelamin`,`alamat`,`no_telp`) VALUES ('$nama','$gender','$alamat','$telp')";
+  $query = "INSERT INTO `piket`(`nipt`,`nama`,`jenis_kelamin`,`alamat`,`no_telp`) VALUES ('$setNIPT','$nama','$gender','$alamat','$telp')";
   $result = mysqli_query($conn, $query);
-  
+
   header("Location: ../petugas.php");
 }
 ?>

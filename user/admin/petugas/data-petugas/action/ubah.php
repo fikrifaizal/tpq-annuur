@@ -2,10 +2,10 @@
 require_once('../../../../config.php');
 require_once('../../../akses.php');
 
-if(isset($_GET['id'])) {
+if(isset($_GET['nipt'])) {
   // connect & query database
-  $id = $_GET['id'];
-  $query = "SELECT * FROM `piket` WHERE `id` LIKE '$id'";
+  $nipt = $_GET['nipt'];
+  $query = "SELECT * FROM `piket` WHERE `nipt` LIKE '$nipt'";
   $result = mysqli_query($conn, $query);
   $data = mysqli_fetch_array($result, MYSQLI_ASSOC);
   
@@ -24,7 +24,7 @@ if(isset($_GET['id'])) {
   
     // send data to db
     $query = "UPDATE `piket` SET `nama`='$nama',`jenis_kelamin`='$gender',
-              `alamat`='$alamat',`no_telp`='$telp' WHERE `id` LIKE '$id'";
+              `alamat`='$alamat',`no_telp`='$telp' WHERE `nipt` LIKE '$nipt'";
     $result = mysqli_query($conn, $query);
     
     header("Location: ../petugas.php");
@@ -67,9 +67,9 @@ if(isset($_GET['id'])) {
 
               <!-- Nomor Induk -->
               <div class="form-group row">
-                <label for="induk" class="col-sm-2 col-form-label">Nomor Induk</label>
+                <label for="induk" class="col-sm-2 col-form-label">Nomor Induk Piket</label>
                 <div class="col-sm-10">
-                  <input type="text" name="induk" class="form-control" id="induk" value="<?= $id?>" disabled>
+                  <input type="text" name="induk" class="form-control" id="induk" value="<?= $nipt?>" disabled>
                 </div>
               </div><br>
 
