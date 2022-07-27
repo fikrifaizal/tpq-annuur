@@ -6,7 +6,7 @@ require_once('../../../akses.php');
 if(isset($_GET['id'])) {
   // start of setting datepicker
   $id = $_GET['id'];
-  $dateQuery = "SELECT * FROM `filter_presensi` WHERE `id` LIKE '$id'";
+  $dateQuery = "SELECT * FROM `filter_presensi_santri` WHERE `id` LIKE '$id'";
   $dateResult = mysqli_query($conn, $dateQuery);
   $dateData = mysqli_fetch_array($dateResult, MYSQLI_ASSOC);
   $tahun = $dateData['tahun'];

@@ -14,7 +14,9 @@ if(isset($_POST['tambah'])) {
   $bulan = strtoupper($_POST['bulan']);
 
   // mencari data yang sama dengan yang diinput
-  $queryCount = "SELECT COUNT(`id`) as total FROM `filter_presensi` WHERE `bulan` LIKE '$bulan' AND `tahun` LIKE '$tahun'";
+  $queryCount = "SELECT EXISTS
+                (SELECT id FROM `filter_presensi_santri` WHERE `bulan` LIKE '$bulan' AND `tahun` LIKE '$tahun')
+                as total";
   $resultCount = mysqli_query($conn, $queryCount);
   $dataCount = mysqli_fetch_array($resultCount, MYSQLI_ASSOC);
 
@@ -23,7 +25,7 @@ if(isset($_POST['tambah'])) {
     $setAlertCondition = true;
     $setAlertText = "Presensi bulan dan tahun ini sudah dibuat";
   } else {
-    $query = "INSERT INTO `filter_presensi`(`bulan`,`tahun`) VALUES ('$bulan','$tahun')";
+    $query = "INSERT INTO `filter_presensi_santri`(`bulan`,`tahun`) VALUES ('$bulan','$tahun')";
     $result = mysqli_query($conn, $query);
     header("Location: ../presensi.php");
   }

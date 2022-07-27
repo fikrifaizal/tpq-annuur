@@ -5,10 +5,10 @@ require_once('../../akses.php');
 // tahun sekarang
 $tahun = date('Y');
 
-$query = "SELECT * FROM `filter_presensi` WHERE `tahun` LIKE '$tahun'";
+$query = "SELECT * FROM `filter_presensi_santri` WHERE `tahun` LIKE '$tahun'";
 $result = mysqli_query($conn, $query);
 
-$filterQuery = "SELECT DISTINCT `tahun` FROM `filter_presensi` ORDER BY `tahun` ASC";
+$filterQuery = "SELECT DISTINCT `tahun` FROM `filter_presensi_santri` ORDER BY `tahun` ASC";
 $filterResult = mysqli_query($conn, $filterQuery);
 ?>
 

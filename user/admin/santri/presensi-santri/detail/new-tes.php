@@ -6,13 +6,13 @@ require_once('../../../akses.php');
 if(isset($_GET['id'])) {
   // start of setting datepicker
   $id = $_GET['id'];
-  $dateQuery = "SELECT * FROM `filter_presensi_pengajar` WHERE `id` LIKE '$id'";
+  $dateQuery = "SELECT * FROM `filter_presensi_santri` WHERE `id` LIKE '$id'";
   $dateResult = mysqli_query($conn, $dateQuery);
   $dateData = mysqli_fetch_array($dateResult, MYSQLI_ASSOC);
   $tahun = $dateData['tahun'];
   $bulan = $dateData['bulan'];
   
-  $bulanInt = monthConverter(strtoupper($bulan)); // convert bulan dari text ke angka
+  $bulanInt = monthConverter($bulan); // convert bulan dari text ke angka
   $startDate = $tahun."-".$bulanInt."-01";
   $lastDate = lastOfMonth($bulanInt, $tahun);
   $today = ifToday($bulanInt, $tahun);
@@ -25,79 +25,20 @@ if(isset($_GET['id'])) {
     $explodeDate = explode("-",$setDate);
     $filterDate = $explodeDate['2'];
   
-    // data pengajar
+    // data santri
     $result = query($conn, $id, $setDate);
   
     header("Location: detail-presensi.php?id=$id&tgl=$filterDate");
-  }
-  // ambil data setelah search
-  elseif(!empty($_GET['tgl'])){
-    $setDate = $tahun."-".$bulanInt."-".$_GET['tgl'];
-    $tanggal = customDateFormat($setDate);
-  
-    $countQuery = "SELECT COUNT(pengajar_id) as total FROM `presensi_pengajar`
-                    WHERE filter_id LIKE '$id' && tanggal LIKE '$setDate'";
-    $countResult = mysqli_query($conn, $countQuery);
-    $countData = mysqli_fetch_array($countResult, MYSQLI_ASSOC);
-  
-    if($countData['total'] < 1) {
-      // insert from pengajar to presensi
-      $insertQuery = "INSERT INTO `presensi_pengajar`(`pengajar_id`,`filter_id`,`keterangan`,`tanggal`)
-                      SELECT `id`,'$id','','$setDate' FROM `pengajar` ORDER BY id ASC";
-      $insertResult = mysqli_query($conn, $insertQuery);
-    }
-  
-    // data pengajar
-    $result = query($conn, $id, $setDate);
-  }
-  // jika bulan adalah bulan sekarang (today)
-  elseif($today['isToday']) {
-    $setDate = date("Y-m-d");
-    $tanggal = $today['date'];
-  
-    $countQuery = "SELECT COUNT(pengajar_id) as total FROM `presensi_pengajar`
-                    WHERE filter_id LIKE '$id' && tanggal LIKE '$setDate'";
-    $countResult = mysqli_query($conn, $countQuery);
-    $countData = mysqli_fetch_array($countResult, MYSQLI_ASSOC);
-  
-    if($countData['total'] < 1) {
-      // insert from pengajar to presensi
-      $insertQuery = "INSERT INTO `presensi_pengajar`(`pengajar_id`,`filter_id`,`keterangan`,`tanggal`)
-                      SELECT `id`,'$id','','$setDate' FROM `pengajar` ORDER BY id ASC";
-      $insertResult = mysqli_query($conn, $insertQuery);
-    }
-  
-    // data pengajar
-    $result = query($conn, $id, $setDate);
-  }
-  else {
-    $setDate = $startDate;
-    $tanggal = customDateFormat($startDate);
-  
-    $countQuery = "SELECT COUNT(pengajar_id) as total FROM `presensi_pengajar`
-                    WHERE filter_id LIKE '$id' && tanggal LIKE '$setDate'";
-    $countResult = mysqli_query($conn, $countQuery);
-    $countData = mysqli_fetch_array($countResult, MYSQLI_ASSOC);
-  
-    if($countData['total'] < 1) {
-      // insert from pengajar to presensi
-      $insertQuery = "INSERT INTO `presensi_pengajar`(`pengajar_id`,`filter_id`,`keterangan`,`tanggal`)
-                      SELECT `id`,'$id','','$setDate' FROM `pengajar` ORDER BY id ASC";
-      $insertResult = mysqli_query($conn, $insertQuery);
-    }
-  
-    // data pengajar
-    $result = query($conn, $id, $startDate);
   }
 } else {
   header("Location: ../presensi.php");
 }
 
-// get data pengajar from database
+// data santri
 function query($connection, $filter, $date) {
-  $query = "SELECT pengajar.id as id, pengajar.nama as nama, presensi_pengajar.keterangan as keterangan FROM `presensi_pengajar`
-            LEFT JOIN `pengajar` ON presensi_pengajar.pengajar_id = pengajar.id
-            WHERE presensi_pengajar.filter_id LIKE '$filter' && presensi_pengajar.tanggal LIKE '$date'";
+  $query = "SELECT santri.induk as induk, santri.nama_lengkap as nama_lengkap, presensi_santri.keterangan as keterangan FROM `presensi_santri`
+            LEFT JOIN `santri` ON presensi_santri.santri_induk = santri.induk
+            WHERE presensi_santri.filter_id LIKE '$filter' && presensi_santri.tanggal LIKE '$date'";
   return mysqli_query($connection, $query);
 }
 ?>
@@ -120,8 +61,8 @@ function query($connection, $filter, $date) {
     <!-- konten -->
     <main>
       <div class="container-fluid content transition">
-        <h3>Input Presensi Pengasuh</h3>
-        <a href="/user/admin/pengasuh/presensi-pengasuh/presensi.php" class="btn btn-success btn-sm btn-back">
+        <h3>Input Presensi Santri</h3>
+        <a href="/user/admin/santri/presensi-santri/presensi.php" class="btn btn-success btn-sm btn-back">
           <span><i class="bi bi-chevron-left"></i></span>
           <span>Kembali</span>
         </a>
@@ -136,7 +77,7 @@ function query($connection, $filter, $date) {
                 <label for="btn-datepicker" class="col-sm-2 col-form-label">Tanggal Presensi</label>
                 <div class="col-sm-10">
                   <div class="input-group">
-                    <input type="text" name="tanggal" class="form-control btn btn btn-input text-start" id="btn-datepicker" value="<?= $tanggal?>" required readonly>
+                    <input type="text" name="tanggal" class="form-control btn btn-input text-start" id="btn-datepicker" value="<?= $tanggal?>" required readonly>
                     <button type="submit" name="cari" class="btn btn-success">
                       <span>Tetapkan</span>
                     </button>
@@ -153,7 +94,7 @@ function query($connection, $filter, $date) {
               <table class="table table-bordered table-hover" id="dataTables-table">
                 <thead class="table-secondary">
                   <tr class="text-center align-middle">
-                    <th scope="col" width="10%">Induk</th>
+                    <th scope="col" width="10%">NIS</th>
                     <th scope="col">Nama Lengkap</th>
                     <th scope="col">Keterangan</th>
                     <th scope="col">Aksi</th>
@@ -165,8 +106,8 @@ function query($connection, $filter, $date) {
                     $keterangan = "";
 
                     while($data = mysqli_fetch_array($result, MYSQLI_ASSOC)){
-                      echo "<tr class='text-center align-middle'><td>".$data['id']."</td>";
-                      echo "<td>".$data['nama']."</td>";
+                      echo "<tr class='text-center align-middle'><td>".$data['induk']."</td>";
+                      echo "<td>".$data['nama_lengkap']."</td>";
                       $btnHadir = "";
                       $btnTidakHadir = "";
 
@@ -187,10 +128,10 @@ function query($connection, $filter, $date) {
                         <span class="badge <?= $badgeColor?>"><?= $keterangan?></span>
                       </td>
                       <td>
-                        <a role="button" href="update-presensi.php?id=<?= $id?>&induk=<?= $data['id']?>&ket=1&tgl=<?= $setDate?>"
+                        <a role="button" href="update-presensi.php?id=<?= $id?>&nis=<?= $data['induk']?>&ket=1&tgl=<?= $setDate?>"
                            class="btn btn-outline-success btn-sm <?= $btnHadir?>" aria-disabled="true">Hadir
                         </a>
-                        <a role="button" href="update-presensi.php?id=<?= $id?>&induk=<?= $data['id']?>&ket=0&tgl=<?= $setDate?>"
+                        <a role="button" href="update-presensi.php?id=<?= $id?>&nis=<?= $data['induk']?>&ket=0&tgl=<?= $setDate?>"
                            class="btn btn-outline-danger btn-sm <?= $btnTidakHadir?>" aria-disabled="true">Tidak Hadir
                         </a>
                       </td></tr><?php

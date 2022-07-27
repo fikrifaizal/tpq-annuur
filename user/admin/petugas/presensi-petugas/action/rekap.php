@@ -13,7 +13,7 @@ $manyDays = 0;
 if(isset($_GET['id'])) {
   $id = $_GET['id'];
 
-  $dateQuery = "SELECT * FROM `filter_presensi` WHERE `id` LIKE '$id'";
+  $dateQuery = "SELECT * FROM `filter_presensi_piket` WHERE `id` LIKE '$id'";
   $dateResult = mysqli_query($conn, $dateQuery);
   $dateData = mysqli_fetch_array($dateResult, MYSQLI_ASSOC);
 
