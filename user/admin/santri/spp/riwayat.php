@@ -3,10 +3,11 @@ require_once('../../../config.php');
 require_once('../../../helper.php');
 require_once('../../akses.php');
 
+// setting for filter query
 $setMonth = date("m");
 $setYear = date("Y");
-$periode = monthConverter2($setMonth)." ".$setYear;
-$tanggal = $setYear."-".$setMonth;
+$setDate = monthConverter2($setMonth)." ".$setYear;
+$periode = $setYear."-".$setMonth;
 
 // connect & query database
 $query = "SELECT * FROM `santri`";
@@ -21,10 +22,17 @@ if(isset($_POST['filter'])) {
 }
 // ambil data setelah search
 elseif(!empty($_GET['periode'])){
-  $tanggal = $_GET['periode'];
+  $periode = $_GET['periode'];
   $explodeData = explode("-",$_GET['periode']);
-  $periode = monthConverter2($explodeData[1])." ".$explodeData[0];
+  $setDate = monthConverter2($explodeData[1])." ".$explodeData[0];
 }
+
+// setting datepicker
+// last date
+$queryCheckEnd = "SELECT tanggal FROM `keuangan_tpq` WHERE `keterangan` LIKE '%SPP%' ORDER BY tanggal DESC LIMIT 1";
+$resultCheckEnd = mysqli_query($conn, $queryCheckEnd);
+$dataCheckEnd = mysqli_fetch_array($resultCheckEnd, MYSQLI_ASSOC);
+$lastDate = $dataCheckEnd['tanggal'];
 ?>
 
 <!DOCTYPE html>
@@ -57,24 +65,21 @@ elseif(!empty($_GET['periode'])){
 
             <form method="post">
               <div class="row">
+                <label for="datepicker" class="col-sm-2 col-form-label">Periode</label>
 
                 <!-- filter periode -->
                 <div class="col-sm-9">
-                  <p for="datepicker" class="form-label fw-bold">Periode</p>
-                  <input type="text" name="periode" class="form-control btn btn-input text-start" id="input-periode" placeholder="Klik untuk memilih bulan" value="<?= $periode?>" readonly>
+                  <div class="input-group">
+                    <input type="text" name="periode" class="form-control btn btn-input text-start" id="input-periode" placeholder="Klik untuk memilih bulan" value="<?= $setDate?>" readonly>
+                    <button type="submit" name="filter" class="btn btn-success">
+                      <span>Tampilkan</span>
+                    </button>
+                  </div>
                 </div>
 
                 <!-- button -->
-                <div class="col-sm-2 d-grid">
-                  <p for="btn-group" class="form-label fw-bold">&nbsp</p>
-                  <button type="submit" name="filter" class="btn btn-primary btn-block">
-                    <span>Tampilkan</span>
-                  </button>
-                </div>
-                <!-- button -->
                 <div class="col-sm-1 d-grid">
-                  <p for="btn-group" class="form-label fw-bold">&nbsp</p>
-                  <a href="rekap-spp.php" class="btn btn-success btn-block">
+                  <a href="rekap-spp.php?periode=<?=$periode?>" class="btn btn-success btn-block" target="_blank">
                     <span>Cetak</span>
                   </a>
                 </div>
@@ -100,13 +105,13 @@ elseif(!empty($_GET['periode'])){
                     while($data = mysqli_fetch_array($result, MYSQLI_ASSOC)){
                       // cek pembayaran
                       $cekQuery = "SELECT EXISTS
-                                  (SELECT id FROM `keuangan_tpq` WHERE `tanggal` LIKE '%$setMonth%' AND `keterangan` LIKE '%".$data['nama_lengkap']."%')
+                                  (SELECT id FROM `keuangan_tpq` WHERE `keterangan` LIKE '%$periode%' AND `keterangan` LIKE '%SPP ".$data['nis']."%')
                                   as ket";
                       $cekResult = mysqli_query($conn, $cekQuery);
                       $cekData = mysqli_fetch_array($cekResult, MYSQLI_ASSOC);
 
                       echo "<tr class='text-center'><td class='fw-bold'>".$count++."</td>";
-                      echo "<td>".$data['induk']."</td>";
+                      echo "<td>".$data['nis']."</td>";
                       echo "<td class='text-start'>".$data['nama_lengkap']."</td>";
                       
                       if($cekData['ket'] > 0) {
@@ -114,13 +119,13 @@ elseif(!empty($_GET['periode'])){
                       }
                       else { ?>
                         <td>
-                          <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#detailModal<?= $data['induk']?>">
+                          <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#detailModal<?= $data['nis']?>">
                             <span>Pilih</span>
                           </button>
                         </td></tr>
                       
                       <!-- Modal Detail -->
-                      <div class="modal fade" id="detailModal<?=$data['induk']?>" tabindex="-1" aria-labelledby="detailModalLabel" aria-hidden="true">
+                      <div class="modal fade" id="detailModal<?=$data['nis']?>" tabindex="-1" aria-labelledby="detailModalLabel" aria-hidden="true">
                         <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
                           <div class="modal-content">
                             <div class="modal-header">
@@ -130,7 +135,7 @@ elseif(!empty($_GET['periode'])){
                             <div class="modal-body">
                               <div class="row">
                                 <label class="col-sm-5">Nomor Induk Santri</label>
-                                <p class="col-sm-7"><?=$data['induk']?></p>
+                                <p class="col-sm-7"><?=$data['nis']?></p>
                               </div>
                               <div class="row">
                                 <label class="col-sm-5">Nama Lengkap</label>
@@ -139,7 +144,7 @@ elseif(!empty($_GET['periode'])){
                             </div>
                             <div class="modal-footer">
                               <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                              <a role="button" class="btn btn-success" href="action-spp.php?induk=<?=$data['induk']?>">Konfirmasi</a>
+                              <a role="button" class="btn btn-success" href="action-spp.php?nis=<?=$data['nis']?>&periode=<?=$periode?>&filter=yes">Konfirmasi</a>
                             </div>
                           </div>
                         </div>
@@ -164,7 +169,8 @@ elseif(!empty($_GET['periode'])){
           minViewMode: 1,
           maxViewMode: 2,
           language: "id",
-          orientation: "bottom auto"
+          orientation: "bottom auto",
+          endDate: new Date('<?= $lastDate?>')
         });
       });
     </script>

@@ -7,9 +7,9 @@ require_once('../../akses.php');
 define('K_PATH_IMAGES', '../../../../assets/image/');
 
 // get month & year
-$setMonth = date("m");
-$setYear = date("Y");
-$setDate = monthConverter2($setMonth)." ".$setYear;
+$periode = $_GET['periode'];
+$explodeData = explode("-",$_GET['periode']);
+$setDate = monthConverter2($explodeData[1])." ".$explodeData[0];
 
 // create new PDF
 $pdf = new TCPDF('L', PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
@@ -75,10 +75,9 @@ $setData = '
     <table>
       <tr>
         <th width="5%">#</th>
-        <th width="15%">NIS</th>
-        <th width="30%">Nama Lengkap</th>
-        <th width="30%">Nama Wali</th>
-        <th width="20%">Keterangan</th>
+        <th width="25%">NIS</th>
+        <th width="40%">Nama Lengkap</th>
+        <th width="30%">Keterangan</th>
       </tr>';
 
 // add data to the table
@@ -88,13 +87,13 @@ while($data = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
   $pembayaran = '';
   $pembayaranColor = '';
   
-  $cekQuery = "SELECT COUNT(id) as id FROM `keuangan_tpq`
-              WHERE `tanggal` LIKE '%$setMonth%' AND
-              `keterangan` LIKE '%".$data['nama_lengkap']."%'";
+  $cekQuery = "SELECT EXISTS
+              (SELECT id FROM `keuangan_tpq` WHERE `keterangan` LIKE '%$periode%' AND `keterangan` LIKE '%SPP ".$data['nis']."%')
+              as ket";
   $cekResult = mysqli_query($conn, $cekQuery);
   $cekData = mysqli_fetch_array($cekResult, MYSQLI_ASSOC);
   
-  if($cekData['id'] > 0) {
+  if($cekData['ket'] > 0) {
     $pembayaran = 'Sudah Bayar';
   } else {
     $pembayaran = 'Belum Bayar';
@@ -104,9 +103,8 @@ while($data = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
   $setData .= '
   <tr>
     <td style="text-align: center">'.$count++.'</td>
-    <td style="text-align: center">'.$data['induk'].'</td>
+    <td style="text-align: center">'.$data['nis'].'</td>
     <td>'.$data['nama_lengkap'].'</td>
-    <td>'.$data['nama_ortu'].'</td>
     <td style="text-align: center; '.$pembayaranColor.'">'.$pembayaran.'</td>
   </tr>';
 }
