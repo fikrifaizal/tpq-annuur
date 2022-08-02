@@ -8,7 +8,7 @@ function lastOfMonth($month, $year) {
 function monthConverter($month) {
   $bulan = ["JANUARI","FEBRUARI","MARET","APRIL","MEI","JUNI","JULI","AGUSTUS","SEPTEMBER","OKTOBER","NOVEMBER","DESEMBER"];
   for($i=0; $i < count($bulan); $i++) {
-    if(array_search($month, $bulan) == $i) {
+    if(array_search(strtoupper($month), $bulan) == $i) {
       $i = $i+1;
       if($i < 10) {
         return "0".$i;
