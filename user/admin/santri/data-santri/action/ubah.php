@@ -24,6 +24,7 @@ if(isset($_GET['nis'])) {
   $telpWali = $data['no_telp_ortu'];
   $alamat = $data['alamat_ortu'];
   $infakBulanan = $data['infak_bulanan'];
+  $status = $data['status'];
   
   // form ubah data
   if(isset($_POST['ubah'])) {
@@ -42,12 +43,13 @@ if(isset($_GET['nis'])) {
     $telpWali = $_POST['telpWali'];
     $alamat = addslashes($_POST['alamat']);
     $infakBulanan = $_POST['infak'];
+    $status = $_POST['status'];
     
     $query = "UPDATE `santri` SET 
               `nama_lengkap`='$namaLengkap', `panggilan`='$panggilan', `tempat_lahir`='$tempatLahir',
               `tgl_lahir`='$tglLahir', `jenjang_sekolah`='$jenjangSekolah', `kelas`='$kelas',
               `nama_bapak`='$namaBapak', `pekerjaan_bapak`='$pekerjaanBapak',`nama_ibu`='$namaIbu', `pekerjaan_ibu`='$pekerjaanIbu',
-              `no_telp_ortu`='$telpWali', `alamat_ortu`='$alamat', `infak_bulanan`='$infakBulanan'
+              `no_telp_ortu`='$telpWali', `alamat_ortu`='$alamat', `infak_bulanan`='$infakBulanan', `status`='$status'
               WHERE `nis` LIKE '$nis'";
     $result = mysqli_query($conn, $query);
     
@@ -135,7 +137,7 @@ function formatTanggal($date){
                 <label for="jenjangSekolah" class="col-sm-2 col-form-label">Jenjang Sekolah</label>
                 <div class="col-sm-10">
                   <select class="form-select" name="jenjangSekolah" id="jenjangSekolah" required>
-                    <option disabled>Pilih Jenjang Sekolah</option>
+                    <option value="" disabled>Pilih Jenjang Sekolah</option>
                     <option value="PAUD/PRA TK">PAUD/PRA TK</option>
                     <option value="TK/RA">TK/RA</option>
                     <option value="SD/MI">SD/MI</option>
@@ -207,9 +209,22 @@ function formatTanggal($date){
                 <label for="infak" class="col-sm-2 col-form-label">Infak Bulanan</label>
                 <div class="col-sm-10">
                   <select class="form-select" name="infak" id="infak" required>
-                    <option disabled>Pilih Infak Bulanan</option>
+                    <option value="" disabled>Pilih Infak Bulanan</option>
                     <option value="50000">Rp 50.000</option>
                     <option value="70000">Rp 70.000</option>
+                  </select>
+                </div>
+              </div><br>
+
+              <!-- Status -->
+              <div class="form-group row">
+                <label for="status" class="col-sm-2 col-form-label">Status</label>
+                <div class="col-sm-10">
+                  <select class="form-select" name="status" id="status" required>
+                    <option value="" disabled>Pilih Status</option>
+                    <option value="AKTIF">Aktif</option>
+                    <option value="NONAKTIF">Nonaktif</option>
+                    <option value="LULUS">Lulus</option>
                   </select>
                 </div>
               </div><br>
@@ -259,6 +274,18 @@ function formatTanggal($date){
         echo '<script type="text/javascript">
                 document.getElementById("infak").getElementsByTagName("option")[2].selected = "selected"
               </script>';
+      }
+
+      // status
+      $arrStatus = ["AKTIF","NONAKTIF","LULUS"];
+      for($i=0; $i < count($arrStatus); $i++) {
+        if(array_search($status, $arrStatus) == $i) {
+          $i = $i+1;
+          echo '<script type="text/javascript">
+                document.getElementById("status").getElementsByTagName("option")['.$i.'].selected = "selected"
+              </script>';
+          break;
+        }
       }
     ?>
   </body>

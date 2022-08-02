@@ -132,6 +132,10 @@ function formatTanggal($date){
                                 <label class="col-sm-5">Infak Bulanan</label>
                                 <p class="col-sm-7"><?=setIDRFormat($data['infak_bulanan'])?></p>
                               </div>
+                              <div class="row">
+                                <label class="col-sm-5">Status</label>
+                                <p class="col-sm-7"><?=$data['status']?></p>
+                              </div>
                             </div>
                             <div class="modal-footer">
                               <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
