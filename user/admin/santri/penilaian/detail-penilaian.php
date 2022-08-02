@@ -99,7 +99,7 @@ if(isset($_GET['nis'])) {
                 <label for="jilid" class="col-sm-2 col-form-label">Jilid Akhir</label>
                 <div class="col-sm-10">
                   <select class="form-select" name="jilid" id="jilid" required>
-                    <option selected disabled>Pilih Jilid Akhir</option>
+                    <option value="" selected disabled>Pilih Jilid Akhir</option>
                     <option value="0">Pra TK</option>
                     <option value="1">Jilid 1</option>
                     <option value="2">Jilid 2</option>
@@ -125,7 +125,7 @@ if(isset($_GET['nis'])) {
                 <label for="penguji" class="col-sm-2 col-form-label">Penguji</label>
                 <div class="col-sm-10">
                   <select class="form-select" name="penguji" id="penguji" required>
-                    <option selected disabled>Pilih Nama Penguji</option>
+                    <option value="" selected disabled>Pilih Nama Penguji</option>
                     <?php
                       $queryPenguji = "SELECT `id`,`nama` FROM `pengajar` ORDER BY `nama`";
                       $resultPenguji = mysqli_query($conn, $queryPenguji);

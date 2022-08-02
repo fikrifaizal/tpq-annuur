@@ -107,7 +107,7 @@ if(isset($_POST['tambah'])) {
                 <label for="gender" class="col-sm-2 col-form-label">Jenis Kelamin</label>
                 <div class="col-sm-10">
                   <select class="form-select" name="gender" id="gender" required>
-                    <option selected disabled>Pilih Jenis Kelamin</option>
+                    <option value="" selected disabled>Pilih Jenis Kelamin</option>
                     <option value="LAKI-LAKI">Laki-laki</option>
                     <option value="PEREMPUAN">Perempuan</option>
                   </select>
@@ -130,13 +130,24 @@ if(isset($_POST['tambah'])) {
                 </div>
               </div><br>
 
+              <!-- Foto -->
+              <div class="form-group row">
+                <label for="foto" class="col-sm-2 col-form-label">Foto</label>
+                <div class="col-sm-10">
+                  <input class="form-control" name="foto" id="formFoto" type="file" accept=".png,.jpg,.jpeg" required>
+                  <small class="form-text text-muted">
+                    * Tipe File: png, jpg, jpeg Ukuran Maksimal: 2MB (Boleh dikosongkan)
+                  </small>
+                </div>
+              </div><br>
+
               <!-- Sertifikat -->
               <div class="form-group row">
                 <label for="sertifikat" class="col-sm-2 col-form-label">Sertifikat</label>
                 <div class="col-sm-10">
                   <input class="form-control" name="sertifikat" id="formSertifikat" type="file" accept="application/pdf">
                   <small class="form-text text-muted">
-                    * Tipe File: pdf Ukuran Maksimal: 2MB
+                    * Tipe File: pdf Ukuran Maksimal: 2MB (Boleh dikosongkan)
                   </small>
                 </div>
               </div><br>
