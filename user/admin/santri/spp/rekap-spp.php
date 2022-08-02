@@ -10,6 +10,7 @@ define('K_PATH_IMAGES', '../../../../assets/image/');
 $periode = $_GET['periode'];
 $explodeData = explode("-",$_GET['periode']);
 $setDate = monthConverter2($explodeData[1])." ".$explodeData[0];
+$setFilter = $periode."-20";
 
 // create new PDF
 $pdf = new TCPDF('L', PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
@@ -46,7 +47,7 @@ $pdf->setFont(PDF_FONT_NAME_MAIN, '', 12, '', true);
 $pdf->AddPage();
 
 // set data
-$query = "SELECT * FROM `santri`";
+$query = "SELECT * FROM `santri` WHERE `status` LIKE 'AKTIF' AND `tgl_daftar` BETWEEN '2022-01-01' AND '$setFilter'";
 $result = mysqli_query($conn, $query);
 
 // opening the table
@@ -88,7 +89,7 @@ while($data = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
   $pembayaranColor = '';
   
   $cekQuery = "SELECT EXISTS
-              (SELECT id FROM `keuangan_tpq` WHERE `keterangan` LIKE '%$periode%' AND `keterangan` LIKE '%SPP ".$data['nis']."%')
+              (SELECT id FROM `spp` WHERE `periode` LIKE '$periode' AND `santri_induk` LIKE '".$data['induk']."')
               as ket";
   $cekResult = mysqli_query($conn, $cekQuery);
   $cekData = mysqli_fetch_array($cekResult, MYSQLI_ASSOC);

@@ -4,13 +4,17 @@ require_once('../../../helper.php');
 require_once('../../akses.php');
 
 // setting for filter query
-$setMonth = date("m");
+$setMonth = date("m")-1;
+if($setMonth < 10) {
+  $setMonth = "0".$setMonth;
+}
 $setYear = date("Y");
 $setDate = monthConverter2($setMonth)." ".$setYear;
 $periode = $setYear."-".$setMonth;
+$setFilter = $periode."-20";
 
 // connect & query database
-$query = "SELECT * FROM `santri`";
+$query = "SELECT * FROM `santri` WHERE `status` LIKE 'AKTIF' AND `tgl_daftar` BETWEEN '2022-01-01' AND '$setFilter'";
 $result = mysqli_query($conn, $query);
 
 // set periode
@@ -25,14 +29,15 @@ elseif(!empty($_GET['periode'])){
   $periode = $_GET['periode'];
   $explodeData = explode("-",$_GET['periode']);
   $setDate = monthConverter2($explodeData[1])." ".$explodeData[0];
+  $setNewFilter = $periode."-25";
+
+  // connect & query database
+  $query = "SELECT * FROM `santri` WHERE `status` LIKE 'AKTIF' AND `tgl_daftar` BETWEEN '2022-01-01' AND '$setNewFilter'";
+  $result = mysqli_query($conn, $query);
 }
 
-// setting datepicker
-// last date
-$queryCheckEnd = "SELECT tanggal FROM `keuangan_tpq` WHERE `keterangan` LIKE '%SPP%' ORDER BY tanggal DESC LIMIT 1";
-$resultCheckEnd = mysqli_query($conn, $queryCheckEnd);
-$dataCheckEnd = mysqli_fetch_array($resultCheckEnd, MYSQLI_ASSOC);
-$lastDate = $dataCheckEnd['tanggal'];
+// setting datepicker - last date
+$lastDate = $setFilter;
 ?>
 
 <!DOCTYPE html>
@@ -94,6 +99,7 @@ $lastDate = $dataCheckEnd['tanggal'];
                     <th scope="col" width="5%">#</th>
                     <th scope="col">NIS</th>
                     <th scope="col">Nama Lengkap</th>
+                    <th scope="col">Tanggal Bayar</th>
                     <th scope="col" width="10%">Keterangan</th>
                   </tr>
                 </thead>
@@ -105,7 +111,7 @@ $lastDate = $dataCheckEnd['tanggal'];
                     while($data = mysqli_fetch_array($result, MYSQLI_ASSOC)){
                       // cek pembayaran
                       $cekQuery = "SELECT EXISTS
-                                  (SELECT id FROM `keuangan_tpq` WHERE `keterangan` LIKE '%$periode%' AND `keterangan` LIKE '%SPP ".$data['nis']."%')
+                                  (SELECT id FROM `spp` WHERE `periode` LIKE '$periode' AND `santri_induk` LIKE '".$data['induk']."')
                                   as ket";
                       $cekResult = mysqli_query($conn, $cekQuery);
                       $cekData = mysqli_fetch_array($cekResult, MYSQLI_ASSOC);
@@ -113,11 +119,17 @@ $lastDate = $dataCheckEnd['tanggal'];
                       echo "<tr class='text-center'><td class='fw-bold'>".$count++."</td>";
                       echo "<td>".$data['nis']."</td>";
                       echo "<td class='text-start'>".$data['nama_lengkap']."</td>";
-                      
+
                       if($cekData['ket'] > 0) {
+                        $getTglQuery = "SELECT `tgl_bayar` FROM `spp` WHERE `periode` LIKE '$periode' AND `santri_induk` LIKE '".$data['induk']."'";
+                        $getTglResult = mysqli_query($conn, $getTglQuery);
+                        $getTglData = mysqli_fetch_array($getTglResult, MYSQLI_ASSOC);
+
+                        echo "<td class='text-start'>".customDateFormat($getTglData['tgl_bayar'])."</td>";
                         echo "<td><span class='badge bg-success text-wrap'>Sudah Bayar</span></td>";
                       }
                       else { ?>
+                        <td></td>
                         <td>
                           <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#detailModal<?= $data['nis']?>">
                             <span>Pilih</span>
@@ -144,7 +156,7 @@ $lastDate = $dataCheckEnd['tanggal'];
                             </div>
                             <div class="modal-footer">
                               <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                              <a role="button" class="btn btn-success" href="action-spp.php?nis=<?=$data['nis']?>&periode=<?=$periode?>&filter=yes">Konfirmasi</a>
+                              <a role="button" class="btn btn-success" href="action-spp.php?induk=<?=$data['induk']?>&periode=<?=$periode?>&filter=yes">Konfirmasi</a>
                             </div>
                           </div>
                         </div>

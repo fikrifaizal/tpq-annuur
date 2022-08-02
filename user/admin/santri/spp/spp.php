@@ -10,7 +10,7 @@ $setDate = monthConverter2($setMonth)." ".$setYear;
 $periode = $setYear."-".$setMonth;
 
 // connect & query database
-$query = "SELECT * FROM `santri`";
+$query = "SELECT * FROM `santri` WHERE `status` LIKE 'AKTIF'";
 $result = mysqli_query($conn, $query);
 ?>
 
@@ -61,6 +61,7 @@ $result = mysqli_query($conn, $query);
                     <th scope="col" width="5%">#</th>
                     <th scope="col">NIS</th>
                     <th scope="col">Nama Lengkap</th>
+                    <th scope="col">Tanggal Bayar</th>
                     <th scope="col" width="10%">Keterangan</th>
                   </tr>
                 </thead>
@@ -72,7 +73,7 @@ $result = mysqli_query($conn, $query);
                     while($data = mysqli_fetch_array($result, MYSQLI_ASSOC)){
                       // cek pembayaran
                       $cekQuery = "SELECT EXISTS
-                                  (SELECT id FROM `keuangan_tpq` WHERE `keterangan` LIKE '%$periode%' AND `keterangan` LIKE '%SPP ".$data['nis']."%')
+                                  (SELECT id FROM `spp` WHERE `periode` LIKE '$periode' AND `santri_induk` LIKE '".$data['induk']."')
                                   as ket";
                       $cekResult = mysqli_query($conn, $cekQuery);
                       $cekData = mysqli_fetch_array($cekResult, MYSQLI_ASSOC);
@@ -82,9 +83,15 @@ $result = mysqli_query($conn, $query);
                       echo "<td class='text-start'>".$data['nama_lengkap']."</td>";
 
                       if($cekData['ket'] > 0) {
+                        $getTglQuery = "SELECT `tgl_bayar` FROM `spp` WHERE `periode` LIKE '$periode' AND `santri_induk` LIKE '".$data['induk']."'";
+                        $getTglResult = mysqli_query($conn, $getTglQuery);
+                        $getTglData = mysqli_fetch_array($getTglResult, MYSQLI_ASSOC);
+
+                        echo "<td class='text-start'>".customDateFormat($getTglData['tgl_bayar'])."</td>";
                         echo "<td><span class='badge bg-success text-wrap'>Sudah Bayar</span></td>";
                       }
                       else { ?>
+                        <td></td>
                         <td>
                           <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#detailModal<?= $data['nis']?>">
                             <span>Pilih</span>
@@ -111,7 +118,7 @@ $result = mysqli_query($conn, $query);
                             </div>
                             <div class="modal-footer">
                               <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                              <a role="button" class="btn btn-success" href="action-spp.php?nis=<?=$data['nis']?>&periode=<?=$periode?>">Konfirmasi</a>
+                              <a role="button" class="btn btn-success" href="action-spp.php?induk=<?=$data['induk']?>&periode=<?=$periode?>&filter=no">Konfirmasi</a>
                             </div>
                           </div>
                         </div>
