@@ -66,9 +66,9 @@ if(isset($_POST['tambahfile'])) {
       <label for="excel" class="col-sm-2 col-form-label">File Excel</label>
       <div class="col-sm-10">
         <div class="input-group">
-          <input class="form-control" name="excel" id="excel" type="file" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" required>
-          <a href="/assets/berkas/format.xlsx" class="btn btn-primary" target="_blank">
-            <span>Unduh Format Excel</span>
+          <input class="form-control" name="excel" id="excel" type="file" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" style="border-radius: 0.25rem" required>
+          <a href="/assets/berkas/format.xlsx" class="btn btn-primary ms-3" target="_blank" style="border-radius: 0.25rem">
+            <span>Unduh Format</span>
           </a>
         </div>
         <small class="form-text text-muted">
