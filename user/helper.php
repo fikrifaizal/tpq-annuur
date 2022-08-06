@@ -83,7 +83,10 @@ function ifToday($month, $year) {
 }
 
 // IDR format
-function setIDRFormat(int $number) {
+function setIDRFormat($number) {
+  if($number == null) {
+    $number = 0;
+  }
   return "Rp ".number_format($number,0,'.','.');
 }
 ?>
