@@ -1,28 +1,37 @@
 <?php
 require_once('../../../../config.php');
 require_once('../../../akses.php');
+// set root
+$root = realpath(dirname(__FILE__).'/../../../../../../assets');
 
 // danger alert
 $setAlertCondition = false;
 $setAlertText = "";
 $setAlertText2 = "";
 
-if(isset($_GET['id'])) {
+if(isset($_GET['nip'])) {
   // connect & query database
-  $id = $_GET['id'];
-  $query = "SELECT * FROM `pengajar` WHERE `id` LIKE '$id'";
+  $nip = $_GET['nip'];
+  $query = "SELECT * FROM `pengajar` WHERE `nip` LIKE '$nip'";
   $result = mysqli_query($conn, $query);
   $data = mysqli_fetch_array($result, MYSQLI_ASSOC);
 
-  // button sertifikat
-  $sertifikat = "";
-  $sertifText = "Tidak Ada Sertifikat";
-  $disabled = "";
+  // setup button foto & sertifikat
+  $setFotoDir = $setSertifDir = "";
+  $foto = $sertifikat = "";
+  $fotoText = $sertifText = "Tidak Ada File";
+  $fotoDisabled = $sertifDisabled = "disabled";
+  if(!empty($data['foto'])) {
+    $foto = $data['foto'];
+    $setFotoDir = "https://assets.masjidannuur.org/berkas/foto/".$foto;
+    $fotoText = "Lihat File";
+    $fotoDisabled = "";
+  }
   if(!empty($data['sertifikat'])) {
     $sertifikat = $data['sertifikat'];
-    $sertifText = "Lihat Sertifikat";
-  } else {
-    $disabled = "disabled";
+    $setSertifDir = "https://assets.masjidannuur.org/berkas/sertifikat/".$sertifikat;
+    $sertifText = "Lihat File";
+    $sertifDisabled = "";
   }
   
   // get data from database
@@ -30,7 +39,6 @@ if(isset($_GET['id'])) {
   $gender = $data['jenis_kelamin'];
   $alamat = $data['alamat'];
   $telp = $data['no_telp'];
-  $sertifikat = $data['sertifikat'];
 
   // form ubah data
   if(isset($_POST['ubah'])) {
@@ -39,49 +47,112 @@ if(isset($_GET['id'])) {
     $alamat = addslashes($_POST['alamat']);
     $telp = $_POST['nomortelepon'];
 
-    // send data to db
-    $query = "UPDATE `pengajar` SET `nama`='$nama',`jenis_kelamin`='$gender',
-              `alamat`='$alamat',`no_telp`='$telp' WHERE `id` LIKE '$id'";
-    $result = mysqli_query($conn, $query);
-    
-    header("Location: ../pengasuh.php");
-  }
-  // perbarui sertifikat
-  elseif(isset($_POST['perbarui'])) {
-    $explodeName = explode(" ",$nama);
-    $maximumSize	= 2000000; // 2 MB
+    $explodeName = explode(" ",strtolower($nama));
+    $maximumSize	= 1048576; // 1 MB
 
-    // checking size of file
-    if($_FILES['sertifikat']['size'] <= $maximumSize) {
-      $sertifikat = $explodeName[0]."_".$_FILES['sertifikat']['name'];
-      $type = "application/pdf";
-      $directory = "../../../../../assets/berkas/sertifikat/";
+    // file foto dan sertifikat
+    if(!empty($_FILES['foto']['name']) && !empty($_FILES['sertifikat']['name'])) {
+      $getEkstensiFoto = explode(".",$_FILES['foto']['name']);
+      $getEkstensiFoto = end($getEkstensiFoto);
+      $getEkstensiSertif = explode(".",$_FILES['sertifikat']['name']);
+      $getEkstensiSertif = end($getEkstensiSertif);
 
-      // checking type of file
-      if($_FILES['sertifikat']['type'] == $type) {
-        $upload = move_uploaded_file($_FILES['sertifikat']['tmp_name'],$directory.$sertifikat);
-  
-        // checking if upload is success
-        if($upload) {
-          // send data to db
-          $query = "UPDATE `pengajar` SET `sertifikat`='$sertifikat' WHERE `id` LIKE '$id'";
-          $result = mysqli_query($conn, $query);
-          
-          header("Location: ubah.php?id=".$data['id']."");
-        } else {      
+      // checking size of file
+      if($_FILES['foto']['size'] <= $maximumSize && $_FILES['sertifikat']['size'] <= $maximumSize) {
+        $foto = "foto_".$nip."_".$explodeName[0].".$getEkstensiFoto";
+        $sertifikat = "sertifikat_".$nip."_".$explodeName[0].".$getEkstensiSertif";
+        $typeFoto = array("image/png","image/jpeg");
+        $typeSertif = "application/pdf";
+        $directoryFoto = $root."/berkas/foto/";
+        $directorySertif = $root."/berkas/sertifikat/";
+
+        // checking type of file
+        if(in_array($_FILES['foto']['type'], $typeFoto) && ($_FILES['sertifikat']['type'] == $typeSertif)) {
+          // checking if upload is success
+          if(move_uploaded_file($_FILES['foto']['tmp_name'], $directoryFoto.$foto) && move_uploaded_file($_FILES['sertifikat']['tmp_name'], $directorySertif.$sertifikat)) {
+            // send data to db
+            $query = "UPDATE `pengajar` SET `nama`='$nama',`jenis_kelamin`='$gender',`alamat`='$alamat',
+                      `no_telp`='$telp',`sertifikat`='$sertifikat',`foto`='$foto' WHERE `nip` LIKE '$nip'";
+            $result = mysqli_query($conn, $query);
+
+            header("Location: ../pengasuh.php");
+          } else {
+            $setAlertCondition = true;
+            $setAlertText = "File gagal di upload!";
+            $setAlertText2 = "Silahkan coba kembali";
+          }
+        } else {
           $setAlertCondition = true;
-          $setAlertText = "File gagal di upload!";
-          $setAlertText2 = "Silahkan coba kembali";
+          $setAlertText = "Tipe file salah!";
+          $setAlertText2 = "Dimohon mengunggah file dengan tipe yang benar";
         }
       } else {
         $setAlertCondition = true;
-        $setAlertText = "Tipe file salah!";
-        $setAlertText2 = "Tipe file yang diperbolehkan adalah pdf";
+        $setAlertText = "Ukuran file terlalu besar!";
+        $setAlertText2 = "Ukuran maksimal adalah 1 MB";
       }
-    } else {
-      $setAlertCondition = true;
-      $setAlertText = "Ukuran file terlalu besar!";
-      $setAlertText2 = "Ukuran maksimal adalah 2 MB";
+    }
+    // file foto atau sertifikat
+    elseif(!empty($_FILES['foto']['name']) || !empty($_FILES['sertifikat']['name'])) {
+      if(!empty($_FILES['foto']['name'])) {
+        $getEkstensi = explode(".",$_FILES['foto']['name']);
+        $getEkstensi = end($getEkstensi);
+        $filetmp = $_FILES['foto']['tmp_name'];
+        $fileType = $_FILES['foto']['type'];
+        $fileSize = $_FILES['foto']['size'];
+        $setFileName = "foto_".$nip."_".$explodeName[0].".$getEkstensi";
+        $type = array("image/png","image/jpeg");
+        $directory = $root."/berkas/foto/";
+        $query = "UPDATE `pengajar` SET `nama`='$nama',`jenis_kelamin`='$gender',`alamat`='$alamat',
+                  `no_telp`='$telp',`foto`='$setFileName' WHERE `nip` LIKE '$nip'";
+      } else {
+        $getEkstensi = explode(".",$_FILES['sertifikat']['name']);
+        $getEkstensi = end($getEkstensi);
+        $filetmp = $_FILES['sertifikat']['tmp_name'];
+        $fileType = $_FILES['sertifikat']['type'];
+        $fileSize = $_FILES['sertifikat']['size'];
+        $setFileName = "sertifikat_".$nip."_".$explodeName[0].".$getEkstensi";
+        $type = array("application/pdf");
+        $directory = $root."/berkas/sertifikat/";
+        $query = "UPDATE `pengajar` SET `nama`='$nama',`jenis_kelamin`='$gender',`alamat`='$alamat',
+                  `no_telp`='$telp',`sertifikat`='$setFileName' WHERE `nip` LIKE '$nip'";
+      }
+
+      // checking size of file
+      if($fileSize <= $maximumSize) {
+
+        // checking type of file
+        if(in_array($fileType, $type)) {
+          $upload = move_uploaded_file($filetmp, $directory.$setFileName);
+
+          // checking if upload is success
+          if($upload) {
+            // send data to db
+            $result = mysqli_query($conn, $query);
+
+            header("Location: ../pengasuh.php");
+          } else {      
+            $setAlertCondition = true;
+            $setAlertText = "File gagal di upload!";
+            $setAlertText2 = "Silahkan coba kembali";
+          }
+        } else {
+          $setAlertCondition = true;
+          $setAlertText = "Tipe file salah!";
+          $setAlertText2 = "Dimohon mengunggah file dengan tipe yang benar";
+        }
+      } else {
+        $setAlertCondition = true;
+        $setAlertText = "Ukuran file terlalu besar!";
+        $setAlertText2 = "Ukuran maksimal adalah 1 MB";
+      }
+    }
+    else {
+      $query = "UPDATE `pengajar` SET `nama`='$nama',`jenis_kelamin`='$gender',
+                `alamat`='$alamat',`no_telp`='$telp' WHERE `nip` LIKE '$nip'";
+      $result = mysqli_query($conn, $query);
+  
+      header("Location: ../pengasuh.php");
     }
   }
 } else {
@@ -130,7 +201,7 @@ if(isset($_GET['id'])) {
               <div class="form-group row">
                 <label for="induk" class="col-sm-2 col-form-label">Nomor Induk</label>
                 <div class="col-sm-10">
-                  <input type="text" name="induk" class="form-control" id="induk" value="<?= $id?>" disabled>
+                  <input type="text" name="induk" class="form-control" id="induk" value="<?= $nip?>" disabled>
                 </div>
               </div><br>
 
@@ -168,49 +239,37 @@ if(isset($_GET['id'])) {
                 <div class="col-sm-10">
                   <input type="number" name="nomortelepon" class="form-control" id="nomortelepon" value="<?= $telp?>" required>
                 </div>
+              </div><hr class="my-4">
+
+              <!-- Foto -->
+              <div class="form-group row">
+                <label for="foto" class="col-sm-2 col-form-label">Foto</label>
+                <div class="col-sm-10">
+                  <div class="input-group">
+                    <input class="form-control" name="foto" id="formFoto" type="file" accept=".png,.jpg,.jpeg" style="border-radius: 0.25rem">
+                    <a href="<?= $setFotoDir?>" class="btn btn-primary ms-3 <?= $fotoDisabled?>" target="_blank" style="border-radius: 0.25rem" aria-disabled="true">
+                      <span><?= $fotoText?></span>
+                    </a>
+                  </div>
+                  <small class="form-text text-muted">
+                    * Tipe File: png, jpg, jpeg Ukuran Maksimal: 1MB || Kosongkan jika tidak ingin mengganti file foto
+                  </small>
+                </div>
               </div><br>
 
               <!-- Sertifikat -->
               <div class="form-group row">
                 <label for="sertifikat" class="col-sm-2 col-form-label">Sertifikat</label>
                 <div class="col-sm-10">
-                  <div class="btn-group" role="group">
-                    <a href="/assets/berkas/sertifikat/<?= $sertifikat?>" class="btn btn-outline-secondary <?= $disabled?>" target="_blank" aria-disabled="true">
-                      <?= $sertifText?>
+                  <div class="input-group">
+                    <input class="form-control" name="sertifikat" id="formSertifikat" type="file" accept="application/pdf" style="border-radius: 0.25rem" >
+                    <a href="<?= $setSertifDir?>" class="btn btn-primary ms-3 <?= $sertifDisabled?>" target="_blank" style="border-radius: 0.25rem" aria-disabled="true">
+                      <span><?= $sertifText?></span>
                     </a>
-                    <button type="button" class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#unggahModal">
-                      Unggah Sertifikat Baru
-                    </button>
-
-                    <!-- Modal Unggah -->
-                    <div class="modal fade" id="unggahModal" tabindex="-1" aria-labelledby="detailModalLabel" aria-hidden="true">
-                      <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
-                        <div class="modal-content">
-                          <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLabel">Unggah Sertifikat Baru</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                          </div>
-                          <div class="modal-body">
-                            <div class="form-group row">
-                              <label for="sertifikat" class="col-sm-3 col-form-label">Sertifikat</label>
-                              <div class="col-sm-9">
-                                <input class="form-control" name="sertifikat" id="formSertifikat" type="file" accept="application/pdf">
-                                <small class="form-text text-muted">
-                                  * Tipe File: pdf Ukuran Maksimal: 2MB
-                                </small>
-                              </div>
-                            </div><br>
-                          </div>
-                          <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                            <button type="submit" name="perbarui" class="btn btn-success">
-                              <span>Unggah</span>
-                            </button>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
                   </div>
+                  <small class="form-text text-muted">
+                    * Tipe File: pdf Ukuran Maksimal: 1MB || Kosongkan jika tidak ingin mengganti file sertifikat
+                  </small>
                 </div>
               </div><br>
 
