@@ -150,5 +150,19 @@ if(isset($_GET['nipt'])) {
         </div>
       </div>
     </main>
+
+    <!-- Javascript -->
+    <?php
+      // selected data in select form
+      if($gender == "LAKI-LAKI") {
+        echo '<script type="text/javascript">
+                document.getElementById("gender").getElementsByTagName("option")[1].selected = "selected"
+              </script>';
+      } else {
+        echo '<script type="text/javascript">
+                document.getElementById("gender").getElementsByTagName("option")[2].selected = "selected"
+              </script>';
+      }
+    ?>
   </body>
 </html>
