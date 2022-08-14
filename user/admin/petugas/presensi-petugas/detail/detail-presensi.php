@@ -12,7 +12,7 @@ if(isset($_GET['id'])) {
   $tahun = $dateData['tahun'];
   $bulan = $dateData['bulan'];
   
-  $bulanInt = monthConverter(strtoupper($bulan)); // convert bulan dari text ke angka
+  $bulanInt = monthConverter($bulan); // convert bulan dari text ke angka
   $startDate = $tahun."-".$bulanInt."-01";
   $lastDate = lastOfMonth($bulanInt, $tahun);
   $today = ifToday($bulanInt, $tahun);
@@ -25,9 +25,6 @@ if(isset($_GET['id'])) {
     $explodeDate = explode("-",$setDate);
     $filterDate = $explodeDate['2'];
   
-    // data piket
-    $result = query($conn, $id, $setDate);
-  
     header("Location: detail-presensi.php?id=$id&tgl=$filterDate");
   }
   // ambil data setelah search
@@ -35,69 +32,31 @@ if(isset($_GET['id'])) {
     $setDate = $tahun."-".$bulanInt."-".$_GET['tgl'];
     $tanggal = customDateFormat($setDate);
   
-    $countQuery = "SELECT COUNT(piket_id) as total FROM `presensi_piket`
-                    WHERE filter_id LIKE '$id' && tanggal LIKE '$setDate'";
-    $countResult = mysqli_query($conn, $countQuery);
-    $countData = mysqli_fetch_array($countResult, MYSQLI_ASSOC);
-  
-    if($countData['total'] < 1) {
-      // insert from piket to presensi
-      $insertQuery = "INSERT INTO `presensi_piket`(`piket_id`,`filter_id`,`keterangan`,`tanggal`)
-                      SELECT `id`,'$id','','$setDate' FROM `piket` ORDER BY id ASC";
-      $insertResult = mysqli_query($conn, $insertQuery);
-    }
-  
     // data piket
-    $result = query($conn, $id, $setDate);
+    $result = query($conn, $setDate);
   }
   // jika bulan adalah bulan sekarang (today)
   elseif($today['isToday']) {
     $setDate = date("Y-m-d");
     $tanggal = $today['date'];
   
-    $countQuery = "SELECT COUNT(piket_id) as total FROM `presensi_piket`
-                    WHERE filter_id LIKE '$id' && tanggal LIKE '$setDate'";
-    $countResult = mysqli_query($conn, $countQuery);
-    $countData = mysqli_fetch_array($countResult, MYSQLI_ASSOC);
-  
-    if($countData['total'] < 1) {
-      // insert from piket to presensi
-      $insertQuery = "INSERT INTO `presensi_piket`(`piket_id`,`filter_id`,`keterangan`,`tanggal`)
-                      SELECT `id`,'$id','','$setDate' FROM `piket` ORDER BY id ASC";
-      $insertResult = mysqli_query($conn, $insertQuery);
-    }
-  
     // data piket
-    $result = query($conn, $id, $setDate);
+    $result = query($conn, $setDate);
   }
   else {
     $setDate = $startDate;
     $tanggal = customDateFormat($startDate);
   
-    $countQuery = "SELECT COUNT(piket_id) as total FROM `presensi_piket`
-                    WHERE filter_id LIKE '$id' && tanggal LIKE '$setDate'";
-    $countResult = mysqli_query($conn, $countQuery);
-    $countData = mysqli_fetch_array($countResult, MYSQLI_ASSOC);
-  
-    if($countData['total'] < 1) {
-      // insert from piket to presensi
-      $insertQuery = "INSERT INTO `presensi_piket`(`piket_id`,`filter_id`,`keterangan`,`tanggal`)
-                      SELECT `id`,'$id','','$setDate' FROM `piket` ORDER BY id ASC";
-      $insertResult = mysqli_query($conn, $insertQuery);
-    }
-  
     // data piket
-    $result = query($conn, $id, $startDate);
+    $result = query($conn, $startDate);
   }
 } else {
   header("Location: ../presensi.php");
 }
 
 // data piket
-function query($connection, $filter, $date) {
-  $query = "SELECT piket.id as id, piket.nama as nama, presensi_piket.keterangan as keterangan FROM `presensi_piket`
-            LEFT JOIN `piket` ON presensi_piket.piket_id = piket.id
-            WHERE presensi_piket.filter_id LIKE '$filter' && presensi_piket.tanggal LIKE '$date'";
+function query($connection, $date) {
+  $query = "SELECT * FROM `piket` WHERE `status` LIKE 'AKTIF' AND `tgl_daftar` BETWEEN '2022-01-01' AND '$date'";
   return mysqli_query($connection, $query);
 }
 ?>
@@ -153,7 +112,7 @@ function query($connection, $filter, $date) {
               <table class="table table-bordered table-hover" id="dataTables-table">
                 <thead class="table-secondary">
                   <tr class="text-center align-middle">
-                    <th scope="col" width="10%">Induk</th>
+                    <th scope="col" width="10%">NIPT</th>
                     <th scope="col">Nama Lengkap</th>
                     <th scope="col">Keterangan</th>
                     <th scope="col">Aksi</th>
@@ -161,36 +120,52 @@ function query($connection, $filter, $date) {
                 </thead>
                 <tbody>
                   <?php
-                    $badgeColor = "";
-                    $keterangan = "";
+                    $badgeColor = $keterangan = $action = "";
 
                     while($data = mysqli_fetch_array($result, MYSQLI_ASSOC)){
-                      echo "<tr class='text-center align-middle'><td>".$data['id']."</td>";
+                      // cek absen
+                      $cekQuery = "SELECT EXISTS
+                                  (SELECT id FROM `presensi_piket` WHERE `tanggal` LIKE '$setDate' AND `piket_id` LIKE '".$data['id']."')
+                                  as ket";
+                      $cekResult = mysqli_query($conn, $cekQuery);
+                      $cekData = mysqli_fetch_array($cekResult, MYSQLI_ASSOC);
+
+                      echo "<tr class='text-center align-middle'><td>".$data['nipt']."</td>";
                       echo "<td>".$data['nama']."</td>";
                       $btnHadir = "";
                       $btnTidakHadir = "";
 
-                      if($data['keterangan'] == "HADIR") {
-                        $badgeColor = "bg-success text-wrap";
-                        $keterangan = "Hadir";
-                        $btnHadir = "disabled";
-                      } elseif($data['keterangan'] == "TIDAK HADIR") {
-                        $badgeColor = "bg-danger text-wrap";
-                        $keterangan = "Tidak Hadir";
-                        $btnTidakHadir = "disabled";
-                      } else {
-                        $badgeColor = "bg-warning text-wrap";
+                      if($cekData['ket'] > 0) {
+                        $getKetQuery = "SELECT `keterangan` FROM `presensi_piket` WHERE `tanggal` LIKE '$setDate' AND `piket_id` LIKE '".$data['id']."'";
+                        $getKetResult = mysqli_query($conn, $getKetQuery);
+                        $getKetData = mysqli_fetch_array($getKetResult, MYSQLI_ASSOC);
+
+                        if($getKetData['keterangan'] == "HADIR") {
+                          $badgeColor = "bg-success";
+                          $keterangan = "Hadir";
+                          $btnHadir = "disabled";
+                          $action = "update";
+                        } else {
+                          $badgeColor = "bg-danger";
+                          $keterangan = "Tidak Hadir";
+                          $btnTidakHadir = "disabled";
+                          $action = "update";
+                        }
+                      }
+                      else {
+                        $badgeColor = "bg-warning";
                         $keterangan = "Kosong";
+                        $action = "insert";
                       } ?>
 
                       <td>
-                        <span class="badge <?= $badgeColor?>"><?= $keterangan?></span>
+                        <span class="badge <?= $badgeColor?> text-wrap"><?= $keterangan?></span>
                       </td>
                       <td>
-                        <a role="button" href="update-presensi.php?id=<?= $id?>&induk=<?= $data['id']?>&ket=1&tgl=<?= $setDate?>"
+                        <a role="button" href="update-presensi.php?id=<?= $id?>&induk=<?= $data['id']?>&ket=1&tgl=<?= $setDate?>&action=<?= $action?>"
                            class="btn btn-outline-success btn-sm <?= $btnHadir?>" aria-disabled="true">Hadir
                         </a>
-                        <a role="button" href="update-presensi.php?id=<?= $id?>&induk=<?= $data['id']?>&ket=0&tgl=<?= $setDate?>"
+                        <a role="button" href="update-presensi.php?id=<?= $id?>&induk=<?= $data['id']?>&ket=0&tgl=<?= $setDate?>&action=<?= $action?>"
                            class="btn btn-outline-danger btn-sm <?= $btnTidakHadir?>" aria-disabled="true">Tidak Hadir
                         </a>
                       </td></tr><?php

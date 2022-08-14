@@ -12,21 +12,18 @@ if(isset($_GET['id'])) {
   $tahun = $dateData['tahun'];
   $bulan = $dateData['bulan'];
   
-  $bulanInt = monthConverter(strtoupper($bulan)); // convert bulan dari text ke angka
+  $bulanInt = monthConverter($bulan); // convert bulan dari text ke angka
   $startDate = $tahun."-".$bulanInt."-01";
   $lastDate = lastOfMonth($bulanInt, $tahun);
   $today = ifToday($bulanInt, $tahun);
   // end of setting datepicker
-  
+
   // search data with datepicker
   if(isset($_POST['cari'])) {
     $tanggal = $_POST['tanggal'];
     $setDate = defaultDateFormat($tanggal);
     $explodeDate = explode("-",$setDate);
     $filterDate = $explodeDate['2'];
-  
-    // data santri
-    $result = query($conn, $id, $setDate);
   
     header("Location: detail-presensi.php?id=$id&tgl=$filterDate");
   }
@@ -35,69 +32,31 @@ if(isset($_GET['id'])) {
     $setDate = $tahun."-".$bulanInt."-".$_GET['tgl'];
     $tanggal = customDateFormat($setDate);
   
-    $countQuery = "SELECT COUNT(santri_induk) as total FROM `presensi_santri`
-                    WHERE filter_id LIKE '$id' && tanggal LIKE '$setDate'";
-    $countResult = mysqli_query($conn, $countQuery);
-    $countData = mysqli_fetch_array($countResult, MYSQLI_ASSOC);
-  
-    if($countData['total'] < 1) {
-      // insert from santri to presensi
-      $insertQuery = "INSERT INTO `presensi_santri`(`santri_induk`,`filter_id`,`keterangan`,`tanggal`)
-                      SELECT `induk`,'$id','','$setDate' FROM `santri` ORDER BY induk ASC";
-      $insertResult = mysqli_query($conn, $insertQuery);
-    }
-  
     // data santri
-    $result = query($conn, $id, $setDate);
+    $result = query($conn, $setDate);
   }
   // jika bulan adalah bulan sekarang (today)
   elseif($today['isToday']) {
     $setDate = date("Y-m-d");
     $tanggal = $today['date'];
   
-    $countQuery = "SELECT COUNT(santri_induk) as total FROM `presensi_santri`
-                    WHERE filter_id LIKE '$id' && tanggal LIKE '$setDate'";
-    $countResult = mysqli_query($conn, $countQuery);
-    $countData = mysqli_fetch_array($countResult, MYSQLI_ASSOC);
-  
-    if($countData['total'] < 1) {
-      // insert from santri to presensi
-      $insertQuery = "INSERT INTO `presensi_santri`(`santri_induk`,`filter_id`,`keterangan`,`tanggal`)
-                      SELECT `induk`,'$id','','$setDate' FROM `santri` ORDER BY induk ASC";
-      $insertResult = mysqli_query($conn, $insertQuery);
-    }
-  
     // data santri
-    $result = query($conn, $id, $setDate);
+    $result = query($conn, $setDate);
   }
   else {
     $setDate = $startDate;
     $tanggal = customDateFormat($startDate);
   
-    $countQuery = "SELECT COUNT(santri_induk) as total FROM `presensi_santri`
-                    WHERE filter_id LIKE '$id' && tanggal LIKE '$setDate'";
-    $countResult = mysqli_query($conn, $countQuery);
-    $countData = mysqli_fetch_array($countResult, MYSQLI_ASSOC);
-  
-    if($countData['total'] < 1) {
-      // insert from santri to presensi
-      $insertQuery = "INSERT INTO `presensi_santri`(`santri_induk`,`filter_id`,`keterangan`,`tanggal`)
-                      SELECT `induk`,'$id','','$setDate' FROM `santri` ORDER BY induk ASC";
-      $insertResult = mysqli_query($conn, $insertQuery);
-    }
-  
     // data santri
-    $result = query($conn, $id, $startDate);
+    $result = query($conn, $startDate);
   }
 } else {
   header("Location: ../presensi.php");
 }
 
 // data santri
-function query($connection, $filter, $date) {
-  $query = "SELECT santri.induk as induk, santri.nama_lengkap as nama_lengkap, presensi_santri.keterangan as keterangan FROM `presensi_santri`
-            LEFT JOIN `santri` ON presensi_santri.santri_induk = santri.induk
-            WHERE presensi_santri.filter_id LIKE '$filter' && presensi_santri.tanggal LIKE '$date'";
+function query($connection, $date) {
+  $query = "SELECT * FROM `santri` WHERE `status` LIKE 'AKTIF' AND `tgl_daftar` BETWEEN '2022-01-01' AND '$date'";
   return mysqli_query($connection, $query);
 }
 ?>
@@ -161,36 +120,52 @@ function query($connection, $filter, $date) {
                 </thead>
                 <tbody>
                   <?php
-                    $badgeColor = "";
-                    $keterangan = "";
+                    $badgeColor = $keterangan = $action = "";
 
                     while($data = mysqli_fetch_array($result, MYSQLI_ASSOC)){
-                      echo "<tr class='text-center align-middle'><td>".$data['induk']."</td>";
+                      // cek absen
+                      $cekQuery = "SELECT EXISTS
+                                  (SELECT id FROM `presensi_santri` WHERE `tanggal` LIKE '$setDate' AND `santri_induk` LIKE '".$data['induk']."')
+                                  as ket";
+                      $cekResult = mysqli_query($conn, $cekQuery);
+                      $cekData = mysqli_fetch_array($cekResult, MYSQLI_ASSOC);
+
+                      echo "<tr class='text-center align-middle'><td>".$data['nis']."</td>";
                       echo "<td>".$data['nama_lengkap']."</td>";
                       $btnHadir = "";
                       $btnTidakHadir = "";
 
-                      if($data['keterangan'] == "HADIR") {
-                        $badgeColor = "bg-success text-wrap";
-                        $keterangan = "Hadir";
-                        $btnHadir = "disabled";
-                      } elseif($data['keterangan'] == "TIDAK HADIR") {
-                        $badgeColor = "bg-danger text-wrap";
-                        $keterangan = "Tidak Hadir";
-                        $btnTidakHadir = "disabled";
-                      } else {
-                        $badgeColor = "bg-warning text-wrap";
+                      if($cekData['ket'] > 0) {
+                        $getKetQuery = "SELECT `keterangan` FROM `presensi_santri` WHERE `tanggal` LIKE '$setDate' AND `santri_induk` LIKE '".$data['induk']."'";
+                        $getKetResult = mysqli_query($conn, $getKetQuery);
+                        $getKetData = mysqli_fetch_array($getKetResult, MYSQLI_ASSOC);
+
+                        if($getKetData['keterangan'] == "HADIR") {
+                          $badgeColor = "bg-success";
+                          $keterangan = "Hadir";
+                          $btnHadir = "disabled";
+                          $action = "update";
+                        } else {
+                          $badgeColor = "bg-danger";
+                          $keterangan = "Tidak Hadir";
+                          $btnTidakHadir = "disabled";
+                          $action = "update";
+                        }
+                      }
+                      else {
+                        $badgeColor = "bg-warning";
                         $keterangan = "Kosong";
+                        $action = "insert";
                       } ?>
 
                       <td>
-                        <span class="badge <?= $badgeColor?>"><?= $keterangan?></span>
+                        <span class="badge <?= $badgeColor?> text-wrap"><?= $keterangan?></span>
                       </td>
                       <td>
-                        <a role="button" href="update-presensi.php?id=<?= $id?>&nis=<?= $data['induk']?>&ket=1&tgl=<?= $setDate?>"
+                        <a role="button" href="update-presensi.php?id=<?= $id?>&nis=<?= $data['induk']?>&ket=1&tgl=<?= $setDate?>&action=<?= $action?>"
                            class="btn btn-outline-success btn-sm <?= $btnHadir?>" aria-disabled="true">Hadir
                         </a>
-                        <a role="button" href="update-presensi.php?id=<?= $id?>&nis=<?= $data['induk']?>&ket=0&tgl=<?= $setDate?>"
+                        <a role="button" href="update-presensi.php?id=<?= $id?>&nis=<?= $data['induk']?>&ket=0&tgl=<?= $setDate?>&action=<?= $action?>"
                            class="btn btn-outline-danger btn-sm <?= $btnTidakHadir?>" aria-disabled="true">Tidak Hadir
                         </a>
                       </td></tr><?php

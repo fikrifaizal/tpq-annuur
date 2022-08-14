@@ -27,7 +27,8 @@ if(isset($_GET['id'])) {
 }
 
 // get data from database
-$query = "SELECT `id`,`nama` FROM `pengajar`";
+$setFilter = $templateToday.$manyDays;
+$query = "SELECT `id`,`nama` FROM `pengajar` WHERE `status` LIKE 'AKTIF' AND `tgl_daftar` BETWEEN '2022-01-01' AND '$setFilter'";
 $result = mysqli_query($conn, $query);
 
 // Start of TCPDF
