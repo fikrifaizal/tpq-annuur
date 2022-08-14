@@ -75,7 +75,7 @@ function customDateFormat($date) {
 
 function ifToday($month, $year) {
   if($month == date('m') && $year == date('Y')) {
-    $today = dayLocalization(date('l')).", ".date('d')." ".monthLocalization(date('M'))." ".date('Y');
+    $today = dayLocalization(date('l')).", ".date('d')." ".monthLocalization(date('F'))." ".date('Y');
     return ["isToday"=>true, "date"=>"$today"];
   } else {
     return ["isToday"=>false, "date"=>""];
