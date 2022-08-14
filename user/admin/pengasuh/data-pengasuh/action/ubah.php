@@ -39,6 +39,7 @@ if(isset($_GET['nip'])) {
   $gender = $data['jenis_kelamin'];
   $alamat = $data['alamat'];
   $telp = $data['no_telp'];
+  $status = $data['status'];
 
   // form ubah data
   if(isset($_POST['ubah'])) {
@@ -46,6 +47,7 @@ if(isset($_GET['nip'])) {
     $gender = $_POST['gender'];
     $alamat = addslashes($_POST['alamat']);
     $telp = $_POST['nomortelepon'];
+    $status = $_POST['status'];
 
     $explodeName = explode(" ",strtolower($nama));
     $maximumSize	= 1048576; // 1 MB
@@ -72,7 +74,7 @@ if(isset($_GET['nip'])) {
           if(move_uploaded_file($_FILES['foto']['tmp_name'], $directoryFoto.$foto) && move_uploaded_file($_FILES['sertifikat']['tmp_name'], $directorySertif.$sertifikat)) {
             // send data to db
             $query = "UPDATE `pengajar` SET `nama`='$nama',`jenis_kelamin`='$gender',`alamat`='$alamat',
-                      `no_telp`='$telp',`sertifikat`='$sertifikat',`foto`='$foto' WHERE `nip` LIKE '$nip'";
+                      `no_telp`='$telp',`sertifikat`='$sertifikat',`foto`='$foto',`status`='$status' WHERE `nip` LIKE '$nip'";
             $result = mysqli_query($conn, $query);
 
             header("Location: ../pengasuh.php");
@@ -104,7 +106,7 @@ if(isset($_GET['nip'])) {
         $type = array("image/png","image/jpeg");
         $directory = $root."/berkas/foto/";
         $query = "UPDATE `pengajar` SET `nama`='$nama',`jenis_kelamin`='$gender',`alamat`='$alamat',
-                  `no_telp`='$telp',`foto`='$setFileName' WHERE `nip` LIKE '$nip'";
+                  `no_telp`='$telp',`foto`='$setFileName',`status`='$status' WHERE `nip` LIKE '$nip'";
       } else {
         $getEkstensi = explode(".",$_FILES['sertifikat']['name']);
         $getEkstensi = end($getEkstensi);
@@ -115,7 +117,7 @@ if(isset($_GET['nip'])) {
         $type = array("application/pdf");
         $directory = $root."/berkas/sertifikat/";
         $query = "UPDATE `pengajar` SET `nama`='$nama',`jenis_kelamin`='$gender',`alamat`='$alamat',
-                  `no_telp`='$telp',`sertifikat`='$setFileName' WHERE `nip` LIKE '$nip'";
+                  `no_telp`='$telp',`sertifikat`='$setFileName',`status`='$status' WHERE `nip` LIKE '$nip'";
       }
 
       // checking size of file
@@ -149,7 +151,7 @@ if(isset($_GET['nip'])) {
     }
     else {
       $query = "UPDATE `pengajar` SET `nama`='$nama',`jenis_kelamin`='$gender',
-                `alamat`='$alamat',`no_telp`='$telp' WHERE `nip` LIKE '$nip'";
+                `alamat`='$alamat',`no_telp`='$telp',`status`='$status' WHERE `nip` LIKE '$nip'";
       $result = mysqli_query($conn, $query);
   
       header("Location: ../pengasuh.php");
@@ -239,6 +241,18 @@ if(isset($_GET['nip'])) {
                 <div class="col-sm-10">
                   <input type="number" name="nomortelepon" class="form-control" id="nomortelepon" value="<?= $telp?>" required>
                 </div>
+              </div><br>
+
+              <!-- Status -->
+              <div class="form-group row">
+                <label for="status" class="col-sm-2 col-form-label">Status</label>
+                <div class="col-sm-10">
+                  <select class="form-select" name="status" id="status" required>
+                    <option value="" disabled>Pilih Status</option>
+                    <option value="AKTIF">Aktif</option>
+                    <option value="NONAKTIF">Nonaktif</option>
+                  </select>
+                </div>
               </div><hr class="my-4">
 
               <!-- Foto -->
@@ -316,6 +330,18 @@ if(isset($_GET['nip'])) {
         echo '<script type="text/javascript">
                 $("#alert").hide();
               </script>';
+      }
+
+      // status
+      $arrStatus = ["AKTIF","NONAKTIF"];
+      for($i=0; $i < count($arrStatus); $i++) {
+        if(array_search($status, $arrStatus) == $i) {
+          $i = $i+1;
+          echo '<script type="text/javascript">
+                document.getElementById("status").getElementsByTagName("option")['.$i.'].selected = "selected"
+              </script>';
+          break;
+        }
       }
     ?>
     <script>

@@ -3,6 +3,7 @@ require_once('../../../../config.php');
 require_once('../../../akses.php');
 
 $getYear = date("Y");
+$getToday = date("Y-m-d");
 
 // form tambah data
 if(isset($_POST['tambah'])) {
@@ -21,7 +22,7 @@ if(isset($_POST['tambah'])) {
   $alamat = addslashes($_POST['alamat']);
   $telp = $_POST['nomortelepon'];
 
-  $query = "INSERT INTO `piket`(`nipt`,`nama`,`jenis_kelamin`,`alamat`,`no_telp`) VALUES ('$setNIPT','$nama','$gender','$alamat','$telp')";
+  $query = "INSERT INTO `piket`(`nipt`,`nama`,`jenis_kelamin`,`alamat`,`no_telp`, `status`, `tgl_daftar`) VALUES ('$setNIPT','$nama','$gender','$alamat','$telp', 'AKTIF', '$getToday')";
   $result = mysqli_query($conn, $query);
 
   header("Location: ../petugas.php");

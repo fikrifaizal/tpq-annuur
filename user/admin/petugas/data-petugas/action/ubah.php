@@ -14,6 +14,7 @@ if(isset($_GET['nipt'])) {
   $gender = $data['jenis_kelamin'];
   $alamat = $data['alamat'];
   $telp = $data['no_telp'];
+  $status = $data['status'];
   
   // form ubah data
   if(isset($_POST['ubah'])) {
@@ -21,10 +22,12 @@ if(isset($_GET['nipt'])) {
     $gender = $_POST['gender'];
     $alamat = addslashes($_POST['alamat']);
     $telp = $_POST['nomortelepon'];
+    $status = $_POST['status'];
   
     // send data to db
     $query = "UPDATE `piket` SET `nama`='$nama',`jenis_kelamin`='$gender',
-              `alamat`='$alamat',`no_telp`='$telp' WHERE `nipt` LIKE '$nipt'";
+              `alamat`='$alamat',`no_telp`='$telp', `status`='$status'
+              WHERE `nipt` LIKE '$nipt'";
     $result = mysqli_query($conn, $query);
     
     header("Location: ../petugas.php");
@@ -109,6 +112,18 @@ if(isset($_GET['nipt'])) {
                 </div>
               </div><br>
 
+              <!-- Status -->
+              <div class="form-group row">
+                <label for="status" class="col-sm-2 col-form-label">Status</label>
+                <div class="col-sm-10">
+                  <select class="form-select" name="status" id="status" required>
+                    <option value="" disabled>Pilih Status</option>
+                    <option value="AKTIF">Aktif</option>
+                    <option value="NONAKTIF">Nonaktif</option>
+                  </select>
+                </div>
+              </div><br>
+
               <!-- Button -->
               <div class="form-group row">
                 <label for="button" class="col-sm-2 col-form-label"></label>
@@ -119,27 +134,6 @@ if(isset($_GET['nipt'])) {
                     <div class="col col-md-6 d-grid gap-2">
                       <button type="submit" name="ubah" class="btn btn-success btn-block">
                         <span>Ubah Data</span>
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <!-- Delete Modal Danger -->
-              <div class="modal fade" tabindex="-1" id="deleteModalDanger" aria-hidden="true">
-                <div class="modal-dialog modal-dialog-centered">
-                  <div class="modal-content">
-                    <div class="modal-header">
-                      <h5 class="modal-title">Peringatan!</h5>
-                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                      <span>Apakah anda yakin untuk menghapus data ini?</span>
-                    </div>
-                    <div class="modal-footer">
-                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tidak</button>
-                      <button type="submit" name="hapus" class="btn btn-danger">
-                        <span>Hapus</span>
                       </button>
                     </div>
                   </div>
@@ -162,6 +156,18 @@ if(isset($_GET['nipt'])) {
         echo '<script type="text/javascript">
                 document.getElementById("gender").getElementsByTagName("option")[2].selected = "selected"
               </script>';
+      }
+
+      // status
+      $arrStatus = ["AKTIF","NONAKTIF"];
+      for($i=0; $i < count($arrStatus); $i++) {
+        if(array_search($status, $arrStatus) == $i) {
+          $i = $i+1;
+          echo '<script type="text/javascript">
+                document.getElementById("status").getElementsByTagName("option")['.$i.'].selected = "selected"
+              </script>';
+          break;
+        }
       }
     ?>
   </body>

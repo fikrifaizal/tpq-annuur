@@ -114,6 +114,10 @@ $result = mysqli_query($conn, $query);
                                 <p class="col-sm-7"><?= $data['no_telp']?></p>
                               </div>
                               <div class="row">
+                                <label class="col-sm-5">Status</label>
+                                <p class="col-sm-7"><?=$data['status']?></p>
+                              </div>
+                              <div class="row">
                                 <label class="col-sm-5">Sertifikat</label>
                                 <div class="col-sm-7">
                                   <a href="<?= $sertifikat?>" class="btn btn-outline-secondary btn-sm <?= $disabled?>" target="_blank" aria-disabled="true">

@@ -5,6 +5,7 @@ require_once('../../../akses.php');
 $root = realpath(dirname(__FILE__).'/../../../../../../assets');
 
 $getYear = date("Y");
+$getToday = date("Y-m-d");
 
 // danger alert
 $setAlertCondition = false;
@@ -52,7 +53,7 @@ if(isset($_POST['tambah'])) {
         // checking if upload is success
         if(move_uploaded_file($_FILES['foto']['tmp_name'], $directoryFoto.$foto) && move_uploaded_file($_FILES['sertifikat']['tmp_name'], $directorySertif.$sertifikat)) {
           // send data to db
-          $query = "INSERT INTO `pengajar`(`nip`,`nama`,`jenis_kelamin`,`alamat`,`no_telp`,`sertifikat`,`foto`) VALUES ('$setNIP','$nama','$gender','$alamat','$telp','$sertifikat','$foto')";
+          $query = "INSERT INTO `pengajar`(`nip`,`nama`,`jenis_kelamin`,`alamat`,`no_telp`,`sertifikat`,`foto`, `status`, `tgl_daftar`) VALUES ('$setNIP','$nama','$gender','$alamat','$telp','$sertifikat','$foto', 'AKTIF', '$getToday')";
           $result = mysqli_query($conn, $query);
 
           header("Location: ../pengasuh.php");
@@ -83,7 +84,7 @@ if(isset($_POST['tambah'])) {
       $setFileName = "foto_".$setNIP."_".$explodeName[0].".$getEkstensi";
       $type = array("image/png","image/jpeg");
       $directory = $root."/berkas/foto/";
-      $query = "INSERT INTO `pengajar`(`nip`,`nama`,`jenis_kelamin`,`alamat`,`no_telp`,`sertifikat`,`foto`) VALUES ('$setNIP','$nama','$gender','$alamat','$telp','','$setFileName')";
+      $query = "INSERT INTO `pengajar`(`nip`,`nama`,`jenis_kelamin`,`alamat`,`no_telp`,`sertifikat`,`foto`, `status`, `tgl_daftar`) VALUES ('$setNIP','$nama','$gender','$alamat','$telp','','$setFileName', 'AKTIF', '$getToday')";
     } else {
       $getEkstensi = explode(".",$_FILES['sertifikat']['name']);
       $getEkstensi = end($getEkstensi);
@@ -93,7 +94,7 @@ if(isset($_POST['tambah'])) {
       $setFileName = "sertifikat_".$setNIP."_".$explodeName[0].".$getEkstensi";
       $type = array("application/pdf");
       $directory = $root."/berkas/sertifikat/";
-      $query = "INSERT INTO `pengajar`(`nip`,`nama`,`jenis_kelamin`,`alamat`,`no_telp`,`sertifikat`,`foto`) VALUES ('$setNIP','$nama','$gender','$alamat','$telp','$setFileName','')";
+      $query = "INSERT INTO `pengajar`(`nip`,`nama`,`jenis_kelamin`,`alamat`,`no_telp`,`sertifikat`,`foto`, `status`, `tgl_daftar`) VALUES ('$setNIP','$nama','$gender','$alamat','$telp','$setFileName','', 'AKTIF', '$getToday')";
     }
 
     // checking size of file
@@ -126,7 +127,7 @@ if(isset($_POST['tambah'])) {
     }
   }
   else {
-    $query = "INSERT INTO `pengajar`(`nip`,`nama`,`jenis_kelamin`,`alamat`,`no_telp`,`sertifikat`,`foto`) VALUES ('$setNIP','$nama','$gender','$alamat','$telp','','')";
+    $query = "INSERT INTO `pengajar`(`nip`,`nama`,`jenis_kelamin`,`alamat`,`no_telp`,`sertifikat`,`foto`, `status`, `tgl_daftar`) VALUES ('$setNIP','$nama','$gender','$alamat','$telp','','', 'AKTIF', '$getToday')";
     $result = mysqli_query($conn, $query);
 
     header("Location: ../pengasuh.php");

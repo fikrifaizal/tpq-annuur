@@ -94,6 +94,10 @@ $result = mysqli_query($conn, $query);
                                 <label class="col-sm-5">Nomor Telepon</label>
                                 <p class="col-sm-7"><?= $data['no_telp']?></p>
                               </div>
+                              <div class="row">
+                                <label class="col-sm-5">Status</label>
+                                <p class="col-sm-7"><?=$data['status']?></p>
+                              </div>
                             </div>
                             <div class="modal-footer">
                               <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
