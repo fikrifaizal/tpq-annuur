@@ -3,7 +3,7 @@ require_once('../../../config.php');
 require_once('../../akses.php');
 
 // connect & query database
-$query = "SELECT * FROM `pengajar`";
+$query = "SELECT * FROM `pengajar` WHERE `status` NOT LIKE 'HIDDEN'";
 $result = mysqli_query($conn, $query);
 ?>
 
