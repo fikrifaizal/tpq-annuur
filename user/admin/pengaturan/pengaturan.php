@@ -16,12 +16,13 @@ $nama = $data['nama'];
 $username = $data['username'];
 
 if(isset($_POST['ubah'])) {
-  $nama = addslashes($_POST['nama']);
-  $username = addslashes($_POST['username']);
+  $nama = htmlspecialchars(addslashes($_POST['nama']));
+  $username = htmlspecialchars(addslashes($_POST['username']));
 
   if(isset($_POST['passwd'])) {
     if($_POST['passwd'] == $_POST['passwdulang']) {
-      $passwd = password_hash($_POST['passwd'],PASSWORD_DEFAULT,['cost' => 10]);
+      $setnewpasswd = htmlspecialchars(addslashes(md5($_POST['passwd'])));
+      $passwd = password_hash($setnewpasswd,PASSWORD_DEFAULT,['cost' => 10]);
 
       $query = "UPDATE `user` SET `nama`='$nama',`username`='$username',`password`='$passwd' WHERE `id` LIKE '$id'";
       $result = mysqli_query($conn, $query);

@@ -2,34 +2,38 @@
 require_once '../config.php';
 
 if(isset($_POST['login'])) {
-  $username = addslashes($_POST['username']);
-  $password = $_POST['passwd'];
+  $username = htmlspecialchars(addslashes($_POST['username']));
+  $password = htmlspecialchars(addslashes(md5($_POST['passwd'])));
 
   $query = "SELECT `id`,`nama`,`roles`,`password` FROM user
             WHERE `username`='$username'";
-
   $result = mysqli_query($conn, $query);
-  $data = mysqli_fetch_array($result, MYSQLI_ASSOC);
-  
-  if(!empty($data) && password_verify($password, $data['password'])){
-    session_start();
-    $_SESSION["id"] = $data['id'];
-    $_SESSION["nama"] = $data['nama'];
-    $_SESSION["role"] = $data['roles'];
 
-    setcookie('id', $data['id'], time()+3600, '/');
-    setcookie('nama', $data['nama'], time()+3600, '/');
-    setcookie('role', $data['roles'], time()+3600, '/');
+  // check if data is not empty
+  $rowCheck = mysqli_num_rows($result);
+  if($rowCheck > 0) {
+    $data = mysqli_fetch_array($result, MYSQLI_ASSOC);
 
-    if($data['roles'] == "ADMINISTRATOR") {
-      header("location: ../admin/dashboard.php");
-    } elseif($data['roles'] == "BENDAHARA TPQ") {
-      header("location: ../bendahara/dashboard.php");
+    if(password_verify($password, $data['password'])) {
+      session_start();
+
+      // set session
+      $_SESSION['id'] = $data['id'];
+      $_SESSION['name'] = $data['nama'];
+      $_SESSION['role'] = $data['roles'];
+
+      if($data['roles'] == "ADMINISTRATOR") {
+        header("location: ../admin/dashboard.php");
+      } elseif($data['roles'] == "BENDAHARA TPQ") {
+        header("location: ../bendahara/dashboard.php");
+      } else {
+        header("location: login.php");
+      }
     } else {
-
+      header("location: login.php");
     }
   } else {
-    
+    header("location: login.php");
   }
 }
 ?>

@@ -6,9 +6,9 @@ if(isset($_POST['login'])) {
     'cost' => 10,
   ];
 
-  $username = addslashes($_POST['username']);
-  $password = password_hash($_POST['password'],PASSWORD_DEFAULT,$options);
-  $nama = addslashes($_POST['nama']);
+  $username = htmlspecialchars(addslashes($_POST['username']));
+  $password = htmlspecialchars(addslashes(md5(password_hash($_POST['password'],PASSWORD_DEFAULT,$options))));
+  $nama = htmlspecialchars(addslashes($_POST['nama']));
   $roles = $_POST['roles'];
 
   $query = "INSERT INTO `user`(`nama`,`username`,`roles`,`password`) VALUES ('$nama','$username','$roles','$password')";
