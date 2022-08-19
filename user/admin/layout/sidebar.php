@@ -1,7 +1,11 @@
 <?php 
-$name = explode(" ", $_SESSION["nama"]);
-$role = explode(" ", $_SESSION["role"]);
+$name = explode(" ", "Kosong Bro");
+$role = explode(" ", "Kosong Bro");
 
+if(!empty($_SESSION["name"]) && !empty($_SESSION["role"])) {
+  $name = explode(" ", $_SESSION["name"]);
+  $role = explode(" ", $_SESSION["role"]);
+}
 ?>
 
 <!DOCTYPE html>
