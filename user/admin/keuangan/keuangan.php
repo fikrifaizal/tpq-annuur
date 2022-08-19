@@ -125,7 +125,7 @@ elseif((!empty($_GET['start']) && !empty($_GET['end'])) || !empty($_GET['kategor
               </div>
               <div class="col-sm">
                 <!-- cetak button -->
-                <a href="action/rekap.php<?= $hrefCetak?>" class="btn btn-success ms-1" style="float: right;">
+                <a href="action/rekap.php<?= $hrefCetak?>" class="btn btn-success ms-1" target="_blank" style="float: right;">
                   <span>Cetak</span>
                 </a>
                 <!-- button trigger modal -->
