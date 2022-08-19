@@ -1,18 +1,12 @@
 <?php
-if(isset($_COOKIE['id']) && isset($_COOKIE['role'])) {
-  switch($_COOKIE["role"]) {
+session_start();
+
+if(isset($_SESSION['id']) && isset($_SESSION['role'])) {
+  switch($_SESSION['role']) {
     case "ADMINISTRATOR":
-      session_start();
-      $_SESSION["id"] = $_COOKIE['id'];
-      $_SESSION["nama"] = $_COOKIE['nama'];
-      $_SESSION["role"] = $_COOKIE['role'];
       header("location: user/admin/dashboard.php");
       break;
     case "BENDAHARA TPQ":
-      session_start();
-      $_SESSION["id"] = $_COOKIE['id'];
-      $_SESSION["nama"] = $_COOKIE['nama'];
-      $_SESSION["role"] = $_COOKIE['role'];
       header("location: user/bendahara/dashboard.php");
       break;
     // default:
