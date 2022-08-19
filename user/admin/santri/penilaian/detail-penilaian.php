@@ -2,33 +2,47 @@
 include_once('../../../config.php');
 require_once('../../akses.php');
 
-if(isset($_GET['nis'])) {
-  $nis = $_GET['nis'];
+if(isset($_GET['induk'])) {
+  $induk = $_GET['induk'];
   $jilidAwal = $_GET['jilid'];
-  
+
+  // cek penilaian
+  $cekQuery = "SELECT EXISTS
+              (SELECT id FROM `penilaian` WHERE `santri_induk` LIKE '$induk' AND jenjang_id LIKE '$jilidAwal')
+              as ket";
+  $cekResult = mysqli_query($conn, $cekQuery);
+  $cekData = mysqli_fetch_array($cekResult, MYSQLI_ASSOC);
+
+  if($cekData['ket'] == 0) {
+    // make new data penilaian
+    $query = "INSERT INTO `penilaian`(`santri_induk`, `jenjang_id`, `tanggal`, `keterangan`, `pengajar_id`) VALUES ('$induk', '10', '2022-01-01', 'BELUM UJIAN', '0')";
+    $result = mysqli_query($conn, $query);
+  }
+
   // connect & query database
   $query = "SELECT santri.nama_lengkap as nama_lengkap, jenjang.jenjang as jenjang, penilaian.jenjang_id as jenjang_id FROM `penilaian`
             LEFT JOIN `santri` ON penilaian.santri_induk = santri.induk
             LEFT JOIN `jenjang` ON penilaian.jenjang_id = jenjang.id
-            WHERE penilaian.santri_induk LIKE '$nis' AND penilaian.jenjang_id LIKE '$jilidAwal'";
+            WHERE penilaian.santri_induk LIKE '$induk' AND penilaian.jenjang_id LIKE '$jilidAwal'";
   $result = mysqli_query($conn, $query);
   $data = mysqli_fetch_array($result, MYSQLI_ASSOC);
-  
+
   // get data from database
   $namaLengkap = $data['nama_lengkap'];
-  $jenjangaAwal = ucwords(strtolower($data['jenjang']));
-  
+  $jenjangAwal = ucwords(strtolower($data['jenjang']));
+
+  // button trigger
   if(isset($_POST['simpan'])) {
     $tanggal = $_POST['tanggal'];
     $pengajar = $_POST['penguji'];
-    
-    $query = "UPDATE `penilaian` SET `tanggal`='$tanggal', `keterangan`='Lulus', `pengajar_id`='$pengajar' WHERE `santri_induk` LIKE '$nis' AND `jenjang_id` LIKE '$jilidAwal'";
+
+    $query = "UPDATE `penilaian` SET `tanggal`='$tanggal', `keterangan`='LULUS', `pengajar_id`='$pengajar' WHERE `santri_induk` LIKE '$induk' AND `jenjang_id` LIKE '$jilidAwal'";
     $result = mysqli_query($conn, $query);
-  
+
     $newJenjang = $_POST['jilid'];
-    $newQuery = "INSERT INTO `penilaian`(`santri_induk`, `jenjang_id`, `tanggal`, `keterangan`, `pengajar_id`) VALUES ('$nis', '$newJenjang', '$tanggal', 'Belum Ujian', '$pengajar')";
+    $newQuery = "INSERT INTO `penilaian`(`santri_induk`, `jenjang_id`, `tanggal`, `keterangan`, `pengajar_id`) VALUES ('$induk', '$newJenjang', '$tanggal', 'BELUM UJIAN', '$pengajar')";
     $newResult = mysqli_query($conn, $newQuery);
-  
+
     header("Location: penilaian.php");
   }
 } else {
@@ -71,7 +85,7 @@ if(isset($_GET['nis'])) {
               <div class="form-group row">
                 <label for="nis" class="col-sm-2 col-form-label">Nomor Induk Santri</label>
                 <div class="col-sm-10">
-                  <input type="text" name="nis" class="form-control" id="nis" value="<?= $nis?>" disabled>
+                  <input type="text" name="nis" class="form-control" id="nis" value="<?= $induk?>" disabled>
                 </div>
               </div><br>
 
@@ -87,7 +101,7 @@ if(isset($_GET['nis'])) {
               <div class="form-group row">
                 <label for="jilid" class="col-sm-2 col-form-label">Jilid Awal</label>
                 <div class="col-sm-10">
-                  <input type="text" name="jilid" class="form-control" id="jilid" value="<?= $jenjangaAwal?>" disabled>
+                  <input type="text" name="jilid" class="form-control" id="jilid" value="<?= $jenjangAwal?>" disabled>
                 </div>
               </div>
 
@@ -108,6 +122,7 @@ if(isset($_GET['nis'])) {
                     <option value="5">Jilid 5</option>
                     <option value="6">Jilid 6</option>
                     <option value="7">Al Qur'an</option>
+                    <option value="8">Ghorib</option>
                   </select>
                 </div>
               </div><br>
@@ -127,7 +142,7 @@ if(isset($_GET['nis'])) {
                   <select class="form-select" name="penguji" id="penguji" required>
                     <option value="" selected disabled>Pilih Nama Penguji</option>
                     <?php
-                      $queryPenguji = "SELECT `id`,`nama` FROM `pengajar` ORDER BY `nama`";
+                      $queryPenguji = "SELECT `id`,`nama` FROM `pengajar` WHERE `status` NOT LIKE 'HIDDEN' ORDER BY `nip`";
                       $resultPenguji = mysqli_query($conn, $queryPenguji);
 
                       while($dataPenguji = mysqli_fetch_array($resultPenguji, MYSQLI_ASSOC)){
@@ -158,9 +173,5 @@ if(isset($_GET['nis'])) {
         </div>
       </div>
     </main>
-
-    <!-- Javascript -->
-    <script>
-    </script>
   </body>
 </html>

@@ -2,10 +2,8 @@
 include_once('../../../config.php');
 require_once('../../akses.php');
 
-$query = "SELECT santri.induk as induk, santri.nama_lengkap as nama_lengkap, jenjang.jenjang as jenjang, penilaian.jenjang_id as jenjang_id FROM `penilaian`
-          LEFT JOIN `santri` ON penilaian.santri_induk = santri.induk
-          LEFT JOIN `jenjang` ON penilaian.jenjang_id = jenjang.id
-          WHERE penilaian.id IN (SELECT MAX(id) FROM `penilaian` GROUP BY santri_induk) ORDER BY santri.nama_lengkap ASC";
+// connect & query database
+$query = "SELECT `induk`,`nama_lengkap` FROM `santri` WHERE `status` LIKE 'AKTIF'";
 $result = mysqli_query($conn, $query);
 ?>
 
@@ -46,14 +44,35 @@ $result = mysqli_query($conn, $query);
                 </thead>
                 <tbody>
                   <?php
-                    $count = 1;
+                    $count = $jilid = 1;
                     // fetch data menjadi array asosisasi
                     while($data = mysqli_fetch_array($result, MYSQLI_ASSOC)){
+                      // cek penilaian
+                      $cekQuery = "SELECT EXISTS
+                                  (SELECT id FROM `penilaian` WHERE `santri_induk` LIKE '".$data['induk']."')
+                                  as ket";
+                      $cekResult = mysqli_query($conn, $cekQuery);
+                      $cekData = mysqli_fetch_array($cekResult, MYSQLI_ASSOC);
+
                       echo "<tr class='text-center align-middle'><th>".$count++."</th>";
                       echo "<td>".$data['nama_lengkap']."</td>";
-                      echo "<td>".ucwords(strtolower($data['jenjang']))."</td>";?>
+
+                      if($cekData['ket'] > 0) {
+                        $getJenjangQuery = "SELECT jenjang.jenjang as jenjang, penilaian.jenjang_id as jenjang_id FROM `penilaian`
+                                            LEFT JOIN `jenjang` ON penilaian.jenjang_id = jenjang.id
+                                            WHERE penilaian.santri_induk LIKE '".$data['induk']."' ORDER BY tanggal DESC LIMIT 1";
+                        $getJenjangResult = mysqli_query($conn, $getJenjangQuery);
+                        $getJenjangData = mysqli_fetch_array($getJenjangResult, MYSQLI_ASSOC);
+
+                        echo "<td>".ucwords(strtolower($getJenjangData['jenjang']))."</td>";
+                        $jilid = $getJenjangData['jenjang_id'];
+                      }
+                      else {
+                        echo "<td>Santri Baru</td>";
+                        $jilid = 10;
+                      } ?>
                       <td>
-                        <a type="button" class="btn btn-success btn-sm" href="detail-penilaian.php?nis=<?= $data['induk']?>&jilid=<?= $data['jenjang_id']?>">Nilai</a>
+                        <a type="button" class="btn btn-success btn-sm" href="detail-penilaian.php?induk=<?= $data['induk']?>&jilid=<?= $jilid?>">Nilai</a>
                       </td></tr><?php
                     }
                   ?>
